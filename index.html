@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Solar Connects — V5.1 Auth Ready</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{font-family:Inter,system-ui,Segoe UI,sans-serif;color:#edf4ff;background:#06101c}*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at top,#142843,#06101c 50%)}.wrap{max-width:1050px;margin:auto;padding:26px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.badge{padding:10px 14px;border:1px solid #ffcf5a;background:#382f0c;color:#ffe58e;border-radius:10px;font-weight:900}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}.card{background:#0b1727;border:1px solid #2a405e;border-radius:15px;padding:18px}
+input,select,button{width:100%;padding:11px;margin-top:8px;border-radius:9px;border:1px solid #3b526d;background:#091421;color:#eef5ff}button{cursor:pointer;font-weight:800;background:#172c45}button:disabled{cursor:not-allowed;opacity:.45}
+.ok{color:#79e6a4}.warn{color:#ffd36e}.bad{color:#ff8a91}.mono{font:12px ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;background:#050a11;padding:12px;border-radius:9px;min-height:110px;overflow:auto}
+.kv{display:flex;justify-content:space-between;gap:20px;padding:7px 0;border-bottom:1px solid #1b2b40}.full{grid-column:1/-1}@media(max-width:760px){.grid{grid-template-columns:1fr}.full{grid-column:auto}}
+</style>
+</head><body><div class="wrap">
+<div class="top"><div><h1>V5.1 Command Center</h1><div style="opacity:.65">Auth/JWT + durable simulation path</div></div><div class="badge">COMMANDS DISABLED / SIMULATION ONLY</div></div>
+<div class="grid">
+<section class="card"><h2>Login</h2><div id="session" class="warn">Sin sesión</div>
+<input id="email" type="email" placeholder="Email"><input id="password" type="password" placeholder="Contraseña">
+<button id="login">Iniciar sesión</button><button id="refresh">Refrescar sesión</button><button id="logout">Cerrar sesión</button></section>
+<section class="card"><h2>Safety</h2>
+<div class="kv"><span>execution_enabled</span><strong class="bad">false</strong></div>
+<div class="kv"><span>Browser → privileged RPC</span><strong class="ok">NO</strong></div>
+<div class="kv"><span>Boundary</span><strong>JWT only</strong></div>
+<div class="kv"><span>Idempotency</span><strong>DB durable</strong></div>
+<div class="kv"><span>External writes</span><strong class="bad">0</strong></div></section>
+<section class="card full"><h2>Simulación autenticada</h2>
+<select id="action"><option>learning.rebuild</option><option>factory.start</option><option>recovery.run</option><option>publisher.publish</option></select>
+<input id="agent" value="LEARNING" placeholder="Target agent"><input id="job" placeholder="Target job_id (opcional)">
+<button id="simulate" disabled>Simular comando</button><div id="out" class="mono">Esperando usuario autorizado.</div></section>
+</div></div>
+<script>
+const URL='https://akwqkymjrovqiijnhrqs.supabase.co';
+const KEY='sb_publishable_urF7nq-flTfJ3TvY3NbIxg_RCR3a9Dx';
+const sb=supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+let session=null;
+function authorized(user){const a=user?.app_metadata||{};const roles=Array.isArray(a.roles)?a.roles:[];return a.command_center===true||['solar_admin','solar_operator','v5_operator'].includes(a.solar_role)||roles.some(r=>['solar_admin','solar_operator','v5_operator'].includes(String(r)))}
+function paint(){const el=document.getElementById('session'),btn=document.getElementById('simulate');if(!session){el.textContent='Sin sesión';el.className='warn';btn.disabled=true;return}const ok=authorized(session.user);el.textContent=`${session.user.email||session.user.id} · ${ok?'AUTORIZADO':'AUTENTICADO SIN ROL'}`;el.className=ok?'ok':'warn';btn.disabled=!ok}
+async function sync(){const {data}=await sb.auth.getSession();session=data.session;paint()}
+sb.auth.onAuthStateChange((_e,s)=>{session=s;paint()});sync();
+document.getElementById('login').onclick=async()=>{const email=document.getElementById('email').value.trim(),password=document.getElementById('password').value;const {error}=await sb.auth.signInWithPassword({email,password});if(error)document.getElementById('out').textContent='LOGIN ERROR: '+error.message};
+document.getElementById('refresh').onclick=async()=>{const {error}=await sb.auth.refreshSession();if(error)document.getElementById('out').textContent='REFRESH ERROR: '+error.message};
+document.getElementById('logout').onclick=async()=>{await sb.auth.signOut()};
+document.getElementById('simulate').onclick=async()=>{if(!session||!authorized(session.user))return;const command_id=crypto.randomUUID(),idempotency_key='ui-'+crypto.randomUUID(),requested_action=document.getElementById('action').value;const target={agent:document.getElementById('agent').value.trim()||null,job_id:document.getElementById('job').value.trim()||null};const confirmation={confirmed:true,intent:'SIMULATE_ONLY',token:`SIMULATE:${command_id}:${idempotency_key}`};const body={command_id,idempotency_key,requested_action,mode:'SIMULATE',target,payload:{source:'v5.1-auth-ready-ui'},confirmation};const r=await fetch(URL+'/functions/v1/v5-command-boundary',{method:'POST',headers:{'content-type':'application/json','apikey':KEY,'authorization':'Bearer '+session.access_token},body:JSON.stringify(body)});document.getElementById('out').textContent=`HTTP ${r.status}\n`+JSON.stringify(await r.json(),null,2)};
+window.__V5_AUTH_READY__={execution_enabled:false,privileged_rpc_connected:false,external_writes:false,boundary:'v5-command-boundary'};
+</script></body></html>
