@@ -1,79 +1,333 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Solar Connects — V5.1 Auth Ready</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{font-family:Inter,system-ui,Segoe UI,sans-serif;color:#edf4ff;background:#06101c}*{box-sizing:border-box}
 body{margin:0;background:radial-gradient(circle at top,#142843,#06101c 50%)}.wrap{max-width:1050px;margin:auto;padding:26px}
 .top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.badge{padding:10px 14px;border:1px solid #ffcf5a;background:#382f0c;color:#ffe58e;border-radius:10px;font-weight:900}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}.card{background:#0b1727;border:1px solid #2a405e;border-radius:15px;padding:18px}
-input,select,button{width:100%;padding:11px;margin-top:8px;border-radius:9px;border:1px solid #3b526d;background:#091421;color:#eef5ff}button{cursor:pointer;font-weight:800;background:#172c45}button:disabled{cursor:not-allowed;opacity:.45}
+input,select,button{width:100%;padding:11px;margin-top:8px;border-radius:9px;border:1px solid #3b526d;background:#091421;color:#eef5ff}
+button{cursor:pointer;font-weight:800;background:#172c45}button:disabled{cursor:not-allowed;opacity:.65}
 .ok{color:#79e6a4}.warn{color:#ffd36e}.bad{color:#ff8a91}.mono{font:12px ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;background:#050a11;padding:12px;border-radius:9px;min-height:110px;overflow:auto}
-.kv{display:flex;justify-content:space-between;gap:20px;padding:7px 0;border-bottom:1px solid #1b2b40}.full{grid-column:1/-1}@media(max-width:760px){.grid{grid-template-columns:1fr}.full{grid-column:auto}}
+.kv{display:flex;justify-content:space-between;gap:20px;padding:7px 0;border-bottom:1px solid #1b2b40}.full{grid-column:1/-1}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.full{grid-column:auto}}
 </style>
-</head><body><div class="wrap">
-<div class="top"><div><h1>V5.1 Command Center</h1><div style="opacity:.65">Auth/JWT + durable simulation path</div></div><div class="badge">COMMANDS DISABLED / SIMULATION ONLY</div></div>
-<div class="grid">
-<section class="card"><h2>Login</h2><div id="session" class="warn">Sin sesión</div>
-<input id="email" type="email" value="tejerinaian016@gmail.com" autocomplete="email" placeholder="Email">
-<button id="magic">Enviar enlace de acceso</button><button id="refresh">Refrescar sesión</button><button id="logout">Cerrar sesión</button></section>
-<section class="card"><h2>Safety</h2>
-<div class="kv"><span>execution_enabled</span><strong class="bad">false</strong></div>
-<div class="kv"><span>Browser → privileged RPC</span><strong class="ok">NO</strong></div>
-<div class="kv"><span>Boundary</span><strong>JWT only</strong></div>
-<div class="kv"><span>Idempotency</span><strong>DB durable</strong></div>
-<div class="kv"><span>External writes</span><strong class="bad">0</strong></div></section>
-<section class="card full"><h2>Simulación autenticada</h2>
-<select id="action"><option>learning.rebuild</option><option>factory.start</option><option>recovery.run</option><option>publisher.publish</option></select>
-<input id="agent" value="LEARNING" placeholder="Target agent"><input id="job" placeholder="Target job_id (opcional)">
-<button id="simulate" disabled>Simular comando</button><div id="out" class="mono">Esperando usuario autorizado.</div></section>
-</div></div>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><h1>V5.1 Command Center</h1><div style="opacity:.65">Auth/JWT + durable simulation path</div></div>
+    <div class="badge">COMMANDS DISABLED / SIMULATION ONLY</div>
+  </div>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Acceso</h2>
+      <div id="session" class="warn">Sin sesión</div>
+      <input id="email" type="email" value="tejerinaian016@gmail.com" autocomplete="email" placeholder="Email">
+      <button id="magic">Enviar enlace de acceso</button>
+      <button id="refresh">Refrescar sesión</button>
+      <button id="logout">Cerrar sesión</button>
+    </section>
+
+    <section class="card">
+      <h2>Safety</h2>
+      <div class="kv"><span>execution_enabled</span><strong class="bad">false</strong></div>
+      <div class="kv"><span>Browser → privileged RPC</span><strong class="ok">NO</strong></div>
+      <div class="kv"><span>Boundary</span><strong>JWT only</strong></div>
+      <div class="kv"><span>Idempotency</span><strong>DB durable</strong></div>
+      <div class="kv"><span>Production writes</span><strong class="bad">0</strong></div>
+      <div class="kv"><span>External writes</span><strong class="bad">0</strong></div>
+    </section>
+
+    <section class="card full">
+      <h2>Simulación autenticada</h2>
+      <select id="action">
+        <option>learning.rebuild</option>
+        <option>factory.start</option>
+        <option>recovery.run</option>
+        <option>publisher.publish</option>
+      </select>
+      <input id="agent" value="LEARNING" placeholder="Target agent">
+      <input id="job" placeholder="Target job_id (opcional)">
+      <button id="simulate" disabled>Simular comando</button>
+      <div id="out" class="mono">BOOT: inicializando autenticación segura…</div>
+    </section>
+  </div>
+</div>
+
 <script>
-const URL='https://akwqkymjrovqiijnhrqs.supabase.co';
-const KEY='sb_publishable_urF7nq-flTfJ3TvY3NbIxg_RCR3a9Dx';
-const REDIRECT_URL='https://tejerinaian016-cpu.github.io/solar-connects-office/';
-const OPERATOR_EMAIL='tejerinaian016@gmail.com';
-const sb=supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-let session=null;
-function authorized(user){const a=user?.app_metadata||{};const roles=Array.isArray(a.roles)?a.roles:[];return a.command_center===true||['solar_admin','solar_operator','v5_operator'].includes(a.solar_role)||roles.some(r=>['solar_admin','solar_operator','v5_operator'].includes(String(r)))}
-function paint(){const el=document.getElementById('session'),btn=document.getElementById('simulate');if(!session){el.textContent='Sin sesión';el.className='warn';btn.disabled=true;return}const ok=authorized(session.user);el.textContent=`${session.user.email||session.user.id} · ${ok?'AUTORIZADO':'AUTENTICADO SIN ROL'}`;el.className=ok?'ok':'warn';btn.disabled=!ok}
-async function sync(){
-  const {data,error}=await sb.auth.getSession();
-  if(error){document.getElementById('out').textContent='SESSION ERROR: '+error.message;session=null;paint();return}
-  session=data.session;
-  if(session){
-    const {data:userData,error:userError}=await sb.auth.getUser();
-    if(userError){document.getElementById('out').textContent='USER VERIFY ERROR: '+userError.message;session=null;paint();return}
-    session={...session,user:userData.user};
+(() => {
+  'use strict';
+
+  const URL='https://akwqkymjrovqiijnhrqs.supabase.co';
+  const KEY='sb_publishable_urF7nq-flTfJ3TvY3NbIxg_RCR3a9Dx';
+  const REDIRECT_URL='https://tejerinaian016-cpu.github.io/solar-connects-office/';
+  const OPERATOR_EMAIL='tejerinaian016@gmail.com';
+  const BOUNDARY=URL+'/functions/v1/v5-command-boundary';
+  const AUTH=URL+'/auth/v1';
+  const SESSION_KEY='solar-v5-auth-session-v1';
+
+  const $ = id => document.getElementById(id);
+  const out = $('out');
+  const magicBtn = $('magic');
+  let session = null;
+
+  function visibleError(prefix, err) {
+    const message = err && err.message ? err.message : String(err || 'Error desconocido');
+    out.textContent = prefix + ': ' + message;
+    out.className='mono bad';
+    magicBtn.disabled=false;
+    magicBtn.textContent='ERROR: '+message.slice(0,70);
+    setTimeout(() => { magicBtn.textContent='Enviar enlace de acceso'; }, 8000);
   }
-  paint();
-}
-sb.auth.onAuthStateChange((_e,s)=>{session=s;setTimeout(sync,0)});sync();
-document.getElementById('magic').onclick=async()=>{
-  const email=document.getElementById('email').value.trim().toLowerCase();
-  const out=document.getElementById('out');
-  if(email!==OPERATOR_EMAIL){out.textContent='EMAIL NO AUTORIZADO PARA ESTE OPERADOR.';return}
-  const btn=document.getElementById('magic');
-  btn.disabled=true;
-  const {error}=await sb.auth.signInWithOtp({
-    email,
-    options:{
-      shouldCreateUser:false,
-      emailRedirectTo:REDIRECT_URL
+
+  window.addEventListener('error', e => visibleError('JS ERROR', e.error || e.message));
+  window.addEventListener('unhandledrejection', e => visibleError('PROMISE ERROR', e.reason));
+
+  async function parseJson(response) {
+    const text = await response.text();
+    if (!text) return {};
+    try { return JSON.parse(text); }
+    catch { return { message:text }; }
+  }
+
+  async function authRequest(path, {method='GET', token=null, body=null}={}) {
+    const headers = {'apikey':KEY};
+    if (body !== null) headers['content-type']='application/json';
+    if (token) headers['authorization']='Bearer '+token;
+    const response = await fetch(AUTH+path, {
+      method,
+      headers,
+      body: body === null ? undefined : JSON.stringify(body)
+    });
+    const data = await parseJson(response);
+    if (!response.ok) {
+      const err = new Error(data.msg || data.message || data.error_description || data.error || ('HTTP '+response.status));
+      err.status=response.status;
+      err.data=data;
+      throw err;
     }
-  });
-  if(error){
-    out.textContent='MAGIC LINK ERROR: '+error.message;
-    btn.disabled=false;
-    return;
+    return {response,data};
   }
-  out.textContent='Enlace enviado. Revisá tu email y abrí el enlace de acceso.';
-  setTimeout(()=>{btn.disabled=false},60000);
-};
-document.getElementById('refresh').onclick=async()=>{const {error}=await sb.auth.refreshSession();if(error)document.getElementById('out').textContent='REFRESH ERROR: '+error.message;else await sync()};
-document.getElementById('logout').onclick=async()=>{await sb.auth.signOut();session=null;paint()};
-document.getElementById('simulate').onclick=async()=>{if(!session||!authorized(session.user))return;const command_id=crypto.randomUUID(),idempotency_key='ui-'+crypto.randomUUID(),requested_action=document.getElementById('action').value;const target={agent:document.getElementById('agent').value.trim()||null,job_id:document.getElementById('job').value.trim()||null};const confirmation={confirmed:true,intent:'SIMULATE_ONLY',token:`SIMULATE:${command_id}:${idempotency_key}`};const body={command_id,idempotency_key,requested_action,mode:'SIMULATE',target,payload:{source:'v5.1-auth-ready-ui'},confirmation};const r=await fetch(URL+'/functions/v1/v5-command-boundary',{method:'POST',headers:{'content-type':'application/json','apikey':KEY,'authorization':'Bearer '+session.access_token},body:JSON.stringify(body)});document.getElementById('out').textContent=`HTTP ${r.status}\n`+JSON.stringify(await r.json(),null,2)};
-window.__V5_AUTH_READY__={magic_link:true,redirect_url:REDIRECT_URL,execution_enabled:false,production_writes:0,privileged_rpc_connected:false,external_writes:false,boundary:'v5-command-boundary'};
-</script></body></html>
+
+  async function signInWithOtp(email) {
+    const path='/otp?redirect_to='+encodeURIComponent(REDIRECT_URL);
+    return authRequest(path, {method:'POST', body:{email,create_user:false}});
+  }
+
+  function saveSession(s) {
+    session=s;
+    if (s) localStorage.setItem(SESSION_KEY, JSON.stringify(s));
+    else localStorage.removeItem(SESSION_KEY);
+  }
+
+  function loadStoredSession() {
+    try {
+      const raw=localStorage.getItem(SESSION_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      localStorage.removeItem(SESSION_KEY);
+      return null;
+    }
+  }
+
+  function consumeMagicLinkCallback() {
+    const hash = new URLSearchParams(location.hash.replace(/^#/,''));
+    const qs = new URLSearchParams(location.search);
+
+    const err = hash.get('error_description') || qs.get('error_description') || hash.get('error') || qs.get('error');
+    if (err) {
+      history.replaceState({},'',location.pathname);
+      throw new Error(decodeURIComponent(err));
+    }
+
+    const access_token=hash.get('access_token');
+    const refresh_token=hash.get('refresh_token');
+    if (!access_token || !refresh_token) return null;
+
+    const expires_in=Number(hash.get('expires_in') || 3600);
+    const s={
+      access_token,
+      refresh_token,
+      token_type:hash.get('token_type') || 'bearer',
+      expires_at:Date.now()+(expires_in*1000)
+    };
+    saveSession(s);
+    history.replaceState({},'',location.pathname);
+    return s;
+  }
+
+  async function refreshSession(current=session) {
+    if (!current?.refresh_token) throw new Error('No hay refresh_token disponible');
+    const {data}=await authRequest('/token?grant_type=refresh_token', {
+      method:'POST',
+      body:{refresh_token:current.refresh_token}
+    });
+    const next={
+      access_token:data.access_token,
+      refresh_token:data.refresh_token || current.refresh_token,
+      token_type:data.token_type || 'bearer',
+      expires_at:Date.now()+(Number(data.expires_in || 3600)*1000)
+    };
+    saveSession(next);
+    return next;
+  }
+
+  async function getVerifiedUser(current=session) {
+    if (!current?.access_token) return null;
+    const {data}=await authRequest('/user', {token:current.access_token});
+    return data;
+  }
+
+  async function ensureFreshSession(current=session) {
+    if (!current) return null;
+    if (!current.expires_at || current.expires_at-Date.now()<60000) return refreshSession(current);
+    return current;
+  }
+
+  function authorized(user) {
+    const a=user?.app_metadata||{};
+    const roles=Array.isArray(a.roles)?a.roles.map(String):[];
+    return a.command_center===true &&
+      (a.solar_role==='v5_operator' || roles.includes('v5_operator'));
+  }
+
+  function paint() {
+    const el=$('session'), simulate=$('simulate');
+    if (!session?.user) {
+      el.textContent='Sin sesión';
+      el.className='warn';
+      simulate.disabled=true;
+      return;
+    }
+    const ok=authorized(session.user);
+    el.textContent=(session.user.email||session.user.id)+' · '+(ok?'AUTORIZADO v5_operator':'AUTENTICADO SIN ROL');
+    el.className=ok?'ok':'warn';
+    simulate.disabled=!ok;
+  }
+
+  async function sync() {
+    let current=session || loadStoredSession();
+    if (!current) {
+      saveSession(null);
+      paint();
+      return;
+    }
+    current=await ensureFreshSession(current);
+    const user=await getVerifiedUser(current);
+    session={...current,user};
+    saveSession(session);
+    paint();
+  }
+
+  magicBtn.onclick=async() => {
+    const email=$('email').value.trim().toLowerCase();
+    if (email!==OPERATOR_EMAIL) {
+      visibleError('ERROR','Email no autorizado para este operador');
+      return;
+    }
+    magicBtn.disabled=true;
+    magicBtn.textContent='Enviando...';
+    out.className='mono';
+    out.textContent='Solicitando Magic Link a Supabase Auth…';
+    try {
+      await signInWithOtp(email);
+      magicBtn.textContent='Enlace enviado';
+      out.textContent='Enlace enviado. Revisá tu email y abrí el enlace de acceso.';
+      out.className='mono ok';
+      setTimeout(() => {
+        magicBtn.disabled=false;
+        magicBtn.textContent='Enviar enlace de acceso';
+      }, 60000);
+    } catch (err) {
+      visibleError('MAGIC LINK ERROR',err);
+    }
+  };
+
+  $('refresh').onclick=async() => {
+    try {
+      out.className='mono';
+      out.textContent='Refrescando sesión…';
+      const current=await refreshSession(session || loadStoredSession());
+      const user=await getVerifiedUser(current);
+      session={...current,user};
+      saveSession(session);
+      paint();
+      out.textContent='Sesión refrescada y claims verificados.';
+      out.className='mono ok';
+    } catch (err) {
+      visibleError('REFRESH ERROR',err);
+    }
+  };
+
+  $('logout').onclick=async() => {
+    try {
+      const current=session || loadStoredSession();
+      if (current?.access_token) await authRequest('/logout',{method:'POST',token:current.access_token}).catch(()=>{});
+    } finally {
+      saveSession(null);
+      paint();
+      out.textContent='Sesión cerrada.';
+      out.className='mono';
+    }
+  };
+
+  $('simulate').onclick=async() => {
+    try {
+      await sync();
+      if (!session?.user || !authorized(session.user)) throw new Error('Usuario no autorizado');
+      const command_id=crypto.randomUUID();
+      const idempotency_key='ui-'+crypto.randomUUID();
+      const requested_action=$('action').value;
+      const target={agent:$('agent').value.trim()||null,job_id:$('job').value.trim()||null};
+      const confirmation={confirmed:true,intent:'SIMULATE_ONLY',token:`SIMULATE:${command_id}:${idempotency_key}`};
+      const body={command_id,idempotency_key,requested_action,mode:'SIMULATE',target,payload:{source:'v5.1-auth-ready-ui'},confirmation};
+      const response=await fetch(BOUNDARY,{
+        method:'POST',
+        headers:{'content-type':'application/json','apikey':KEY,'authorization':'Bearer '+session.access_token},
+        body:JSON.stringify(body)
+      });
+      const data=await parseJson(response);
+      out.textContent='HTTP '+response.status+'\n'+JSON.stringify(data,null,2);
+      out.className=response.ok?'mono ok':'mono bad';
+    } catch (err) {
+      visibleError('SIMULATION ERROR',err);
+    }
+  };
+
+  async function boot() {
+    out.className='mono';
+    out.textContent='BOOT OK · Auth REST local cargado · sin dependencia CDN.';
+    try {
+      consumeMagicLinkCallback();
+      await sync();
+      if (session?.user) {
+        out.textContent='Sesión detectada. JWT y app_metadata verificados.';
+        out.className='mono ok';
+      }
+    } catch (err) {
+      visibleError('BOOT/AUTH ERROR',err);
+    }
+  }
+
+  window.__V5_AUTH_READY__={
+    version:'v5.1-magic-link-rest-1',
+    magic_link:true,
+    sdk_external_dependency:false,
+    redirect_url:REDIRECT_URL,
+    execution_enabled:false,
+    production_writes:0,
+    privileged_rpc_connected:false,
+    external_writes:0,
+    boundary:'v5-command-boundary'
+  };
+
+  boot();
+})();
+</script>
+</body>
+</html>
