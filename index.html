@@ -17,8 +17,8 @@ input,select,button{width:100%;padding:11px;margin-top:8px;border-radius:9px;bor
 <div class="top"><div><h1>V5.1 Command Center</h1><div style="opacity:.65">Auth/JWT + durable simulation path</div></div><div class="badge">COMMANDS DISABLED / SIMULATION ONLY</div></div>
 <div class="grid">
 <section class="card"><h2>Login</h2><div id="session" class="warn">Sin sesión</div>
-<input id="email" type="email" placeholder="Email"><input id="password" type="password" placeholder="Contraseña">
-<button id="login">Iniciar sesión</button><button id="refresh">Refrescar sesión</button><button id="logout">Cerrar sesión</button></section>
+<input id="email" type="email" value="tejerinaian016@gmail.com" autocomplete="email" placeholder="Email">
+<button id="magic">Enviar enlace de acceso</button><button id="refresh">Refrescar sesión</button><button id="logout">Cerrar sesión</button></section>
 <section class="card"><h2>Safety</h2>
 <div class="kv"><span>execution_enabled</span><strong class="bad">false</strong></div>
 <div class="kv"><span>Browser → privileged RPC</span><strong class="ok">NO</strong></div>
@@ -33,15 +33,47 @@ input,select,button{width:100%;padding:11px;margin-top:8px;border-radius:9px;bor
 <script>
 const URL='https://akwqkymjrovqiijnhrqs.supabase.co';
 const KEY='sb_publishable_urF7nq-flTfJ3TvY3NbIxg_RCR3a9Dx';
+const REDIRECT_URL='https://tejerinaian016-cpu.github.io/solar-connects-office/';
+const OPERATOR_EMAIL='tejerinaian016@gmail.com';
 const sb=supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 let session=null;
 function authorized(user){const a=user?.app_metadata||{};const roles=Array.isArray(a.roles)?a.roles:[];return a.command_center===true||['solar_admin','solar_operator','v5_operator'].includes(a.solar_role)||roles.some(r=>['solar_admin','solar_operator','v5_operator'].includes(String(r)))}
 function paint(){const el=document.getElementById('session'),btn=document.getElementById('simulate');if(!session){el.textContent='Sin sesión';el.className='warn';btn.disabled=true;return}const ok=authorized(session.user);el.textContent=`${session.user.email||session.user.id} · ${ok?'AUTORIZADO':'AUTENTICADO SIN ROL'}`;el.className=ok?'ok':'warn';btn.disabled=!ok}
-async function sync(){const {data}=await sb.auth.getSession();session=data.session;paint()}
-sb.auth.onAuthStateChange((_e,s)=>{session=s;paint()});sync();
-document.getElementById('login').onclick=async()=>{const email=document.getElementById('email').value.trim(),password=document.getElementById('password').value;const {error}=await sb.auth.signInWithPassword({email,password});if(error)document.getElementById('out').textContent='LOGIN ERROR: '+error.message};
-document.getElementById('refresh').onclick=async()=>{const {error}=await sb.auth.refreshSession();if(error)document.getElementById('out').textContent='REFRESH ERROR: '+error.message};
-document.getElementById('logout').onclick=async()=>{await sb.auth.signOut()};
+async function sync(){
+  const {data,error}=await sb.auth.getSession();
+  if(error){document.getElementById('out').textContent='SESSION ERROR: '+error.message;session=null;paint();return}
+  session=data.session;
+  if(session){
+    const {data:userData,error:userError}=await sb.auth.getUser();
+    if(userError){document.getElementById('out').textContent='USER VERIFY ERROR: '+userError.message;session=null;paint();return}
+    session={...session,user:userData.user};
+  }
+  paint();
+}
+sb.auth.onAuthStateChange((_e,s)=>{session=s;setTimeout(sync,0)});sync();
+document.getElementById('magic').onclick=async()=>{
+  const email=document.getElementById('email').value.trim().toLowerCase();
+  const out=document.getElementById('out');
+  if(email!==OPERATOR_EMAIL){out.textContent='EMAIL NO AUTORIZADO PARA ESTE OPERADOR.';return}
+  const btn=document.getElementById('magic');
+  btn.disabled=true;
+  const {error}=await sb.auth.signInWithOtp({
+    email,
+    options:{
+      shouldCreateUser:false,
+      emailRedirectTo:REDIRECT_URL
+    }
+  });
+  if(error){
+    out.textContent='MAGIC LINK ERROR: '+error.message;
+    btn.disabled=false;
+    return;
+  }
+  out.textContent='Enlace enviado. Revisá tu email y abrí el enlace de acceso.';
+  setTimeout(()=>{btn.disabled=false},60000);
+};
+document.getElementById('refresh').onclick=async()=>{const {error}=await sb.auth.refreshSession();if(error)document.getElementById('out').textContent='REFRESH ERROR: '+error.message;else await sync()};
+document.getElementById('logout').onclick=async()=>{await sb.auth.signOut();session=null;paint()};
 document.getElementById('simulate').onclick=async()=>{if(!session||!authorized(session.user))return;const command_id=crypto.randomUUID(),idempotency_key='ui-'+crypto.randomUUID(),requested_action=document.getElementById('action').value;const target={agent:document.getElementById('agent').value.trim()||null,job_id:document.getElementById('job').value.trim()||null};const confirmation={confirmed:true,intent:'SIMULATE_ONLY',token:`SIMULATE:${command_id}:${idempotency_key}`};const body={command_id,idempotency_key,requested_action,mode:'SIMULATE',target,payload:{source:'v5.1-auth-ready-ui'},confirmation};const r=await fetch(URL+'/functions/v1/v5-command-boundary',{method:'POST',headers:{'content-type':'application/json','apikey':KEY,'authorization':'Bearer '+session.access_token},body:JSON.stringify(body)});document.getElementById('out').textContent=`HTTP ${r.status}\n`+JSON.stringify(await r.json(),null,2)};
-window.__V5_AUTH_READY__={execution_enabled:false,privileged_rpc_connected:false,external_writes:false,boundary:'v5-command-boundary'};
+window.__V5_AUTH_READY__={magic_link:true,redirect_url:REDIRECT_URL,execution_enabled:false,production_writes:0,privileged_rpc_connected:false,external_writes:false,boundary:'v5-command-boundary'};
 </script></body></html>
