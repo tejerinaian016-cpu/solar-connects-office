@@ -12,7 +12,7 @@ body{margin:0;background:radial-gradient(circle at top,#142843,#06101c 50%)}.wra
 input,select,button{width:100%;padding:11px;margin-top:8px;border-radius:9px;border:1px solid #3b526d;background:#091421;color:#eef5ff}
 button{cursor:pointer;font-weight:800;background:#172c45}button:disabled{cursor:not-allowed;opacity:.65}
 .ok{color:#79e6a4}.warn{color:#ffd36e}.bad{color:#ff8a91}.mono{font:12px ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;background:#050a11;padding:12px;border-radius:9px;min-height:110px;overflow:auto}
-.kv{display:flex;justify-content:space-between;gap:20px;padding:7px 0;border-bottom:1px solid #1b2b40}.full{grid-column:1/-1}
+.kv{display:flex;justify-content:space-between;gap:20px;padding:7px 0;border-bottom:1px solid #1b2b40}.full{grid-column:1/-1}.canary{border-color:#8a6b19;background:#17140b}.canary button{background:#5a4210;border-color:#a27a19}.canary .warning{padding:12px;border:1px solid #8a6b19;border-radius:9px;background:#241d08;color:#ffe49a;margin:10px 0}
 @media(max-width:760px){.grid{grid-template-columns:1fr}.full{grid-column:auto}}
 </style>
 </head>
@@ -55,6 +55,14 @@ button{cursor:pointer;font-weight:800;background:#172c45}button:disabled{cursor:
       <input id="job" placeholder="Target job_id (opcional)">
       <button id="simulate" disabled>Simular comando</button>
       <div id="out" class="mono">BOOT: inicializando autenticación segura…</div>
+    </section>
+
+    <section class="card full canary">
+      <h2>REAL CANARY · learning.rebuild</h2>
+      <div class="kv"><span>MODE</span><strong class="bad">REAL</strong></div>
+      <div class="warning">Recalcula el aprendizaje interno de Solar Connects.<br>No publica ni realiza acciones externas.</div>
+      <button id="realLearning" disabled>CONFIRMAR Y EJECUTAR learning.rebuild</button>
+      <div id="realStatus" class="mono">Esperando autorización v5_operator y habilitación segura del canary.</div>
     </section>
   </div>
 </div>
@@ -197,17 +205,19 @@ button{cursor:pointer;font-weight:800;background:#172c45}button:disabled{cursor:
   }
 
   function paint() {
-    const el=$('session'), simulate=$('simulate');
+    const el=$('session'), simulate=$('simulate'), realLearning=$('realLearning');
     if (!session?.user) {
       el.textContent='Sin sesión';
       el.className='warn';
       simulate.disabled=true;
+      if(realLearning) realLearning.disabled=true;
       return;
     }
     const ok=authorized(session.user);
     el.textContent=(session.user.email||session.user.id)+' · '+(ok?'AUTORIZADO v5_operator':'AUTENTICADO SIN ROL');
     el.className=ok?'ok':'warn';
     simulate.disabled=!ok;
+    if(realLearning) realLearning.disabled=!ok;
   }
 
   async function sync() {
@@ -299,6 +309,63 @@ button{cursor:pointer;font-weight:800;background:#172c45}button:disabled{cursor:
     }
   };
 
+  $('realLearning').onclick=async() => {
+    const btn=$('realLearning');
+    const status=$('realStatus');
+    try {
+      await sync();
+      if (!session?.user || !authorized(session.user)) throw new Error('Usuario no autorizado como v5_operator');
+
+      btn.disabled=true;
+      btn.textContent='EJECUTANDO learning.rebuild...';
+      status.className='mono warn';
+      status.textContent='Enviando un único comando REAL controlado...';
+
+      const command_id=crypto.randomUUID();
+      const idempotency_key='real-learning-'+crypto.randomUUID();
+      const body={
+        command_id,
+        idempotency_key,
+        requested_action:'learning.rebuild',
+        mode:'EXECUTE',
+        target:{agent:'LEARNING',job_id:null},
+        payload:{
+          source:'v5-first-real-canary',
+          canary:'learning.rebuild',
+          external_writes_expected:0
+        },
+        confirmation:{
+          confirmed:true,
+          intent:'REAL_EXECUTION',
+          token:`REAL:${command_id}:${idempotency_key}:learning.rebuild`
+        }
+      };
+
+      // Store the exact request locally only to support post-canary evidence/replay checks.
+      localStorage.setItem('solar-v5-first-real-request',JSON.stringify(body));
+
+      const response=await fetch(BOUNDARY,{
+        method:'POST',
+        headers:{
+          'content-type':'application/json',
+          'apikey':KEY,
+          'authorization':'Bearer '+session.access_token
+        },
+        body:JSON.stringify(body)
+      });
+      const data=await parseJson(response);
+      status.textContent='HTTP '+response.status+'\n'+JSON.stringify(data,null,2);
+      status.className=response.ok?'mono ok':'mono bad';
+      btn.textContent=response.ok?'learning.rebuild EJECUTADO':'ERROR — NO EJECUTADO';
+      // No automatic retry. Deliberately stays disabled after the first click.
+    } catch (err) {
+      status.textContent='REAL CANARY ERROR: '+(err?.message||String(err));
+      status.className='mono bad';
+      btn.textContent='ERROR — NO EJECUTADO';
+      btn.disabled=true;
+    }
+  };
+
   async function boot() {
     out.className='mono';
     out.textContent='BOOT OK · Auth REST local cargado · sin dependencia CDN.';
@@ -315,7 +382,7 @@ button{cursor:pointer;font-weight:800;background:#172c45}button:disabled{cursor:
   }
 
   window.__V5_AUTH_READY__={
-    version:'v5.1-magic-link-rest-1',
+    version:'v5.1.1-learning-real-canary',
     magic_link:true,
     sdk_external_dependency:false,
     redirect_url:REDIRECT_URL,
@@ -323,7 +390,7 @@ button{cursor:pointer;font-weight:800;background:#172c45}button:disabled{cursor:
     production_writes:0,
     privileged_rpc_connected:false,
     external_writes:0,
-    boundary:'v5-command-boundary'
+    boundary:'v5-command-boundary',real_allowlist:['learning.rebuild'],general_execution_enabled:false
   };
 
   boot();
