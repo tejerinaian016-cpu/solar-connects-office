@@ -1,0 +1,83 @@
+const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict'),crypto=require('node:crypto');
+const {chromium}=require(path.resolve(path.dirname(process.execPath),'../node_modules/playwright'));
+const root=path.resolve(__dirname,'..');
+const out=path.join(root,'artifacts');fs.mkdirSync(out,{recursive:true});
+const source=fs.readFileSync(path.join(root,'index.html'),'utf8');
+const baseline=fs.readFileSync(path.join(root,'AI_AGENT_OFFICE_V5_FIRST_USEFUL_PRODUCT.html'),'utf8');
+const scripts=s=>[...s.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(x=>x[1]).filter(Boolean);
+assert.deepEqual(scripts(source),scripts(baseline),'Protected inline JavaScript must remain byte-identical');
+assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'AI_AGENT_OFFICE_V5_FIRST_USEFUL_PRODUCT.html'))).digest('hex'),'aa65680d4d0eccfd994cab41921678c0d0074b6551687e0d0f668153d6e5abd3');
+const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.png':'image/png'};
+const server=http.createServer((req,res)=>{const pathname=decodeURIComponent(new URL(req.url,'http://local').pathname);const file=path.resolve(root,'.'+(pathname==='/'?'/index.html':pathname));if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return}fs.readFile(file,(e,b)=>{if(e){res.writeHead(404).end();return}res.setHeader('Content-Type',mime[path.extname(file)]||'text/plain');res.end(b)})});
+const report={protected_scripts:'byte-identical',v5_backup:'sha256 verified',checks:[],errors:[],writes:[]};
+const check=(name)=>{report.checks.push(name);console.log('PASS',name)};
+const sdkStub=`window.__testChannels=[];window.supabase={createClient(){return {channel(){const c={on(type,filter,cb){this.cb=cb;return this},subscribe(cb){this.status=cb;queueMicrotask(()=>cb('SUBSCRIBED'));return this}};window.__testChannels.push(c);return c},removeChannel(){}}}};`;
+let browser;
+(async()=>{
+ await new Promise(resolve=>server.listen(4173,'127.0.0.1',resolve));
+ const exe=['C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',chromium.executablePath()].find(fs.existsSync);
+ browser=await chromium.launch({executablePath:exe,headless:true});
+ const context=await browser.newContext({viewport:{width:1440,height:1080},reducedMotion:'no-preference'});
+ let failing=false,jobAgent='FACTORY',revision=0,authMode='operator';
+ const requests=[];
+ await context.route('**/*',async route=>{
+   const req=route.request(),url=new URL(req.url());
+   if(url.hostname==='127.0.0.1')return route.continue();
+   requests.push({url:req.url(),method:req.method()});
+   if(url.hostname==='cdn.jsdelivr.net')return route.fulfill({contentType:'application/javascript',body:sdkStub});
+   if(!url.hostname.endsWith('.supabase.co'))return route.abort();
+   if(req.method()!=='GET') {report.writes.push({url:req.url(),method:req.method(),intercepted:true});return route.fulfill({status:403,contentType:'application/json',body:'{"message":"TEST: external write blocked"}'})}
+   if(url.pathname.endsWith('/auth/v1/user'))return route.fulfill({json:{id:'test-operator',email:'test@example.invalid',app_metadata:authMode==='operator'?{command_center:true,solar_role:'v5_operator'}:{}}});
+   if(failing)return route.fulfill({status:503,json:{message:'TEST boundary unavailable'}});
+   const at=new Date(Date.now()+revision*1000).toISOString();
+   if(url.pathname.endsWith('agent-state-observability'))return route.fulfill({json:{read_only:true,agents:['FACTORY','GUARDIAN','PUBLISHER','RECOVERY','MEASUREMENT','LEARNING'].map(id=>({id,status:id==='FACTORY'?'WORKING':'IDLE',health:'HEALTHY',current_job:id==='FACTORY'?'job-test-001':'Standing by',updated_at:at,source:'sc_content_jobs',confidence:'HIGH'})),activity:[]}});
+   if(url.pathname.endsWith('job-flow-observability'))return route.fulfill({json:{read_only:true,contract_version:'v4.1.0',snapshot_complete:true,snapshot_scope:'ALL_SC_CONTENT_JOBS',observed_at:at,jobs:[{job_id:'job-test-001',source_mode:'REAL',current_agent:jobAgent,stage:jobAgent==='FACTORY'?'FACTORY_ACTIVE':'QA_REVIEW',job_status:'RUNNING',evidence_at:at,evidence_source:'sc_content_jobs.status',confidence:'HIGH'}]}});
+   return route.fulfill({status:404,json:{message:'TEST: unexpected read'}});
+ });
+ const page=await context.newPage();page.on('pageerror',e=>report.errors.push(e.message));
+ await page.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});
+ await page.waitForFunction(()=>document.querySelectorAll('[data-v6-room]').length===10&&window.__V6_OFFICE__?.snapshot().FACTORY?.mode==='REAL');
+ check('10 rooms: Astra + nine agents');
+ assert.equal(await page.locator('#office > .v6-room:not(.v6-astra)').count(),9);
+ assert.equal(await page.locator('#office').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length),3);check('Desktop grid is 3 × 3 below Astra');
+ await page.screenshot({path:path.join(out,'v6-initial-review.png'),fullPage:true});
+ for(const id of [...baseline.split('<script')[0].matchAll(/id="([^"]+)"/g)].map(x=>x[1]))assert.equal(await page.locator(`[id="${id}"]`).count(),1,`Retain unique ID ${id}`);
+ check('All original DOM IDs preserved exactly once');
+ const evidenceTests=await page.evaluate(()=>{
+  const e=window.__V6_OFFICE__.evidence,base={source_mode:'REAL',status:'WORKING',updated_at:new Date().toISOString(),source:'sc_content_jobs',confidence:'HIGH',current_job:'job-123'};
+  return [e(base).working,!e({...base,source_mode:'MOCK'}).working,e({}).mode==='UNKNOWN',!e({...base,updated_at:new Date(Date.now()-100000).toISOString()}).working,!e({...base,confidence:'NONE'}).working,!e({...base,current_job:'No current evidence'}).working,!e({...base,status:'QA'}).working,!e({...base,updated_at:new Date(Date.now()+60000).toISOString()}).working];
+ });assert(evidenceTests.every(Boolean));check('Evidence gate: real working only; stale/mock/unknown/future/static');
+ const animations=await page.locator('.station .worker').evaluateAll(els=>els.map(el=>({name:el.closest('.station').dataset.agent,animation:getComputedStyle(el).animationName})));
+ assert.deepEqual(animations.filter(x=>x.animation!=='none').map(x=>x.name),['FACTORY']);check('Only fixture REAL WORKING Factory animates');
+ assert.equal(await page.locator('#v4-motion-layer .v4-moving-job').count(),0);assert.equal(await page.evaluate(()=>__V4_DIAGNOSTICS__().movement.metrics.animations_started),0);check('Initial snapshot never invents movement');
+ for(const name of ['RADAR','EDITOR','DIRECTOR','MEASUREMENT','LEARNING','FACTORY','GUARDIAN','PUBLISHER','RECOVERY','ASTRA']){await page.locator(`.station[data-agent="${name}"]`).click();await page.waitForFunction(n=>document.querySelector('#detail h2')?.textContent===n,name)}check('All ten original selection handlers survive repeated rerenders');
+ await page.locator('#nav-command').click();assert(await page.locator('#command-view').isVisible());assert(await page.locator('#office-main').isHidden());assert(await page.locator('#simulate').isDisabled());assert(await page.locator('#realLearning').isDisabled());check('Command Center navigation and unauthenticated disabled controls');
+ await page.locator('#nav-office').click();await page.locator('#v6-nav-safety').click();assert(await page.locator('#command-view').isVisible());await page.locator('#nav-office').click();
+ assert.equal(await page.locator('#v6-safety button:disabled').count(),4);assert.equal(await page.evaluate(()=>__V5_AUTH_READY__.general_execution_enabled),false);check('Safety preserved; four V6 gates disabled');
+ await page.locator('#v6-command-open').click();assert(await page.locator('#command-view').isVisible());await page.locator('#nav-office').click();await page.locator('#v6-nav-settings').click();await page.locator('#v6-reduce-motion').check();assert.equal(await page.locator('[data-agent="FACTORY"] .worker').evaluate(el=>getComputedStyle(el).animationName),'none');await page.locator('.v6-close').click();check('Quick navigation, settings and reduced motion');
+ // Simulated broadcast drives the ORIGINAL realtime client -> refetch -> Job Flow path.
+ jobAgent='GUARDIAN';revision++;
+ await page.evaluate(()=>__testChannels.forEach(c=>c.cb({payload:{table:'sc_content_jobs',op:'UPDATE',occurred_at:new Date().toISOString()}})));
+ await page.waitForFunction(()=>__V4_DIAGNOSTICS__().movement.metrics.animations_completed===1);
+ assert.equal(await page.locator('.station[data-agent="GUARDIAN"] [data-job-id="job-test-001"]').count(),1);
+ await page.evaluate(()=>__testChannels.forEach(c=>c.cb({payload:{table:'sc_content_jobs',op:'UPDATE',occurred_at:new Date().toISOString()}})));
+ await page.waitForTimeout(100);assert.equal(await page.evaluate(()=>__V4_DIAGNOSTICS__().movement.metrics.animations_started),1);check('Realtime canonical refetch, job transition and duplicate suppression');
+ failing=true;await page.evaluate(()=>realProvider.refresh({reason:'test-unavailable'}));await page.waitForFunction(()=>__V6_OFFICE__.snapshot().FACTORY?.mode==='UNKNOWN');
+ assert.equal(await page.locator('[data-agent="FACTORY"] .worker').evaluate(el=>getComputedStyle(el).animationName),'none');check('Boundary failure renders UNKNOWN without mock fallback or animation');
+ await page.screenshot({path:path.join(out,'v6-desktop-unknown.png'),fullPage:true});
+ // This capture contains test fixtures, never presented as live evidence.
+ failing=false;await page.reload({waitUntil:'networkidle'});await page.locator('.station[data-agent="ASTRA"]').click();await page.waitForFunction(()=>document.querySelector('#detail h2').textContent==='ASTRA');
+ await page.screenshot({path:path.join(out,'v6-desktop-fixtures.png'),fullPage:true});
+ await page.setViewportSize({width:390,height:844});await page.screenshot({path:path.join(out,'v6-mobile-fixtures.png'),fullPage:true});
+ assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));check('390 px mobile: no horizontal overflow');
+ await page.setViewportSize({width:1440,height:1080});
+ await page.goto('http://127.0.0.1:4173/?v6=0',{waitUntil:'networkidle'});assert.equal(await page.locator('[data-v6-room]').count(),0);assert.equal(await page.locator('#office .department').count(),6);await page.locator('#nav-command').click();assert(await page.locator('#command-view').isVisible());check('Reversible flag restores original six departments and Command');
+ // Isolated synthetic sessions: original JWT verification/authorization code, no real credentials.
+ await page.evaluate(()=>localStorage.setItem('solar-v5-auth-session-v1',JSON.stringify({access_token:'test-only',refresh_token:'test-only',expires_at:Date.now()+3600000})));
+ await page.goto('http://127.0.0.1:4173/',{waitUntil:'networkidle'});await page.locator('#nav-command').click();assert(await page.locator('#simulate').isEnabled());assert((await page.locator('#session').textContent()).includes('AUTORIZADO'));check('Auth operator app_metadata verified through original GET /user');
+ authMode='unprivileged';await page.reload({waitUntil:'networkidle'});await page.locator('#nav-command').click();assert(await page.locator('#simulate').isDisabled());assert(await page.locator('#realLearning').isDisabled());check('Auth user without operator claims remains disabled');
+ assert.equal(report.writes.length,0);assert.deepEqual(report.errors,[]);check('Zero external mutation requests and zero browser JS errors');
+ report.network={total:requests.length,mutation_requests:report.writes.length,mode:'intercepted deterministic fixtures'};
+ fs.writeFileSync(path.join(out,'v6-regression.json'),JSON.stringify(report,null,2));
+ await browser.close();server.close();
+})().catch(async e=>{console.error(e);report.failure=e.stack;fs.writeFileSync(path.join(out,'v6-regression.json'),JSON.stringify(report,null,2));await browser?.close();server.close();process.exitCode=1});
