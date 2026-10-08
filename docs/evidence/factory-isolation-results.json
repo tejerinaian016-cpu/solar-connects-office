@@ -1,0 +1,140 @@
+{
+  "engine": "PostgreSQL 18.4 local, isolated cluster",
+  "tests": [
+    {
+      "name": "global FACTORY OFF",
+      "status": "PASS"
+    },
+    {
+      "name": "Quality freeze despite globally enabled fixture",
+      "status": "PASS"
+    },
+    {
+      "name": "format kill switch",
+      "status": "PASS"
+    },
+    {
+      "name": "no V1 fallback",
+      "status": "PASS"
+    },
+    {
+      "name": "revocation",
+      "status": "PASS"
+    },
+    {
+      "name": "session revoked",
+      "status": "PASS"
+    },
+    {
+      "name": "insufficient permissions",
+      "status": "PASS"
+    },
+    {
+      "name": "wrong actor",
+      "status": "PASS"
+    },
+    {
+      "name": "expired lease",
+      "status": "PASS"
+    },
+    {
+      "name": "changed lease version",
+      "status": "PASS"
+    },
+    {
+      "name": "changed claim token",
+      "status": "PASS"
+    },
+    {
+      "name": "expired permit",
+      "status": "PASS"
+    },
+    {
+      "name": "quality inputs changed",
+      "status": "PASS"
+    },
+    {
+      "name": "changed request payload",
+      "status": "PASS"
+    },
+    {
+      "name": "compiled plan changed",
+      "status": "PASS"
+    },
+    {
+      "name": "invalid latest RADAR",
+      "status": "PASS"
+    },
+    {
+      "name": "preflight rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "failure after insert rolls back job and permit",
+      "status": "PASS"
+    },
+    {
+      "name": "lease expires after insert rolls back",
+      "status": "PASS"
+    },
+    {
+      "name": "second insert in same transaction rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "direct legacy insert has no transaction permit",
+      "status": "PASS"
+    },
+    {
+      "name": "unbound legacy insert denied",
+      "status": "PASS"
+    },
+    {
+      "name": "32 independent concurrent connections: one job and 31 replays",
+      "status": "PASS"
+    },
+    {
+      "name": "outer transaction rollback restores permit and ledger",
+      "status": "PASS"
+    },
+    {
+      "name": "candidate executor not accessible to authenticated role",
+      "status": "PASS"
+    },
+    {
+      "name": "run identity cannot be reassigned after materialization",
+      "status": "PASS"
+    },
+    {
+      "name": "permit uniqueness rejects duplicate authorization",
+      "status": "PASS"
+    },
+    {
+      "name": "different command cannot authorize the same creative run",
+      "status": "PASS"
+    },
+    {
+      "name": "explicit four-part confirmation provisions exactly one bound permit",
+      "status": "PASS"
+    },
+    {
+      "name": "authorization under closed gate rolls back its permit",
+      "status": "PASS"
+    },
+    {
+      "name": "revocation wins while executor waits",
+      "status": "PASS"
+    },
+    {
+      "name": "emergency FACTORY closure wins while executor waits",
+      "status": "PASS"
+    },
+    {
+      "name": "lease expiry rechecked after waiting",
+      "status": "PASS"
+    }
+  ],
+  "multi_session_races": "PASS: 32 independent connections",
+  "production_connections": 0,
+  "production_writes": 0
+}
