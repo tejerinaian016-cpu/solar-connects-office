@@ -1,10 +1,10 @@
-# Solar Connects AI Agent Office V6
+# Solar Connects AI Agent Office V6.1
 
 V6 is a reversible presentation adapter over the existing V5 product. The original approved image was not available; implementation follows the written visual contract. Exact image parity has not been claimed.
 
 ## Scope and rollback
 
-- `index.html`: only adds the V6 stylesheet and script references.
+- `index.html`: only adds the V6/V6.1 stylesheets and V6 script references.
 - `v6/office-v6.js`: moves existing station buttons into ten rooms, adds navigation shortcuts and reads the existing provider for visual evidence.
 - `v6/office-v6.css`: styles apply only with `html[data-office-version="6"]`.
 - `v6/sprites/`: ten original, independent pixel characters and Guardian's sleeping cat, ~21 KB total. Generated from integer rectangles by `tools/build-sprites.cjs`; no paid assets, fonts or application dependencies.
@@ -25,7 +25,7 @@ V6 is a reversible presentation adapter over the existing V5 product. The origin
 | Office / Command navigation | `#office-nav`, `#nav-office`, `#nav-command`, `#office-main`, `#command-view`, `footer`, `aria-selected`, `hidden` | Original click listeners preserved; shortcuts invoke existing navigation buttons |
 | Auth | `#email`, `#magic`, `#refresh`, `#logout`, `#session`, local session key, JWT verification | Original code and IDs byte-identical |
 | Command and canary | `#action`, `#agent`, `#job`, `#simulate`, `#out`, `#realLearning`, `#realStatus` | Original code and controls retained; not invoked in live verification |
-| Safety | Existing Safety card, `__V5_AUTH_READY__` | General execution remains false; four new gate indicators are disabled controls, not backend gate toggles |
+| Safety | Existing Safety card, `__V5_AUTH_READY__` | V5 local execution policy is unchanged. V6.1 shows four UNKNOWN outputs: current canonical providers expose no gate snapshot; local policy and agent activity cannot prove remote OFF |
 
 All four original inline scripts are compared byte-for-byte to V5 by the regression test. No ledger, backend, Supabase, Auth/JWT, Factory, Publisher, Recovery or Command logic changes were made.
 
@@ -37,7 +37,7 @@ All four original inline scripts are compared byte-for-byte to V5 by the regress
 - Job movement continues through the existing canonical Job Flow transition logic. No synthetic jobs or movements are added.
 - Reduced-motion preferences and the local presentation setting suppress animation.
 
-## Final verification (2026-10-08)
+## V6 verification before V6.1 (2026-10-08)
 
 `node tests/v6-regression.cjs`: 17 checks passed. Includes original script / backup identity, all static IDs, ten agent handlers across rerenders, desktop 3×3 grid, 390 px responsive layout, evidence modes and animation restrictions, navigation, Auth operator and unprivileged claims using intercepted test responses, Realtime refetch, Job Flow transition and duplicate suppression, boundary-failure UNKNOWN, Safety controls, reduced motion and V5 rollback. Zero browser JS errors; zero external mutation requests.
 
@@ -46,3 +46,11 @@ All four original inline scripts are compared byte-for-byte to V5 by the regress
 Screenshots and machine-readable reports are in ignored `artifacts/`; fixture captures are explicitly named `fixtures`. Live captures are separate. Auth login using Ian's actual magic link was not performed; the preserved Auth path was tested with isolated fixtures.
 
 The tests use the existing Codex runtime's Playwright installation and installed Chrome; the deployed application itself has no new framework or dependency.
+
+## V6.1 visual correction (2026-10-08)
+
+Built on V6 commit `d59596731e8c875d62de6049ad70cccc2eee4ff7`. The scoped `office-v6.1.css` restores navy surfaces, stronger agent accents and a warm sunset. Existing SVG sprites are enlarged from 72 to 96 px wide (Astra: 82 to 120 px), with larger status and panel text. Room structure and identities are retained. Astra's presentation shortcut invokes the existing Command navigation handler.
+
+Safety no longer asserts OFF or DISABLED for operational gates. All four read-only outputs show UNKNOWN because the existing canonical contracts contain no gate-state evidence. No backend query contract, gate or operational action was added or changed.
+
+All 19 regression checks pass, including byte-identical V4/V5 scripts and backup, existing IDs and handlers, Auth authorization, Realtime refetch, Job Flow transitions, UNKNOWN during failures, static MOCK, reduced motion, mobile overflow, V5 rollback, new Astra navigation, sprite sizes, typography and Safety UNKNOWN independent of REAL agent activity. Zero browser JS errors and zero external mutations in the controlled run. Desktop and 390 px mobile captures visually inspected. The original approved reference image remains unavailable for exact comparison.

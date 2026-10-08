@@ -5,16 +5,16 @@
   document.documentElement.dataset.officeVersion = '6';
   const $ = s => document.querySelector(s);
   const meta = {
-    ASTRA: ['Astra', 'Coordinación', '#72adf4', 'astra'],
-    RADAR: ['Radar', 'Inteligencia', '#82b0d8', 'radar'],
-    EDITOR: ['Editor', 'Estudio creativo', '#e6ac73', 'editor'],
-    DIRECTOR: ['Director', 'Dirección', '#db9285', 'director'],
-    MEASUREMENT: ['Analytics', 'Measurement', '#b09ccb', 'measurement'],
-    LEARNING: ['Learning', 'Conocimiento', '#7ab8b4', 'learning'],
-    FACTORY: ['Factory', 'Producción', '#96b47b', 'factory'],
-    GUARDIAN: ['Guardian', 'Protección', '#ddc371', 'guardian'],
-    PUBLISHER: ['Publisher', 'Comunicación', '#d997b7', 'publisher'],
-    RECOVERY: ['Recovery', 'Soporte técnico', '#83bdbb', 'recovery']
+    ASTRA: ['Astra', 'Coordinación', '#62b5ff', 'astra'],
+    RADAR: ['Radar', 'Inteligencia', '#69adf5', 'radar'],
+    EDITOR: ['Editor', 'Estudio creativo', '#f4a45f', 'editor'],
+    DIRECTOR: ['Director', 'Dirección', '#f58d7f', 'director'],
+    MEASUREMENT: ['Analytics', 'Measurement', '#bd9cff', 'measurement'],
+    LEARNING: ['Learning', 'Conocimiento', '#55c6b3', 'learning'],
+    FACTORY: ['Factory', 'Producción', '#94cb73', 'factory'],
+    GUARDIAN: ['Guardian', 'Protección', '#f0cc62', 'guardian'],
+    PUBLISHER: ['Publisher', 'Comunicación', '#f18abd', 'publisher'],
+    RECOVERY: ['Recovery', 'Soporte técnico', '#5ed6d9', 'recovery']
   };
   const office = $('#office');
   const data = new Map();
@@ -51,13 +51,15 @@
   }
   nav.insertAdjacentHTML('beforeend','<div class="v6-nav-bottom"><span class="v6-mini-sun"></span><b>Solar Connects</b><small>AI Agent Office · V6</small><span class="v6-readonly">OBSERVACIÓN</span></div>');
   $('header > div:first-child').innerHTML = '<b>SOLAR CONNECTS <em>/</em> AI AGENT OFFICE</b><small>Un lugar para cada agente. Evidencia detrás de cada estado.</small>';
-  $('header .live').textContent = 'V6 · PIXEL HQ';
+  $('header .live').textContent = 'V6.1 · PIXEL HQ';
   $('header .mock').textContent = 'REAL / MOCK / UNKNOWN';
   $('.sign').innerHTML = '<div><small>SOLAR CONNECTS / WORKSPACE</small><h1>La oficina</h1></div><div class="v6-legend"><span data-mode="REAL">REAL</span><span data-mode="MOCK">MOCK</span><span data-mode="UNKNOWN">UNKNOWN</span></div>';
   const sidebar = $('#office-main > aside');
   sidebar.insertAdjacentHTML('afterbegin','<div class="v6-panel-title"><span>AGENT STATUS</span><small>CANONICAL VIEW</small></div>');
   const safety = document.createElement('section');safety.id = 'v6-safety';safety.className = 'v6-panel';
-  safety.innerHTML = '<div class="v6-panel-title"><span>SAFETY</span><small>GENERAL EXECUTION OFF</small></div><p>Gates de ejecución de la interfaz</p>'+['Factory','Publisher','Meta Direct','External Write'].map(x=>`<div class="v6-gate"><span>${x}</span><button disabled aria-label="${x} deshabilitado">DISABLED</button></div>`).join('')+'<button type="button" class="v6-link" id="v6-safety-open">Ver controles de Safety <span>↗</span></button>';
+  // Current canonical agent/job contracts expose no gate snapshot. UI policy constants
+  // and IDLE/WORKING agent states are not evidence that an operational gate is OFF.
+  safety.innerHTML = '<div class="v6-panel-title"><span>SAFETY</span><small>ESTADO DE GATES</small></div><p>Sin evidencia canónica de gates en los proveedores actuales.</p>'+['Factory','Publisher','Meta Direct','External Write'].map(x=>`<div class="v6-gate"><span>${x}</span><output data-gate="${x}" data-state="UNKNOWN" aria-label="${x}: UNKNOWN, sin evidencia canónica">UNKNOWN</output></div>`).join('')+'<button type="button" class="v6-link" id="v6-safety-open">Ver controles de Safety <span>↗</span></button>';
   sidebar.insertBefore(safety, $('.feedHead'));
   const quick = document.createElement('section');quick.className = 'v6-panel';quick.id = 'v6-quick';
   quick.innerHTML = '<div class="v6-panel-title"><span>QUICK COMMANDS</span><small>NAVEGACIÓN</small></div><button type="button" id="v6-command-open">Abrir Command Center <span>↗</span></button><button type="button" id="v6-jobs-open">Inspeccionar Job Flow <span>→</span></button><p>Los accesos abren paneles. No ejecutan trabajos.</p>';
@@ -92,7 +94,10 @@
       const room = document.createElement('section');room.className = 'department v6-room v6-'+name.toLowerCase();room.dataset.v6Room = name;
       room.style.setProperty('--agent',meta[name][2]);room.setAttribute('aria-label',meta[name][0]);
       room.innerHTML = roomMarkup(name);
-      if(name === 'ASTRA') room.insertAdjacentHTML('afterbegin','<div class="v6-city" aria-hidden="true"><div class="v6-sun"></div><div class="v6-cloud c1"></div><div class="v6-cloud c2"></div><div class="v6-skyline far"></div><div class="v6-skyline near"></div></div><div class="v6-astra-label"><small>PLANTA SUPERIOR</small><strong>Centro de coordinación</strong><span>Astra · una visión de toda la oficina</span></div><div class="v6-astra-plaque">SOLAR<br>CONNECTS</div>');
+      if(name === 'ASTRA') {
+        room.insertAdjacentHTML('afterbegin','<div class="v6-city" aria-hidden="true"><div class="v6-sun"></div><div class="v6-cloud c1"></div><div class="v6-cloud c2"></div><div class="v6-skyline far"></div><div class="v6-skyline near"></div></div><div class="v6-astra-label"><small>ASTRA / COORDINACIÓN</small><strong>COMMAND CENTER</strong><button type="button" class="v61-astra-command">Abrir Command <span>→</span></button></div><div class="v6-astra-plaque">SOLAR<br>CONNECTS</div>');
+        room.querySelector('.v61-astra-command').onclick = () => $('#nav-command').click();
+      }
       room.querySelector('.stations').appendChild(el);
       if(!el.querySelector('.v6-chair')) el.insertAdjacentHTML('afterbegin','<span class="v6-chair" aria-hidden="true"></span>');
       rooms.push(room);
@@ -144,5 +149,5 @@
   decorate();paintFlow();
   provider.getAgents().then(accept);
   setInterval(()=>{paintEvidence();paintFlow()},5000);
-  window.__V6_OFFICE__=Object.freeze({version:'6.0.0',evidence,enabled:true,rollback:'?v6=0',snapshot:()=>Object.fromEntries([...data].map(([name,a])=>[name,evidence(a)]))});
+  window.__V6_OFFICE__=Object.freeze({version:'6.1.0',evidence,enabled:true,rollback:'?v6=0',snapshot:()=>Object.fromEntries([...data].map(([name,a])=>[name,evidence(a)]))});
 })();

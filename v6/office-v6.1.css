@@ -1,0 +1,152 @@
+/* V6.1: contrast, sprite scale and legibility corrections to the existing V6 layout. */
+html[data-office-version="6"]{--v6-ink:#e3edf7;--v6-paper:#14243b;--v6-line:#3f5872;background:#0c1729}
+html[data-office-version="6"] body{background:#0c1729;color:#e3edf7}
+html[data-office-version="6"] header{background:#132238;border-color:#3b526f}
+html[data-office-version="6"] header b{color:#f3f6fb;font-size:16px}
+html[data-office-version="6"] header small{color:#a8b8cd;font-size:10px}
+html[data-office-version="6"] .head-right .live{background:#1b3450;border-color:#4b7498;color:#a9d7ff;font-size:10px}
+html[data-office-version="6"] .rt{color:#c4d9e7;font-size:10px}
+html[data-office-version="6"] .rtbox small{color:#a5b6cb;font-size:8px}
+html[data-office-version="6"] .rtbox #rt-diagnostic{color:#eac578}
+html[data-office-version="6"] #office-nav{background:#101e33;border-color:#071120}
+html[data-office-version="6"] #office-nav button{font-size:13px;color:#c0cee0}
+html[data-office-version="6"] #office-nav button[aria-selected="true"]{background:#234361;border-color:#5685b0;box-shadow:inset 3px 0 #79bfff}
+html[data-office-version="6"] .world{background:#0e1a2c}
+html[data-office-version="6"] .sign{color:#f4ead7}
+html[data-office-version="6"] .sign small{color:#9fb1c9;font-size:9px}
+html[data-office-version="6"] .sign h1{font-size:25px}
+html[data-office-version="6"] .v6-legend{font-size:9px;color:#bdc9dc}
+html[data-office-version="6"] #office-main{grid-template-columns:minmax(0,1fr) 310px}
+html[data-office-version="6"] #office{grid-template-rows:220px repeat(3,214px)}
+html[data-office-version="6"] .department{background:color-mix(in srgb,var(--agent) 16%,#1b2940);border-color:#435670;box-shadow:0 4px #070f1d}
+html[data-office-version="6"] .department:before{background:repeating-linear-gradient(0deg,transparent 0 23px,#152236 23px 25px),repeating-linear-gradient(90deg,#314158 0 55px,#25344a 55px 58px,#35475e 58px 112px,#25344a 112px 115px);border-top-color:color-mix(in srgb,var(--agent) 50%,#233650);box-shadow:inset 0 3px #51657b}
+html[data-office-version="6"] .v6-room-sign{border-color:#15243a;box-shadow:2px 2px #0a1423;color:#101e30;height:29px;top:8px;padding:5px 8px}
+html[data-office-version="6"] .v6-room-sign b{font-size:14px}
+html[data-office-version="6"] .v6-room-sign span{font-size:8px;letter-spacing:0;opacity:1}
+html[data-office-version="6"] .stations{top:40px;bottom:27px}
+html[data-office-version="6"] .station .worker{width:96px;height:112px;left:calc(50% - 52px);bottom:26px;filter:drop-shadow(3px 3px 0 #07111c80)}
+html[data-office-version="6"] .station.active:after{top:4px;background:#ffe58f;box-shadow:3px -3px #ffe58f,-3px -3px #ffe58f}
+html[data-office-version="6"] .station.active{box-shadow:inset 0 0 0 1px #ffffff30}
+html[data-office-version="6"] .v6-chair{width:42px;height:52px;left:calc(50% - 26px);bottom:36px;background:color-mix(in srgb,var(--agent) 45%,#263b51);border-top-color:#0c1d31;box-shadow:inset 4px 3px #8193a5,3px 0 #172a42,-3px 0 #172a42,0 4px #172a42}
+html[data-office-version="6"] .desk{background:#bf8c61;border-color:#624a3c;box-shadow:0 5px #98704f,0 8px #18243a}
+html[data-office-version="6"] .screen{border-color:#8ba1b4;background:#102233;box-shadow:2px 2px #122135}
+html[data-office-version="6"] .screen i{background:repeating-linear-gradient(0deg,var(--agent) 0 2px,#193b4b 2px 5px);opacity:.9}
+html[data-office-version="6"] .v6-window{top:48px;border-color:#68849c;box-shadow:2px 2px #0b1b30;background:linear-gradient(#a2748e 0 48%,#e59e80 48%)}
+html[data-office-version="6"] .v6-window:after{background:#617c94}
+html[data-office-version="6"] .v6-window i{background:#4e637e;box-shadow:16px -4px #678197}
+html[data-office-version="6"] .v6-wall-art{top:51px;border-color:#647a95;background:linear-gradient(135deg,#26364e 50%,var(--agent) 50%);box-shadow:1px 1px #152034}
+html[data-office-version="6"] .v6-shelf{top:49px}
+html[data-office-version="6"] .v6-room-status{height:28px;padding:0 8px;background:#101e32;border-top-color:#496078;color:#d2e0ec;font-size:10px;gap:8px}
+html[data-office-version="6"] .v6-room-status>span{font-size:9px;padding:2px 4px;color:#a5e3c5;border-color:#427564;background:#173b37}
+html[data-office-version="6"] .v6-room-status[data-mode="MOCK"]>span{color:#f1cf8d;border-color:#987a49;background:#3d3226}
+html[data-office-version="6"] .v6-room-status[data-mode="UNKNOWN"]>span{color:#d3dcec;border-color:#7786a0;background:#2e3d53}
+html[data-office-version="6"] .v6-room-status small{font-size:8px;color:#adbbcf}
+html[data-office-version="6"] .v6-astra{border-color:#559ee4;box-shadow:0 4px #071321,inset 0 0 0 2px #8bc5ff;background:#24394e}
+html[data-office-version="6"] .v6-astra:before{inset:153px 0 0;background:repeating-linear-gradient(0deg,#293e55 0 16px,#203248 16px 18px);border-top-color:#5781a4;box-shadow:inset 0 3px #83a7c4}
+html[data-office-version="6"] .v6-city{bottom:53px;background:linear-gradient(#955d89 0 20%,#c5788f 20% 42%,#e69a82 42% 64%,#f5bf84 64%)}
+html[data-office-version="6"] .v6-skyline.far{background:#786b87}
+html[data-office-version="6"] .v6-skyline.near{background:repeating-linear-gradient(90deg,transparent 0 15px,#ffd09e88 15px 19px,transparent 19px 27px),repeating-linear-gradient(0deg,#384f6b 0 6px,#516481 6px 10px)}
+html[data-office-version="6"] .v6-astra .v6-room-sign{height:27px;width:140px;left:calc(50% - 70px);background:#2765a8;color:#edf8ff;border-color:#9dd5ff;box-shadow:3px 3px #12345b}
+html[data-office-version="6"] .v6-astra .v6-room-sign b{font-size:13px}
+html[data-office-version="6"] .v6-astra .stations{top:40px;bottom:28px}
+html[data-office-version="6"] .v6-astra .station .worker{width:120px;height:140px;left:calc(50% - 60px);bottom:28px}
+html[data-office-version="6"] .v6-astra .desk{background:#3579b7;border-color:#163956;box-shadow:0 5px #215a8a,0 8px #11283e}
+html[data-office-version="6"] .v6-astra .v6-room-status{background:#11253c;border-top-color:#4a82b3}
+html[data-office-version="6"] .v6-astra-label{left:18px;bottom:55px;max-width:31%;background:#0d2036eb;padding:11px;border-left:3px solid #70bcff;color:#e9f5ff;text-shadow:none;z-index:8}
+html[data-office-version="6"] .v6-astra-label small{font-size:9px;color:#9cc8ec;letter-spacing:.4px}
+html[data-office-version="6"] .v6-astra-label strong{font-size:17px;line-height:1.3;margin:7px 0 10px}
+html[data-office-version="6"] .v61-astra-command{padding:8px 10px;border:1px solid #6eb8f2;background:#255b88;color:#f0f8ff;font:bold 11px Consolas,monospace;cursor:pointer}
+html[data-office-version="6"] .v61-astra-command span{display:inline;font-size:12px}
+html[data-office-version="6"] .v6-astra-plaque{color:#ffdf9e;background:#1c3751;border-color:#6c91b1;box-shadow:3px 3px #182e46;font-size:14px;top:63px}
+html[data-office-version="6"] #office-main>aside{background:#132239;border-color:#3a506c;padding:22px 16px}
+html[data-office-version="6"] .v6-panel-title{color:#e3edf9;font-size:12px;letter-spacing:.6px;flex-wrap:wrap}
+html[data-office-version="6"] .v6-panel-title small{color:#a4b8d2;font-size:8px}
+html[data-office-version="6"] #detail{background:#192c45;border-color:#465f7b;box-shadow:3px 3px #0b1729}
+html[data-office-version="6"] .detailTop small{color:#acc4dc;font-size:9px}
+html[data-office-version="6"] .detailTop h2{color:#f4edda;font-size:20px}
+html[data-office-version="6"] .bigStatus{color:#b6edcc;border-color:#6f9d8a;background:#224a43;font-size:10px;padding:5px}
+html[data-office-version="6"] #detail[data-v6-source="UNKNOWN"] .bigStatus{color:#e0e7f2;background:#35465e;border-color:#879ab6}
+html[data-office-version="6"] .portrait{height:130px;background:linear-gradient(#263d58 0 62%,#1b304a 62%)}
+html[data-office-version="6"] .portrait .worker{width:96px;height:112px;left:calc(50% - 48px);bottom:8px}
+html[data-office-version="6"] .gridkv>div{background:#102137;border-color:#41617e;color:#a9bed3;font-size:9px;padding:8px;min-height:49px}
+html[data-office-version="6"] .gridkv b{font-size:11px;line-height:1.5;color:#e5edf5}
+html[data-office-version="6"] .v6-source-note{color:#a9d8c7;font-size:10px}
+html[data-office-version="6"] .v6-source-note[data-mode="MOCK"]{color:#e8ca8c}
+html[data-office-version="6"] .v6-source-note[data-mode="UNKNOWN"]{color:#c0cfe1}
+html[data-office-version="6"] #cycle{background:#473b29;color:#ffdea1;border-color:#ba9558;font-size:10px;box-shadow:2px 2px #122137}
+html[data-office-version="6"] .v6-panel{border-color:#3b516d}
+html[data-office-version="6"] .v6-panel p{color:#b0c1d6;font-size:11px}
+html[data-office-version="6"] .v6-gate{font-size:12px;border-color:#40546d;padding:9px 0;color:#d8e5f2}
+html[data-office-version="6"] .v6-gate output{background:#34445a;color:#ffdb95;border:1px solid #aa8e5a;font:10px Consolas,monospace;padding:4px 6px}
+html[data-office-version="6"] .v6-link{font-size:11px;color:#9acefa}
+html[data-office-version="6"] #v6-quick>button{background:#203b58;color:#e2f0fc;border-color:#597b9e;box-shadow:2px 2px #0b192a;font-size:11px;padding:11px 8px}
+html[data-office-version="6"] .feedHead{border-color:#3b516d}
+html[data-office-version="6"] .feedHead h3{font-size:11px;color:#e3edf9}
+html[data-office-version="6"] .feedHead span{color:#a4b8d2;font-size:8px}
+html[data-office-version="6"] .feedItem{border-color:#354b65;grid-template-columns:6px minmax(0,1fr);font-size:10px}
+html[data-office-version="6"] .feedItem b{font-size:10px;color:#dbe9f4}
+html[data-office-version="6"] .feedItem p{font-size:10px;color:#afc2d5;overflow-wrap:anywhere;line-height:1.5}
+html[data-office-version="6"] .feedItem time{grid-column:2;color:#9bafc8;font-size:9px;overflow-wrap:anywhere}
+html[data-office-version="6"] .v6-feed-source{font-size:8px;color:#a8dcc6;border-color:#568c7f}
+html[data-office-version="6"] .v6-feed-source[data-mode="MOCK"]{color:#f0cc8a;border-color:#ab8a4e}
+html[data-office-version="6"] #v4-flow-panel{background:#14263d;border-color:#48627f;box-shadow:3px 3px #071222;color:#dce9f4;padding:14px}
+html[data-office-version="6"] .v4-flow-title{font-size:13px;color:#e4eefa;flex-wrap:wrap}
+html[data-office-version="6"] .v4-flow-title b{font-size:10px;color:#dec78d;border-color:#8d805f}
+html[data-office-version="6"] .v4-flow-title b.connected{color:#9cddbe}
+html[data-office-version="6"] .v4-flow-stats span{color:#b9cadc;font-size:10px}
+html[data-office-version="6"] .v4-flow-stats b{color:#f0ddb3;font-size:12px}
+html[data-office-version="6"] #v4-last-move{color:#adbed2;font-size:10px}
+html[data-office-version="6"] #v6-flow-track>div{background:#20354d;color:#edf3f9;border-color:#45607c;border-top-color:var(--agent);font-size:10px}
+html[data-office-version="6"] #v6-flow-track small{color:#b3c7d9;font-size:8px}
+html[data-office-version="6"] #v4-unknown-lane{background:#17273c;border-color:#8994a4;padding:10px}
+html[data-office-version="6"] .v4-unknown-title{color:#e1c990;font-size:10px}
+html[data-office-version="6"] .v4-unknown-title span{color:#b7c4d4;font-size:9px}
+html[data-office-version="6"] .v4-job-token{background:#1c3b49;border-color:#799c9f;color:#d7f0e4;height:15px;max-width:72px}
+html[data-office-version="6"] .v4-job-token b{font-size:7px}
+html[data-office-version="6"] .v4-job-token i{font-size:6px;color:#b8d9d4}
+html[data-office-version="6"] .v4-job-overflow{height:15px;font-size:7px;background:#304459;color:#d2dfec;border-color:#8b9dac}
+html[data-office-version="6"] #v4-unknown-lane .v4-job-token{background:#3a3540;color:#eddbad;border-color:#aa946d}
+html[data-office-version="6"] footer{background:#101f33;border-color:#384d68;color:#aebfd2;font-size:9px}
+html[data-office-version="6"] footer a{color:#9fcefa}
+html[data-office-version="6"] #v6-settings{background:#172b44;color:#e0ebf7;border-color:#80a7ce}
+html[data-office-version="6"] #v6-settings a,html[data-office-version="6"] .v6-close{color:#a5d2fc}
+@media(max-width:1180px){
+ html[data-office-version="6"] #office-main{grid-template-columns:minmax(0,1fr) 270px}
+ html[data-office-version="6"] .v6-room-sign span{display:none}
+ html[data-office-version="6"] .v6-room-status small{display:none}
+ html[data-office-version="6"] .v6-astra-label{max-width:28%;left:12px;padding:8px}
+ html[data-office-version="6"] .v6-astra-label strong{font-size:13px}
+ html[data-office-version="6"] .v6-astra-label small{font-size:8px}
+ html[data-office-version="6"] .v6-astra-plaque{font-size:10px;right:14px;padding:8px}
+ html[data-office-version="6"] .v61-astra-command{font-size:10px;padding:7px}
+ html[data-office-version="6"] header b{font-size:13px}
+}
+@media(max-width:960px){html[data-office-version="6"] #office-main{grid-template-columns:1fr}html[data-office-version="6"] #office-main>aside{border-top-color:#48627f}html[data-office-version="6"] .v6-astra-label{max-width:30%}}
+@media(max-width:650px){
+ html[data-office-version="6"] header b{font-size:11px}
+ html[data-office-version="6"] header small{font-size:9px}
+ html[data-office-version="6"] .rt{font-size:8px}
+ html[data-office-version="6"] .rtbox small{font-size:7px}
+ html[data-office-version="6"] #office-nav button{font-size:9px}
+ html[data-office-version="6"] .sign small{font-size:8px}
+ html[data-office-version="6"] .sign h1{font-size:23px}
+ html[data-office-version="6"] .v6-legend{font-size:7px}
+ html[data-office-version="6"] #office{grid-template-rows:220px;grid-auto-rows:214px}
+ html[data-office-version="6"] .v6-room-sign b{font-size:13px}
+ html[data-office-version="6"] .v6-room-status{gap:5px;font-size:9px;padding:0 5px}
+ html[data-office-version="6"] .v6-room-status>span{font-size:8px}
+ html[data-office-version="6"] .v6-astra .station .worker{width:108px;height:126px;left:calc(50% - 54px)}
+ html[data-office-version="6"] .v6-astra-label{left:5px;bottom:66px;padding:6px;max-width:25%;border-left-width:2px}
+ html[data-office-version="6"] .v6-astra-label small{font-size:7px}
+ html[data-office-version="6"] .v6-astra-label strong{font-size:10px;overflow-wrap:anywhere}
+ html[data-office-version="6"] .v61-astra-command{font-size:9px;padding:7px 4px;line-height:1.4}
+ html[data-office-version="6"] .v6-astra-plaque{right:5px;top:63px;font-size:9px;letter-spacing:0;padding:7px 4px}
+ html[data-office-version="6"] #office-main>aside{grid-template-columns:minmax(0,1fr)}
+ html[data-office-version="6"] #detail{grid-row:auto}
+ html[data-office-version="6"] .gridkv{grid-template-columns:1fr 1fr}
+ html[data-office-version="6"] .v6-panel{border-top:1px solid #3b516d;padding-top:16px}
+ html[data-office-version="6"] .v6-panel-title small{font-size:9px}
+ html[data-office-version="6"] .v6-gate{font-size:13px}
+ html[data-office-version="6"] .v4-flow-stats{gap:12px;flex-wrap:wrap}
+ html[data-office-version="6"] footer{font-size:8px}
+}

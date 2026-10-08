@@ -53,7 +53,15 @@ let browser;
  for(const name of ['RADAR','EDITOR','DIRECTOR','MEASUREMENT','LEARNING','FACTORY','GUARDIAN','PUBLISHER','RECOVERY','ASTRA']){await page.locator(`.station[data-agent="${name}"]`).click();await page.waitForFunction(n=>document.querySelector('#detail h2')?.textContent===n,name)}check('All ten original selection handlers survive repeated rerenders');
  await page.locator('#nav-command').click();assert(await page.locator('#command-view').isVisible());assert(await page.locator('#office-main').isHidden());assert(await page.locator('#simulate').isDisabled());assert(await page.locator('#realLearning').isDisabled());check('Command Center navigation and unauthenticated disabled controls');
  await page.locator('#nav-office').click();await page.locator('#v6-nav-safety').click();assert(await page.locator('#command-view').isVisible());await page.locator('#nav-office').click();
- assert.equal(await page.locator('#v6-safety button:disabled').count(),4);assert.equal(await page.evaluate(()=>__V5_AUTH_READY__.general_execution_enabled),false);check('Safety preserved; four V6 gates disabled');
+ assert.deepEqual(await page.locator('#v6-safety output[data-gate]').allTextContents(),['UNKNOWN','UNKNOWN','UNKNOWN','UNKNOWN']);
+ assert.equal(await page.locator('#v6-safety [data-state="UNKNOWN"]').count(),4);
+ assert.equal(await page.evaluate(()=>__V5_AUTH_READY__.general_execution_enabled),false);
+ assert(!(await page.locator('#v6-safety').textContent()).includes('OFF'));check('Safety: absent canonical gate evidence stays UNKNOWN, independent of REAL agent activity');
+ await page.locator('.v61-astra-command').click();assert(await page.locator('#command-view').isVisible());await page.locator('#nav-office').click();check('Astra Command Center shortcut preserves original navigation');
+ assert.equal(await page.locator('.station[data-agent="RADAR"] .worker').evaluate(el=>getComputedStyle(el).width),'96px');
+ assert.equal(await page.locator('.station[data-agent="ASTRA"] .worker').evaluate(el=>getComputedStyle(el).width),'120px');
+ assert(Number.parseFloat(await page.locator('.gridkv b').first().evaluate(el=>getComputedStyle(el).fontSize))>=11);
+ assert.equal(await page.locator('.world').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(14, 26, 44)');check('V6.1 navy palette, larger characters and readable detail text');
  await page.locator('#v6-command-open').click();assert(await page.locator('#command-view').isVisible());await page.locator('#nav-office').click();await page.locator('#v6-nav-settings').click();await page.locator('#v6-reduce-motion').check();assert.equal(await page.locator('[data-agent="FACTORY"] .worker').evaluate(el=>getComputedStyle(el).animationName),'none');await page.locator('.v6-close').click();check('Quick navigation, settings and reduced motion');
  // Simulated broadcast drives the ORIGINAL realtime client -> refetch -> Job Flow path.
  jobAgent='GUARDIAN';revision++;
@@ -63,6 +71,7 @@ let browser;
  await page.evaluate(()=>__testChannels.forEach(c=>c.cb({payload:{table:'sc_content_jobs',op:'UPDATE',occurred_at:new Date().toISOString()}})));
  await page.waitForTimeout(100);assert.equal(await page.evaluate(()=>__V4_DIAGNOSTICS__().movement.metrics.animations_started),1);check('Realtime canonical refetch, job transition and duplicate suppression');
  failing=true;await page.evaluate(()=>realProvider.refresh({reason:'test-unavailable'}));await page.waitForFunction(()=>__V6_OFFICE__.snapshot().FACTORY?.mode==='UNKNOWN');
+ assert.deepEqual(await page.locator('#v6-safety output[data-gate]').allTextContents(),['UNKNOWN','UNKNOWN','UNKNOWN','UNKNOWN']);
  assert.equal(await page.locator('[data-agent="FACTORY"] .worker').evaluate(el=>getComputedStyle(el).animationName),'none');check('Boundary failure renders UNKNOWN without mock fallback or animation');
  await page.screenshot({path:path.join(out,'v6-desktop-unknown.png'),fullPage:true});
  // This capture contains test fixtures, never presented as live evidence.
