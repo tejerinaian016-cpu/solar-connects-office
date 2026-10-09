@@ -1,5 +1,7 @@
 # Factory staging closure — SQL validated, E2E BLOCKED / NO-GO
 
+Superseded for Auth/Edge/Realtime availability by [FACTORY-STAGING-LIVE.md](FACTORY-STAGING-LIVE.md): those services were subsequently validated on the independent lab. Renderer/Guardian/READY remain unverified.
+
 Continues `fdaaf44a3cd96e9266162212f23c3475aa95cdc9` on `feat/factory-real-controlled`. Supersedes the broad-trigger limitation in FACTORY-ISOLATION.md. No live deployment or main merge.
 
 ## Correction

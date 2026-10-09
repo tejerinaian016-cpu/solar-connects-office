@@ -1,0 +1,8 @@
+{
+  "phase": "rollback",
+  "passed": [
+    "invalid Quality input rejected inside claim/permit transaction"
+  ],
+  "project": "cmwervbwxyqzowntnxwe",
+  "real_auth": true
+}

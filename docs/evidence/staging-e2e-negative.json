@@ -1,0 +1,13 @@
+{
+  "phase": "negative",
+  "passed": [
+    "missing JWT:401",
+    "invalid JWT:401",
+    "viewer:403",
+    "confirmation rejected",
+    "gate OFF rejected",
+    "direct RPC viewer denied"
+  ],
+  "project": "cmwervbwxyqzowntnxwe",
+  "real_auth": true
+}

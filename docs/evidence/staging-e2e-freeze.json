@@ -1,0 +1,8 @@
+{
+  "phase": "freeze",
+  "passed": [
+    "Quality freeze rejects valid JWT even when staging Factory gate is ON"
+  ],
+  "project": "cmwervbwxyqzowntnxwe",
+  "real_auth": true
+}

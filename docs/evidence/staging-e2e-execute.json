@@ -1,0 +1,12 @@
+{
+  "phase": "execute",
+  "passed": [
+    "8 concurrent authenticated Edge requests: one job ID",
+    "replay:duplicate",
+    "hash conflict denied",
+    "reconciliation returns canonical draft, not READY",
+    "permit closed"
+  ],
+  "project": "cmwervbwxyqzowntnxwe",
+  "real_auth": true
+}

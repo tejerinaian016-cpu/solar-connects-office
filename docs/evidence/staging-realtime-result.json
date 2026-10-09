@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "project": "cmwervbwxyqzowntnxwe",
+  "transport": "Supabase Realtime WebSocket",
+  "event": {
+    "event": "invalidate",
+    "meta": {
+      "id": "c7d1928c-1464-46c0-bfbf-faa0b97402dc"
+    },
+    "payload": {
+      "id": "c7d1928c-1464-46c0-bfbf-faa0b97402dc",
+      "op": "INSERT",
+      "table": "sc_system_health",
+      "occurred_at": "2026-10-09T03:55:08.075291+00:00"
+    },
+    "type": "broadcast"
+  }
+}
