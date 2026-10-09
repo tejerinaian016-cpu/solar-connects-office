@@ -1,0 +1,1283 @@
+{
+  "captured_at": "2026-10-08",
+  "production_read_only": true,
+  "tables": [
+    {
+      "nspname": "public",
+      "relname": "sc_agent_config",
+      "relrowsecurity": true,
+      "relforcerowsecurity": false,
+      "relacl": "{postgres=arwdDxtm/postgres,anon=Dxtm/postgres,authenticated=Dxtm/postgres,service_role=rDxtm/postgres}",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "config",
+          "type": "jsonb",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true,
+          "identity": ""
+        }
+      ],
+      "constraints": [
+        {
+          "def": "PRIMARY KEY (id)",
+          "name": "sc_agent_config_pkey",
+          "type": "p"
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX sc_agent_config_pkey ON public.sc_agent_config USING btree (id)"
+      ],
+      "policies": null,
+      "triggers": null
+    },
+    {
+      "nspname": "public",
+      "relname": "sc_content_jobs",
+      "relrowsecurity": true,
+      "relforcerowsecurity": false,
+      "relacl": "{postgres=arwdDxtm/postgres,anon=m/postgres,authenticated=m/postgres,service_role=rwDxtm/postgres}",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'planned'::text",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "trigger_text",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "topic",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "format",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "content_plan",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "qa",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "asset_urls",
+          "type": "jsonb",
+          "default": "'[]'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "instagram_result",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "error",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        }
+      ],
+      "constraints": [
+        {
+          "def": "PRIMARY KEY (id)",
+          "name": "sc_content_jobs_pkey",
+          "type": "p"
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX sc_content_jobs_pkey ON public.sc_content_jobs USING btree (id)",
+        "CREATE UNIQUE INDEX sc_content_jobs_creative_run_uq ON public.sc_content_jobs USING btree (((content_plan ->> 'creative_run_id'::text))) WHERE (content_plan ? 'creative_run_id'::text)"
+      ],
+      "policies": null,
+      "triggers": [
+        {
+          "def": "CREATE TRIGGER sc_obs_rt_content_jobs AFTER INSERT OR DELETE OR UPDATE ON public.sc_content_jobs FOR EACH ROW EXECUTE FUNCTION sc_observability_realtime_notify()",
+          "function": "CREATE OR REPLACE FUNCTION public.sc_observability_realtime_notify()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\nbegin\n  perform realtime.send(\n    jsonb_build_object(\n      'table', TG_TABLE_NAME,\n      'op', TG_OP,\n      'occurred_at', statement_timestamp()\n    ),\n    'invalidate',\n    'solar-connects-observability-v3',\n    false\n  );\n  return coalesce(NEW, OLD);\nexception when others then\n  return coalesce(NEW, OLD);\nend;\n$function$\n"
+        }
+      ]
+    },
+    {
+      "nspname": "public",
+      "relname": "sc_content_posts",
+      "relrowsecurity": true,
+      "relforcerowsecurity": false,
+      "relacl": "{postgres=arwdDxtm/postgres,anon=m/postgres,authenticated=m/postgres,service_role=rDxtm/postgres}",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "job_id",
+          "type": "uuid",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "instagram_media_id",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "published_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "topic",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "format",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "hook_type",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "script",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "caption",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "asset_urls",
+          "type": "jsonb",
+          "default": "'[]'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "metrics",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "learned_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        }
+      ],
+      "constraints": [
+        {
+          "def": "UNIQUE (instagram_media_id)",
+          "name": "sc_content_posts_instagram_media_id_key",
+          "type": "u"
+        },
+        {
+          "def": "FOREIGN KEY (job_id) REFERENCES sc_content_jobs(id) ON DELETE SET NULL",
+          "name": "sc_content_posts_job_id_fkey",
+          "type": "f"
+        },
+        {
+          "def": "PRIMARY KEY (id)",
+          "name": "sc_content_posts_pkey",
+          "type": "p"
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX sc_content_posts_pkey ON public.sc_content_posts USING btree (id)",
+        "CREATE UNIQUE INDEX sc_content_posts_instagram_media_id_key ON public.sc_content_posts USING btree (instagram_media_id)"
+      ],
+      "policies": null,
+      "triggers": null
+    },
+    {
+      "nspname": "public",
+      "relname": "sc_creative_runs",
+      "relrowsecurity": true,
+      "relforcerowsecurity": false,
+      "relacl": "{postgres=arwdDxtm/postgres,service_role=arwDxtm/postgres}",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "run_key",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "idempotency_key",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'RUNNING'::text",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "current_stage",
+          "type": "text",
+          "default": "'RADAR'::text",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "radar_attempts",
+          "type": "smallint",
+          "default": "0",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "editor_attempts",
+          "type": "smallint",
+          "default": "0",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "director_attempts",
+          "type": "smallint",
+          "default": "0",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "context_version",
+          "type": "text",
+          "default": "'creative-context-v1'::text",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "controller_version",
+          "type": "text",
+          "default": "'creative-controller-v1'::text",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "trigger",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "result",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "error",
+          "type": "jsonb",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "started_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "completed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true,
+          "identity": ""
+        }
+      ],
+      "constraints": [
+        {
+          "def": "CHECK ((current_stage = ANY (ARRAY['RADAR'::text, 'EDITOR'::text, 'DIRECTOR'::text, 'DONE'::text])))",
+          "name": "sc_creative_runs_current_stage_check",
+          "type": "c"
+        },
+        {
+          "def": "CHECK (((director_attempts >= 0) AND (director_attempts <= 3)))",
+          "name": "sc_creative_runs_director_attempts_check",
+          "type": "c"
+        },
+        {
+          "def": "CHECK (((editor_attempts >= 0) AND (editor_attempts <= 2)))",
+          "name": "sc_creative_runs_editor_attempts_check",
+          "type": "c"
+        },
+        {
+          "def": "UNIQUE (idempotency_key)",
+          "name": "sc_creative_runs_idempotency_key_key",
+          "type": "u"
+        },
+        {
+          "def": "PRIMARY KEY (id)",
+          "name": "sc_creative_runs_pkey",
+          "type": "p"
+        },
+        {
+          "def": "CHECK (((radar_attempts >= 0) AND (radar_attempts <= 2)))",
+          "name": "sc_creative_runs_radar_attempts_check",
+          "type": "c"
+        },
+        {
+          "def": "UNIQUE (run_key)",
+          "name": "sc_creative_runs_run_key_key",
+          "type": "u"
+        },
+        {
+          "def": "CHECK ((status = ANY (ARRAY['RUNNING'::text, 'APPROVED'::text, 'NO_PRODUCTION'::text, 'FAILED_STAGE'::text, 'CANCELLED'::text])))",
+          "name": "sc_creative_runs_status_check",
+          "type": "c"
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX sc_creative_runs_pkey ON public.sc_creative_runs USING btree (id)",
+        "CREATE UNIQUE INDEX sc_creative_runs_run_key_key ON public.sc_creative_runs USING btree (run_key)",
+        "CREATE UNIQUE INDEX sc_creative_runs_idempotency_key_key ON public.sc_creative_runs USING btree (idempotency_key)"
+      ],
+      "policies": null,
+      "triggers": [
+        {
+          "def": "CREATE TRIGGER trg_sc_creative_runs_touch BEFORE UPDATE ON public.sc_creative_runs FOR EACH ROW EXECUTE FUNCTION sc_creative_touch_updated_at()",
+          "function": "CREATE OR REPLACE FUNCTION public.sc_creative_touch_updated_at()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public'\nAS $function$\nbegin\n  new.updated_at=now();\n  return new;\nend;\n$function$\n"
+        }
+      ]
+    },
+    {
+      "nspname": "public",
+      "relname": "sc_creative_stage_outputs",
+      "relrowsecurity": true,
+      "relforcerowsecurity": false,
+      "relacl": "{postgres=arwdDxtm/postgres,service_role=arDxtm/postgres}",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "default": null,
+          "notnull": true,
+          "identity": "a"
+        },
+        {
+          "name": "run_id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "stage",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "attempt",
+          "type": "smallint",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "input_hash",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "schema_version",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "validation_status",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "output",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "validation_errors",
+          "type": "jsonb",
+          "default": "'[]'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true,
+          "identity": ""
+        }
+      ],
+      "constraints": [
+        {
+          "def": "CHECK (((attempt >= 1) AND (attempt <= 3)))",
+          "name": "sc_creative_stage_outputs_attempt_check",
+          "type": "c"
+        },
+        {
+          "def": "CHECK ((input_hash ~ '^[0-9a-f]{64}$'::text))",
+          "name": "sc_creative_stage_outputs_input_hash_check",
+          "type": "c"
+        },
+        {
+          "def": "PRIMARY KEY (id)",
+          "name": "sc_creative_stage_outputs_pkey",
+          "type": "p"
+        },
+        {
+          "def": "FOREIGN KEY (run_id) REFERENCES sc_creative_runs(id)",
+          "name": "sc_creative_stage_outputs_run_id_fkey",
+          "type": "f"
+        },
+        {
+          "def": "UNIQUE (run_id, stage, attempt)",
+          "name": "sc_creative_stage_outputs_run_id_stage_attempt_key",
+          "type": "u"
+        },
+        {
+          "def": "CHECK ((stage = ANY (ARRAY['RADAR'::text, 'EDITOR'::text, 'DIRECTOR'::text])))",
+          "name": "sc_creative_stage_outputs_stage_check",
+          "type": "c"
+        },
+        {
+          "def": "CHECK ((validation_status = ANY (ARRAY['VALID'::text, 'INVALID'::text])))",
+          "name": "sc_creative_stage_outputs_validation_status_check",
+          "type": "c"
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX sc_creative_stage_outputs_pkey ON public.sc_creative_stage_outputs USING btree (id)",
+        "CREATE UNIQUE INDEX sc_creative_stage_outputs_run_id_stage_attempt_key ON public.sc_creative_stage_outputs USING btree (run_id, stage, attempt)"
+      ],
+      "policies": null,
+      "triggers": [
+        {
+          "def": "CREATE TRIGGER trg_sc_creative_stage_outputs_append_only BEFORE DELETE OR UPDATE ON public.sc_creative_stage_outputs FOR EACH ROW EXECUTE FUNCTION sc_creative_stage_outputs_append_only()",
+          "function": "CREATE OR REPLACE FUNCTION public.sc_creative_stage_outputs_append_only()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public'\nAS $function$\nbegin\n  raise exception 'sc_creative_stage_outputs is append-only';\nend;\n$function$\n"
+        }
+      ]
+    },
+    {
+      "nspname": "public",
+      "relname": "sc_fact_bank",
+      "relrowsecurity": true,
+      "relforcerowsecurity": false,
+      "relacl": "{postgres=arwdDxtm/postgres,service_role=arwDxtm/postgres}",
+      "columns": [
+        {
+          "name": "fact_id",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "claim",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "source_url",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "source_title",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "source_kind",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "confidence",
+          "type": "text",
+          "default": "'MEDIUM'::text",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'CANDIDATE'::text",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "authority",
+          "type": "text",
+          "default": "'RESEARCH_CANDIDATE'::text",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "scope",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "metadata",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "approved_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        }
+      ],
+      "constraints": [
+        {
+          "def": "CHECK ((authority = ANY (ARRAY['BRAND_BRAIN'::text, 'HUMAN_APPROVED'::text, 'VERIFIED_OFFICIAL'::text, 'RESEARCH_CANDIDATE'::text])))",
+          "name": "sc_fact_bank_authority_check",
+          "type": "c"
+        },
+        {
+          "def": "CHECK ((confidence = ANY (ARRAY['LOW'::text, 'MEDIUM'::text, 'HIGH'::text])))",
+          "name": "sc_fact_bank_confidence_check",
+          "type": "c"
+        },
+        {
+          "def": "PRIMARY KEY (fact_id)",
+          "name": "sc_fact_bank_pkey",
+          "type": "p"
+        },
+        {
+          "def": "CHECK ((source_kind = ANY (ARRAY['PRIMARY'::text, 'OFFICIAL'::text, 'SECONDARY'::text])))",
+          "name": "sc_fact_bank_source_kind_check",
+          "type": "c"
+        },
+        {
+          "def": "CHECK ((status = ANY (ARRAY['CANDIDATE'::text, 'APPROVED'::text, 'REJECTED'::text])))",
+          "name": "sc_fact_bank_status_check",
+          "type": "c"
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX sc_fact_bank_pkey ON public.sc_fact_bank USING btree (fact_id)"
+      ],
+      "policies": null,
+      "triggers": null
+    },
+    {
+      "nspname": "public",
+      "relname": "sc_publish_guard",
+      "relrowsecurity": true,
+      "relforcerowsecurity": false,
+      "relacl": "{postgres=arwdDxtm/postgres,anon=m/postgres,authenticated=m/postgres,service_role=rDxtm/postgres}",
+      "columns": [
+        {
+          "name": "job_id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "fingerprint",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "account_id",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "state",
+          "type": "text",
+          "default": "'READY'::text",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "started_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "last_checked_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "resolved_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "canonical_media_id",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "duplicate_media_ids",
+          "type": "jsonb",
+          "default": "'[]'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "details",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true,
+          "identity": ""
+        }
+      ],
+      "constraints": [
+        {
+          "def": "UNIQUE (fingerprint)",
+          "name": "sc_publish_guard_fingerprint_key",
+          "type": "u"
+        },
+        {
+          "def": "FOREIGN KEY (job_id) REFERENCES sc_content_jobs(id) ON DELETE CASCADE",
+          "name": "sc_publish_guard_job_id_fkey",
+          "type": "f"
+        },
+        {
+          "def": "PRIMARY KEY (job_id)",
+          "name": "sc_publish_guard_pkey",
+          "type": "p"
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX sc_publish_guard_pkey ON public.sc_publish_guard USING btree (job_id)",
+        "CREATE UNIQUE INDEX sc_publish_guard_fingerprint_key ON public.sc_publish_guard USING btree (fingerprint)"
+      ],
+      "policies": null,
+      "triggers": [
+        {
+          "def": "CREATE TRIGGER sc_feed_daily_budget_guard_v1 BEFORE INSERT OR UPDATE OF state ON public.sc_publish_guard FOR EACH ROW EXECUTE FUNCTION sc_internal.sc_enforce_feed_daily_budget_v1()",
+          "function": "CREATE OR REPLACE FUNCTION sc_internal.sc_enforce_feed_daily_budget_v1()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\ndeclare fmt text; budget jsonb;\nbegin\n if NEW.state<>'PUBLISHING' then return NEW; end if;\n if TG_OP='UPDATE' and OLD.state='PUBLISHING' then return NEW; end if;\n select format into fmt from public.sc_content_jobs where id=NEW.job_id;\n if fmt not in ('image','single_image','carousel','reel') then return NEW; end if;\n if not pg_try_advisory_xact_lock(hashtextextended('solar-feed-daily-budget:'||coalesce(NEW.account_id,''),0)) then\n  raise exception 'HOLD_FEED_BUDGET_CONCURRENT_CLAIM' using errcode='P0001';\n end if;\n budget:=public.sc_feed_daily_budget_v1(NEW.job_id);\n if coalesce((budget->>'allowed')::boolean,false) is not true then\n  raise exception 'HOLD_FEED_DAILY_BUDGET: %',budget using errcode='P0001';\n end if;\n return NEW;\nend $function$\n"
+        },
+        {
+          "def": "CREATE TRIGGER sc_obs_rt_publish_guard AFTER INSERT OR DELETE OR UPDATE ON public.sc_publish_guard FOR EACH ROW EXECUTE FUNCTION sc_observability_realtime_notify()",
+          "function": "CREATE OR REPLACE FUNCTION public.sc_observability_realtime_notify()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\nbegin\n  perform realtime.send(\n    jsonb_build_object(\n      'table', TG_TABLE_NAME,\n      'op', TG_OP,\n      'occurred_at', statement_timestamp()\n    ),\n    'invalidate',\n    'solar-connects-observability-v3',\n    false\n  );\n  return coalesce(NEW, OLD);\nexception when others then\n  return coalesce(NEW, OLD);\nend;\n$function$\n"
+        }
+      ]
+    },
+    {
+      "nspname": "public",
+      "relname": "sc_system_health",
+      "relrowsecurity": true,
+      "relforcerowsecurity": false,
+      "relacl": "{postgres=arwdDxtm/postgres,anon=Dxtm/postgres,authenticated=Dxtm/postgres,service_role=rDxtm/postgres}",
+      "columns": [
+        {
+          "name": "component",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "checked_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "version",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "details",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true,
+          "identity": ""
+        }
+      ],
+      "constraints": [
+        {
+          "def": "PRIMARY KEY (component)",
+          "name": "sc_system_health_pkey",
+          "type": "p"
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX sc_system_health_pkey ON public.sc_system_health USING btree (component)"
+      ],
+      "policies": null,
+      "triggers": [
+        {
+          "def": "CREATE TRIGGER sc_obs_rt_system_health AFTER INSERT OR DELETE OR UPDATE ON public.sc_system_health FOR EACH ROW EXECUTE FUNCTION sc_observability_realtime_notify()",
+          "function": "CREATE OR REPLACE FUNCTION public.sc_observability_realtime_notify()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\nbegin\n  perform realtime.send(\n    jsonb_build_object(\n      'table', TG_TABLE_NAME,\n      'op', TG_OP,\n      'occurred_at', statement_timestamp()\n    ),\n    'invalidate',\n    'solar-connects-observability-v3',\n    false\n  );\n  return coalesce(NEW, OLD);\nexception when others then\n  return coalesce(NEW, OLD);\nend;\n$function$\n"
+        }
+      ]
+    },
+    {
+      "nspname": "sc_internal",
+      "relname": "security_mutation_audit",
+      "relrowsecurity": false,
+      "relforcerowsecurity": false,
+      "relacl": "{postgres=arwdDxtm/postgres}",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "default": null,
+          "notnull": true,
+          "identity": "a"
+        },
+        {
+          "name": "target",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "mutation_type",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "old_state_hash",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "new_state_hash",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "actor_class",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "occurred_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "reason",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "correlation_id",
+          "type": "text",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "metadata",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true,
+          "identity": ""
+        }
+      ],
+      "constraints": [
+        {
+          "def": "CHECK ((actor_class = ANY (ARRAY['USER_EXPLICIT'::text, 'AUTHORIZED_CONTROL_PLANE'::text, 'SAFETY_KILL_SWITCH'::text, 'SYSTEM_AUDIT'::text])))",
+          "name": "security_mutation_audit_actor_class_check",
+          "type": "c"
+        },
+        {
+          "def": "CHECK (((new_state_hash IS NULL) OR (new_state_hash ~ '^[0-9a-f]{64}$'::text)))",
+          "name": "security_mutation_audit_new_state_hash_check",
+          "type": "c"
+        },
+        {
+          "def": "CHECK (((old_state_hash IS NULL) OR (old_state_hash ~ '^[0-9a-f]{64}$'::text)))",
+          "name": "security_mutation_audit_old_state_hash_check",
+          "type": "c"
+        },
+        {
+          "def": "PRIMARY KEY (id)",
+          "name": "security_mutation_audit_pkey",
+          "type": "p"
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX security_mutation_audit_pkey ON sc_internal.security_mutation_audit USING btree (id)",
+        "CREATE UNIQUE INDEX security_mutation_audit_correlation_uidx ON sc_internal.security_mutation_audit USING btree (target, mutation_type, correlation_id) WHERE (correlation_id IS NOT NULL)"
+      ],
+      "policies": null,
+      "triggers": null
+    },
+    {
+      "nspname": "sc_internal",
+      "relname": "v5_commands",
+      "relrowsecurity": false,
+      "relforcerowsecurity": false,
+      "relacl": "{postgres=arwdDxtm/postgres}",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "extensions.gen_random_uuid()",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "command_id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "actor_user_id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "idempotency_key",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "request_hash",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "command_type",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "mode",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "target",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "confirmation_intent",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "claimed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "claim_expires_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "claim_token",
+          "type": "uuid",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "lease_version",
+          "type": "bigint",
+          "default": "0",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "completed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "result",
+          "type": "jsonb",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "error",
+          "type": "jsonb",
+          "default": null,
+          "notnull": false,
+          "identity": ""
+        },
+        {
+          "name": "correlation_id",
+          "type": "uuid",
+          "default": null,
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true,
+          "identity": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "notnull": true,
+          "identity": ""
+        }
+      ],
+      "constraints": [
+        {
+          "def": "UNIQUE (actor_user_id, idempotency_key)",
+          "name": "v5_commands_actor_user_id_idempotency_key_key",
+          "type": "u"
+        },
+        {
+          "def": "UNIQUE (command_id)",
+          "name": "v5_commands_command_id_key",
+          "type": "u"
+        },
+        {
+          "def": "CHECK (((char_length(command_type) >= 3) AND (char_length(command_type) <= 100)))",
+          "name": "v5_commands_command_type_check",
+          "type": "c"
+        },
+        {
+          "def": "CHECK (((char_length(confirmation_intent) >= 3) AND (char_length(confirmation_intent) <= 100)))",
+          "name": "v5_commands_confirmation_intent_check",
+          "type": "c"
+        },
+        {
+          "def": "CHECK (((char_length(idempotency_key) >= 8) AND (char_length(idempotency_key) <= 200)))",
+          "name": "v5_commands_idempotency_key_check",
+          "type": "c"
+        },
+        {
+          "def": "CHECK ((lease_version >= 0))",
+          "name": "v5_commands_lease_version_check",
+          "type": "c"
+        },
+        {
+          "def": "CHECK ((mode = ANY (ARRAY['SIMULATE'::text, 'EXECUTE'::text])))",
+          "name": "v5_commands_mode_check",
+          "type": "c"
+        },
+        {
+          "def": "PRIMARY KEY (id)",
+          "name": "v5_commands_pkey",
+          "type": "p"
+        },
+        {
+          "def": "CHECK ((request_hash ~ '^[0-9a-f]{64}$'::text))",
+          "name": "v5_commands_request_hash_check",
+          "type": "c"
+        },
+        {
+          "def": "CHECK ((status = ANY (ARRAY['PENDING'::text, 'CLAIMED'::text, 'EXECUTING'::text, 'SUCCEEDED'::text, 'FAILED'::text, 'ROLLED_BACK'::text])))",
+          "name": "v5_commands_status_check",
+          "type": "c"
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX v5_commands_pkey ON sc_internal.v5_commands USING btree (id)",
+        "CREATE UNIQUE INDEX v5_commands_command_id_key ON sc_internal.v5_commands USING btree (command_id)",
+        "CREATE UNIQUE INDEX v5_commands_actor_user_id_idempotency_key_key ON sc_internal.v5_commands USING btree (actor_user_id, idempotency_key)",
+        "CREATE INDEX v5_commands_status_lease_idx ON sc_internal.v5_commands USING btree (status, claim_expires_at) WHERE (status = ANY (ARRAY['CLAIMED'::text, 'EXECUTING'::text]))",
+        "CREATE INDEX v5_commands_correlation_idx ON sc_internal.v5_commands USING btree (correlation_id)"
+      ],
+      "policies": null,
+      "triggers": null
+    }
+  ],
+  "functions": [
+    {
+      "proname": "sc_creative_compile_carousel_v1",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_creative_compile_carousel_v1(p_run_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare\n  r public.sc_creative_runs%rowtype;\n  e jsonb;\n  d jsonb;\n  cand jsonb;\n  es jsonb;\n  ds jsonb;\n  slides jsonb='[]'::jsonb;\n  i int;\n  fmt text;\n  n int;\nbegin\n  select * into r from public.sc_creative_runs where id=p_run_id;\n  if r.id is null then return jsonb_build_object('ok',false,'reason','RUN_NOT_FOUND'); end if;\n  if r.status<>'APPROVED' then return jsonb_build_object('ok',false,'reason','RUN_NOT_APPROVED'); end if;\n\n  select output into e\n  from public.sc_creative_stage_outputs\n  where run_id=p_run_id and stage='EDITOR' and validation_status='VALID' and schema_version='editor-v2'\n  order by attempt desc limit 1;\n\n  select output into d\n  from public.sc_creative_stage_outputs\n  where run_id=p_run_id and stage='DIRECTOR' and validation_status='VALID' and schema_version='director-v2'\n  order by attempt desc limit 1;\n\n  if e is null or d is null then return jsonb_build_object('ok',false,'reason','V2_STAGE_OUTPUTS_REQUIRED'); end if;\n\n  select value into cand\n  from jsonb_array_elements(e->'candidates')\n  where value->>'candidate_id'=d->>'candidate_id'\n  limit 1;\n  if cand is null then return jsonb_build_object('ok',false,'reason','SELECTED_CANDIDATE_MISSING'); end if;\n\n  fmt:=lower(coalesce(cand->>'format',''));\n  if fmt not in ('carousel','image','story','reel') or lower(coalesce(d->>'format',''))<>fmt then return jsonb_build_object('ok',false,'reason','FORMAT_BINDING_INVALID'); end if;\n  n:=case when fmt='carousel' then 5 when fmt='reel' then 3 else 1 end;\n  if jsonb_array_length(cand#>'{plan,slides}')<>n or jsonb_array_length(d->'slides')<>n then return jsonb_build_object('ok',false,'reason','FORMAT_SLIDE_COUNT_INVALID'); end if;\n  for i in 1..n loop\n    es:=cand#>('{'||'plan,slides,'||(i-1)||'}')::text[];\n    ds:=d#>('{'||'slides,'||(i-1)||'}')::text[];\n    slides:=slides||jsonb_build_array(jsonb_build_object(\n      'slide_index',i,\n      'template',ds->>'template',\n      'theme',ds->>'theme',\n      'eyebrow',coalesce(es->>'eyebrow',''),\n      'title',es->>'title',\n      'body',coalesce(es->>'body',''),\n      'cta',coalesce(es->>'cta',''),\n      'scene_key',ds->>'scene_key',\n      'scene_status','CLEAN_SCENE_REQUIRED',\n      'fact_ids',coalesce(es->'fact_ids','[]'::jsonb)\n    ));\n  end loop;\n\n  return jsonb_build_object(\n    'ok',true,\n    'topic',cand->>'topic',\n    'format',fmt,\n    'content_plan',jsonb_build_object(\n      'slides',slides,\n      'caption',cand->>'caption',\n      'cta',cand->>'cta',\n      'hypothesis',cand->>'hypothesis',\n      'creative_run_id',p_run_id,\n      'selected_candidate_id',d->>'candidate_id',\n      'quality_target',d->>'quality_target',\n      'segments',case when fmt='reel' then 3 else null end,\n      'frames_per_segment',case when fmt='reel' then 1 else null end,\n      'duration_seconds',case when fmt='reel' then 12 else null end\n    ),\n    'qa',jsonb_build_object(\n      'shadow',true,\n      'research_pass',true,\n      'semantic_qa',true,\n      'premium_visual_plan_qa',true,\n      'do_not_publish',true,\n      'publish_blocked',true,\n      'creative_control_plane','v1',\n      'creative_run_id',p_run_id,\n      'additional_paid_cost_usd',0\n    )\n  );\nend;\n$function$\n"
+    },
+    {
+      "proname": "sc_creative_materialize_job_v1",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_creative_materialize_job_v1(p_run_id uuid, p_mode text DEFAULT 'SHADOW'::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare\n  v_mode text:=upper(trim(coalesce(p_mode,'SHADOW')));\n  c jsonb;\n  g jsonb;\n  existing_id uuid;\n  existing_status text;\n  jid uuid;\n  q jsonb;\nbegin\n  if v_mode not in ('SHADOW','PRODUCTION') then\n    return jsonb_build_object('ok',false,'reason','MODE_INVALID');\n  end if;\n\n  select id,status into existing_id,existing_status\n  from public.sc_content_jobs\n  where content_plan->>'creative_run_id'=p_run_id::text or qa->>'creative_run_id'=p_run_id::text\n  order by created_at desc\n  limit 1;\n\n  if existing_id is not null then\n    return jsonb_build_object('ok',true,'state','DUPLICATE','job_id',existing_id,'status',existing_status);\n  end if;\n\n  c:=public.sc_creative_compile_carousel_v1(p_run_id);\n  if coalesce((c->>'ok')::boolean,false) is not true then\n    return jsonb_build_object('ok',false,'reason','COMPILE_FAILED','compile',c);\n  end if;\n\n  if v_mode='PRODUCTION' and public.sc_quality_factory_hook_v2(p_run_id,null)->>'route'='V2' then\n    return jsonb_build_object('ok',false,'reason','QUALITY_V2_ADAPTER_REQUIRED','factory_hook',public.sc_quality_factory_hook_v2(p_run_id,null),'external_write',false);\n  end if;\n\n  if v_mode='PRODUCTION' then\n    g:=public.sc_security_operation_gate_v1('FACTORY');\n    if coalesce((g->>'allowed')::boolean,false) is not true then\n      return jsonb_build_object('ok',false,'reason','FACTORY_KILL_SWITCH','gate',g);\n    end if;\n  end if;\n\n  q:=(c->'qa') || jsonb_build_object(\n    'shadow',v_mode='SHADOW',\n    'production_candidate',v_mode='PRODUCTION',\n    'do_not_publish',v_mode='SHADOW',\n    'publish_blocked',true,\n    'guardian_qa','PENDING',\n    'visual_pipeline','premium-v1.2',\n    'renderer_target',case when c->>'format'='reel' then 'sc-reel-frame-renderer-2.3.5' else 'solar-render-premium-2.3.5' end,\n    'materialization_mode',v_mode\n  );\n\n  insert into public.sc_content_jobs(status,trigger_text,topic,format,content_plan,qa)\n  values(\n    'RENDERING',\n    case when v_mode='PRODUCTION' then 'creative-v2-production-materializer' else 'creative-v2-shadow-materializer' end,\n    c->>'topic',\n    c->>'format',\n    (c->'content_plan') || jsonb_build_object('materialization_mode',v_mode),\n    q\n  )\n  returning id into jid;\n\n  return jsonb_build_object(\n    'ok',true,'state','CREATED','job_id',jid,'mode',v_mode,\n    'external_write',false\n  );\nend;\n$function$\n"
+    },
+    {
+      "proname": "sc_creative_render_preflight_v1",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_creative_render_preflight_v1(p_run_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare\n  c jsonb;\n  s jsonb;\n  errs jsonb='[]'::jsonb;\n  idx int:=0;\n  tpl text;\n  tc int; tl int; bc int; bl int; eyebrow_max int;\n  title_lines int; body_lines int;\nbegin\n  c:=public.sc_creative_compile_carousel_v1(p_run_id);\n  if coalesce((c->>'ok')::boolean,false) is not true then\n    return jsonb_build_object('ok',false,'errors',jsonb_build_array('COMPILE_FAILED'));\n  end if;\n\n  for s in select value from jsonb_array_elements(c#>'{content_plan,slides}')\n  loop\n    idx:=idx+1;\n    tpl:=s->>'template';\n    if tpl='hero_question' then tc:=20;tl:=2;bc:=32;bl:=2;eyebrow_max:=16;\n    elsif tpl='dialogue_answer' then tc:=20;tl:=2;bc:=31;bl:=3;eyebrow_max:=18;\n    elsif tpl='editorial_fact' then tc:=22;tl:=2;bc:=34;bl:=3;eyebrow_max:=20;\n    elsif tpl='compare_clean' then tc:=22;tl:=2;bc:=27;bl:=4;eyebrow_max:=20;\n    elsif tpl='brand_close' then tc:=21;tl:=2;bc:=32;bl:=2;eyebrow_max:=40;\n    else\n      errs:=errs||jsonb_build_array('UNKNOWN_TEMPLATE:'||coalesce(tpl,''));\n      continue;\n    end if;\n\n    if tpl='compare_clean' and (array_length(string_to_array(coalesce(s->>'body',''),'|'),1)<>2 or btrim(split_part(coalesce(s->>'body',''),'|',1))='' or btrim(split_part(coalesce(s->>'body',''),'|',2))='') then\n      errs:=errs||jsonb_build_array('COMPARE_REQUIRES_TWO_OPTIONS:'||idx);\n    end if;\n    title_lines:=public.sc_wrap_line_count_v1(s->>'title',tc);\n    body_lines:=public.sc_wrap_line_count_v1(s->>'body',bc);\n    if title_lines>tl then errs:=errs||jsonb_build_array('TITLE_WRAP_OVERFLOW:'||idx); end if;\n    if body_lines>bl then errs:=errs||jsonb_build_array('BODY_WRAP_OVERFLOW:'||idx); end if;\n    if char_length(coalesce(s->>'eyebrow',''))>eyebrow_max then\n      errs:=errs||jsonb_build_array('EYEBROW_OVERFLOW_RISK:'||idx);\n    end if;\n  end loop;\n  return jsonb_build_object('ok',jsonb_array_length(errs)=0,'errors',errs,'renderer_layout_version','2.3.4');\nend;\n$function$\n"
+    },
+    {
+      "proname": "sc_feed_daily_budget_v1",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_feed_daily_budget_v1(p_exclude_job uuid DEFAULT NULL::uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\ndeclare cap_text text; cap int; used int; reserved int;\nbegin\n select config#>>'{publishing_policy,max_feed_posts_per_day}' into cap_text from public.sc_agent_config where id='solar_connects_v1';\n if cap_text is null or cap_text !~ '^[0-9]{1,3}$' then\n  return jsonb_build_object('allowed',false,'reason','DAILY_CAP_CONFIG_INVALID');\n end if;\n cap:=cap_text::int;\n select count(distinct instagram_media_id) into used from public.sc_content_posts\n where format in ('image','single_image','carousel','reel') and instagram_media_id is not null\n and timezone('America/Argentina/Buenos_Aires',published_at)::date=timezone('America/Argentina/Buenos_Aires',now())::date;\n select count(*) into reserved from public.sc_publish_guard g join public.sc_content_jobs j on j.id=g.job_id\n where j.format in ('image','single_image','carousel','reel') and g.state in ('PUBLISHING','RECONCILE_REQUIRED')\n and (p_exclude_job is null or g.job_id<>p_exclude_job)\n and not exists(select 1 from public.sc_content_posts p where p.job_id=g.job_id);\n return jsonb_build_object('allowed',cap>0 and used+reserved<cap,'reason',case when cap>0 and used+reserved<cap then 'ALLOWED' else 'DAILY_FEED_CAP_REACHED' end,\n 'limit',cap,'published',used,'reserved',reserved,'source','sc_agent_config.publishing_policy.max_feed_posts_per_day','timezone','America/Argentina/Buenos_Aires');\nend $function$\n"
+    },
+    {
+      "proname": "sc_observability_realtime_notify",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_observability_realtime_notify()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO ''\nAS $function$\nbegin\n  perform realtime.send(\n    jsonb_build_object(\n      'table', TG_TABLE_NAME,\n      'op', TG_OP,\n      'occurred_at', statement_timestamp()\n    ),\n    'invalidate',\n    'solar-connects-observability-v3',\n    false\n  );\n  return coalesce(NEW, OLD);\nexception when others then\n  return coalesce(NEW, OLD);\nend;\n$function$\n"
+    },
+    {
+      "proname": "sc_quality_factory_adapter_v2",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_quality_factory_adapter_v2(p_factory jsonb, p_opt_in jsonb DEFAULT '{}'::jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SET search_path TO 'public', 'pg_catalog'\nAS $function$\ndeclare fmt text:=p_factory->>'format'; pages jsonb:=p_factory#>'{quality_v2,pages}'; jid uuid; ledger jsonb; reqhash text; key text; existing jsonb; runid uuid; claim_ids jsonb;\nbegin\n if coalesce(p_opt_in->>'enabled','false')<>'true' or not (coalesce(p_opt_in->'formats','[]') ? coalesce(fmt,'')) then\n  return jsonb_build_object('ok',true,'route','V1','factory_output',p_factory,'default_unchanged',true,'production_authorization',false);\n end if;\n if p_opt_in->>'mode' is distinct from 'SHADOW' then return jsonb_build_object('ok',false,'reason','SHADOW_ONLY'); end if;\n if fmt not in ('image','carousel','story','reel') or jsonb_typeof(pages) is distinct from 'array' or jsonb_array_length(pages)<>(case when fmt='carousel' then 5 when fmt='reel' then 3 else 1 end) then return jsonb_build_object('ok',false,'reason','FORMAT_SEQUENCE_INVALID'); end if;\n if length(coalesce(p_factory->>'topic',''))<8 or length(coalesce(p_factory->>'caption',''))<8 then return jsonb_build_object('ok',false,'reason','TOPIC_CAPTION_REQUIRED'); end if;\n if exists(select 1 from jsonb_array_elements(pages) p where p->>'format' is distinct from fmt or coalesce(p->>'argument_key','')='' or coalesce(p->>'decision_key','')='' or coalesce(p->>'angle_key','')='' or coalesce(p->>'hook_family','')='' or coalesce(p->>'layout','')='' or jsonb_typeof(p->'fact_ids') is distinct from 'array') then return jsonb_build_object('ok',false,'reason','PAGE_IDENTITY_REQUIRED'); end if;\n if exists(select 1 from jsonb_array_elements(pages)p cross join lateral jsonb_array_elements_text(p->'fact_ids') fid where not exists(select 1 from sc_fact_bank f where f.fact_id=fid and f.status='APPROVED')) then return jsonb_build_object('ok',false,'reason','UNAPPROVED_FACT'); end if;\n if p_factory ? 'creative_run_id' then\n  runid:=(p_factory->>'creative_run_id')::uuid;\n  if not exists(select 1 from sc_creative_runs where id=runid and status='APPROVED') then return jsonb_build_object('ok',false,'reason','FACTORY_RUN_NOT_APPROVED'); end if;\n end if;\n key:=p_factory->>'idempotency_key';\n if key is null or key !~ '^quality-v2-shadow:[a-zA-Z0-9_-]{8,100}$' then return jsonb_build_object('ok',false,'reason','SHADOW_KEY_REQUIRED'); end if;\n reqhash:=encode(extensions.digest(p_factory::text,'sha256'),'hex');\n perform pg_advisory_xact_lock(hashtext(key));\n select details into existing from sc_system_health where component='solar_quality_v2_key_'||key;\n if existing is not null then\n  if existing->>'request_sha256' is distinct from reqhash then return jsonb_build_object('ok',false,'reason','IDEMPOTENCY_CONFLICT'); end if;\n  return existing||jsonb_build_object('idempotent',true);\n end if;\n select coalesce(jsonb_agg(jsonb_build_object('claim_id',f.fact_id,'claim',f.claim,'scope',f.scope,'source_url',f.source_url,'fact_status',f.status)), '[]'::jsonb) into ledger\n from sc_fact_bank f where f.fact_id in(select distinct fid from jsonb_array_elements(pages)p cross join lateral jsonb_array_elements_text(p->'fact_ids')fid);\n select coalesce(jsonb_agg(x->>'claim_id'),'[]'::jsonb) into claim_ids from jsonb_array_elements(ledger)x;\n insert into sc_content_jobs(status,trigger_text,topic,format,content_plan,qa)\n values('QUALITY_V2_SHADOW_RENDERING','quality-v2-opt-in-shadow-factory',p_factory->>'topic',fmt,\n jsonb_build_object('slides',pages,'caption',p_factory->>'caption','quality_v2',p_factory->'quality_v2','materialization_mode','SHADOW','idempotency_key',key),\n jsonb_build_object('shadow',true,'quality_v2_opt_in',true,'production_candidate',false,'do_not_publish',true,'publish_blocked',true,'release_gate','HOLD','quality_v2_phase','PREFLIGHT_PENDING','renderer_version','solar-quality-v2.0.0','claims_ledger',ledger,'tags',jsonb_build_object('topic',p_factory->>'topic','angle',pages->0->>'angle_key','claim_id',claim_ids,'hook_type',pages->0->>'hook_family','layout_id',pages->0->>'layout'))) returning id into jid;\n existing:=jsonb_build_object('ok',true,'route','QUALITY_V2_SHADOW','job_id',jid,'request_sha256',reqhash,'mode','SHADOW','external_write',false,'production_authorization',false);\n insert into sc_system_health(component,version,status,details) values('solar_quality_v2_key_'||key,'2.0-shadow.2','ADAPTED',existing);\n insert into sc_system_health(component,version,status,details) values('solar_quality_v2_job_'||jid,'2.0-shadow.2','ADAPTED',jsonb_build_object('job_id',jid,'factory_output',p_factory,'request_sha256',reqhash,'claims_ledger',ledger,'mode','SHADOW','production_authorization',false));\n return existing;\nend; $function$\n"
+    },
+    {
+      "proname": "sc_quality_factory_from_run_v2",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_quality_factory_from_run_v2(p_run_id uuid, p_quality jsonb, p_opt_in jsonb DEFAULT '{}'::jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SET search_path TO 'public', 'pg_catalog'\nAS $function$\ndeclare c jsonb; factory jsonb; pages jsonb; s jsonb; outpages jsonb:='[]'; idx int:=0;\nbegin\n c:=sc_creative_compile_carousel_v1(p_run_id);\n if c->>'ok' is distinct from 'true' then return c; end if;\n if coalesce(p_opt_in->>'enabled','false')<>'true' or not (coalesce(p_opt_in->'formats','[]') ? (c->>'format')) then\n  return jsonb_build_object('ok',true,'route','V1','legacy_entrypoint','sc_creative_materialize_job_v1','compiled',c,'mode','READ_ONLY','production_changed',false);\n end if;\n if p_opt_in->>'mode' is distinct from 'SHADOW' or jsonb_typeof(p_quality->'pages') is distinct from 'array' or jsonb_array_length(p_quality->'pages')<>jsonb_array_length(c#>'{content_plan,slides}') then return jsonb_build_object('ok',false,'reason','QUALITY_SHADOW_SEQUENCE_REQUIRED'); end if;\n for s in select value from jsonb_array_elements(c#>'{content_plan,slides}')loop\n  outpages:=outpages||jsonb_build_array((p_quality->'pages'->idx)||jsonb_build_object('format',c->>'format','title',s->>'title','body',s->>'body','cta',s->>'cta','eyebrow',s->>'eyebrow','fact_ids',s->'fact_ids'));\n  idx:=idx+1;\n end loop;\n factory:=jsonb_build_object('format',c->>'format','topic',c->>'topic','caption',c#>>'{content_plan,caption}','creative_run_id',p_run_id,'quality_v2',(p_quality-'pages')||jsonb_build_object('pages',outpages),'idempotency_key','quality-v2-shadow:factory_run_'||replace(p_run_id::text,'-',''),'source','EXISTING_FACTORY_COMPILER');\n return sc_quality_factory_adapter_v2(factory,p_opt_in);\nend; $function$\n"
+    },
+    {
+      "proname": "sc_quality_factory_hook_v2",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_quality_factory_hook_v2(p_run_id uuid, p_slot integer DEFAULT NULL::integer)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE\n SET search_path TO 'public', 'pg_catalog'\nAS $function$\ndeclare c jsonb;policy jsonb;slot int;localhour int;route jsonb;\nbegin\n select details into policy from sc_system_health where component='solar_quality_v2_production_flags';\n if coalesce(policy->>'enabled','false')<>'true' or not exists(select 1 from jsonb_each(coalesce(policy->'formats','{}'))f where f.value->>'kill_switch'='false') then return jsonb_build_object('ok',true,'route','V1','reason','ROLLOUT_DISABLED','legacy_entrypoint','sc_creative_materialize_job_v1');end if;\n slot:=p_slot;\n if slot is null then select (details->>'slot')::int into slot from sc_system_health where component='solar_quality_v2_prod_run_'||p_run_id;end if;\n if slot is null then select (trigger->>'quality_slot')::int into slot from sc_creative_runs where id=p_run_id and trigger->>'quality_slot' ~ '^[1-3]$';end if;\n if slot is null then\n localhour:=extract(hour from timezone('America/Argentina/Buenos_Aires',now()));\n slot:=case when localhour<14 then 1 when localhour<19 then 2 else 3 end;\n end if;\n c:=sc_creative_compile_carousel_v1(p_run_id);\n if c->>'ok' is distinct from 'true' then return jsonb_build_object('ok',true,'route','PENDING_APPROVED_RUN','slot',slot,'default','V1','quality_contract','solar_quality_v2_contract','first_format','image');end if;\n route:=sc_quality_rollout_route_v2(c->>'format',slot);\n return route||jsonb_build_object('entrypoint','sc_quality_factory_production_v2','quality_contract','solar_quality_v2_contract','runtime_mode','SHADOW_UNTIL_CANONICAL_PACKAGE','failure_dispatch','sc_quality_factory_outcome_v2','same_job_fallback',true,'revision_limit',1,'publisher_write',false);\nend $function$\n"
+    },
+    {
+      "proname": "sc_quality_factory_production_v2",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_quality_factory_production_v2(p_run_id uuid, p_quality jsonb, p_slot integer, p_execute boolean DEFAULT false)\n RETURNS jsonb\n LANGUAGE plpgsql\n SET search_path TO 'public', 'pg_catalog'\nAS $function$\ndeclare c jsonb; route jsonb; d jsonb; r jsonb; jid uuid; req text; old jsonb; firstslot jsonb;\nbegin\n c:=sc_creative_compile_carousel_v1(p_run_id);if c->>'ok' is distinct from 'true' then return c;end if;\n select details into d from sc_system_health where component='solar_quality_v2_production_flags' for share;\n route:=sc_quality_rollout_decide_v2(coalesce(d,'{}'),c->>'format',p_slot);\n if route->>'ok' is distinct from 'true' then return route;end if;\n if route->>'route'='V1' or p_execute is not true then return route||jsonb_build_object('compiled',c,'legacy_entrypoint','sc_creative_materialize_job_v1','mode','READ_ONLY','external_write',false);end if;\n if sc_security_operation_gate_v1('FACTORY')->>'allowed' is distinct from 'true' then return jsonb_build_object('ok',false,'reason','FACTORY_GATE');end if;\n if c->>'format'<>'story' and sc_feed_daily_budget_v1()->>'allowed' is distinct from 'true' then return jsonb_build_object('ok',false,'reason','BUDGET_HOLD_BEFORE_RENDER');end if;\n req:=encode(extensions.digest(jsonb_build_object('run',p_run_id,'quality',p_quality,'slot',p_slot)::text,'sha256'),'hex');\n perform pg_advisory_xact_lock(hashtext('quality-prod-run:'||p_run_id::text));\n select details into old from sc_system_health where component='solar_quality_v2_prod_run_'||p_run_id;\n if old is not null then\n if old->>'request_sha256' is distinct from req then return jsonb_build_object('ok',false,'reason','IDEMPOTENCY_CONFLICT');end if;\n return old||jsonb_build_object('idempotent',true);\n end if;\n if exists(select 1 from sc_content_jobs j where j.content_plan->>'creative_run_id'=p_run_id::text or j.qa->>'creative_run_id'=p_run_id::text) or exists(select 1 from sc_system_health where details#>>'{factory_output,creative_run_id}'=p_run_id::text) then return jsonb_build_object('ok',false,'reason','EXISTING_RUN_NOT_PROMOTABLE');end if;\n select details into firstslot from sc_system_health where component='solar_quality_v2_first_slot' for update;\n if firstslot->>'enabled'='true' then\n if c->>'format'<>'image' or p_slot<>1 or (firstslot->>'run_id' is not null and firstslot->>'run_id'<>p_run_id::text) or firstslot->>'state' not in ('ARMED','DRAFT') then return jsonb_build_object('ok',false,'reason','FIRST_SLOT_ALREADY_BOUND_OR_INELIGIBLE');end if;\n end if;\n r:=sc_quality_factory_from_run_v2(p_run_id,p_quality,jsonb_build_object('enabled',true,'mode','SHADOW','formats',jsonb_build_array(c->>'format')));\n if r->>'ok' is distinct from 'true' then return r;end if;\n jid:=(r->>'job_id')::uuid;\n if firstslot->>'enabled'='true' then update sc_system_health set details=details||jsonb_build_object('run_id',p_run_id,'job_id',jid,'state','DRAFT'),status='DRAFT',checked_at=now() where component='solar_quality_v2_first_slot';end if;\n update sc_content_jobs set qa=qa||jsonb_build_object('creative_run_id',p_run_id,'quality_v2_production_draft',true),updated_at=now() where id=jid;\n d:=jsonb_build_object('ok',true,'job_id',jid,'creative_run_id',p_run_id,'slot',p_slot,'format',c->>'format','policy_epoch',route->'policy_epoch','request_sha256',req,'original_compiled',c,'state','V2_DRAFT_BLOCKED','external_write',false);\n insert into sc_system_health(component,version,status,details) values('solar_quality_v2_prod_run_'||p_run_id,'2.0-prod-prep.1','DRAFT_BLOCKED',d);\n insert into sc_system_health(component,version,status,details) values('solar_quality_v2_prod_job_'||jid,'2.0-prod-prep.1','DRAFT_BLOCKED',d);\n return d;\nend $function$\n"
+    },
+    {
+      "proname": "sc_quality_rollout_decide_v2",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_quality_rollout_decide_v2(p_policy jsonb, p_format text, p_slot integer)\n RETURNS jsonb\n LANGUAGE plpgsql\n IMMUTABLE\n SET search_path TO 'public', 'pg_catalog'\nAS $function$\ndeclare n int; why text;\nbegin\n if p_format is null or p_slot is null or p_format not in ('image','story','carousel','reel') or p_slot not between 1 and 3 then return jsonb_build_object('ok',false,'reason','FORMAT_OR_SLOT_INVALID'); end if;\n if p_policy->>'enabled' is distinct from 'true' then why:='ROLLOUT_DISABLED';\n elsif p_policy#>>array['formats',p_format,'kill_switch'] is distinct from 'false' then why:='FORMAT_KILL_SWITCH';\n elsif p_policy->>'comparison_gate' is distinct from 'PASS' then why:='COMPARISON_GATE_REQUIRED';\n elsif p_policy->>'stage' not in ('1','2','3') then why:='STAGE_INVALID';\n else n:=(p_policy->>'stage')::int; if p_slot>n then why:='V1_SLOT'; end if;\n end if;\n return jsonb_build_object('ok',true,'route',case when why is null then 'V2' else 'V1' end,'reason',coalesce(why,'V2_SLOT'),'slot',p_slot,'format',p_format,'stage',p_policy->>'stage','policy_epoch',p_policy->>'epoch','publisher_write',false);\nend $function$\n"
+    },
+    {
+      "proname": "sc_quality_rollout_route_v2",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_quality_rollout_route_v2(p_format text, p_slot integer)\n RETURNS jsonb\n LANGUAGE sql\n STABLE\n SET search_path TO 'public', 'pg_catalog'\nAS $function$\nselect sc_quality_rollout_decide_v2(coalesce((select details from sc_system_health where component='solar_quality_v2_production_flags'),'{}'),p_format,p_slot)\n$function$\n"
+    },
+    {
+      "proname": "sc_record_security_mutation_v1",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_record_security_mutation_v1(p_target text, p_mutation_type text, p_old_state jsonb, p_new_state jsonb, p_actor_class text, p_reason text DEFAULT NULL::text, p_correlation_id text DEFAULT NULL::text, p_metadata jsonb DEFAULT '{}'::jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public', 'sc_internal', 'extensions'\nAS $function$\ndeclare\n  v_actor text:=upper(trim(coalesce(p_actor_class,'')));\n  v_old_hash text;\n  v_new_hash text;\n  v_safe_metadata jsonb;\n  v_id bigint;\nbegin\n  if v_actor not in ('USER_EXPLICIT','AUTHORIZED_CONTROL_PLANE','SAFETY_KILL_SWITCH','SYSTEM_AUDIT') then\n    return jsonb_build_object('ok',false,'reason','ACTOR_CLASS_NOT_ALLOWED');\n  end if;\n\n  if nullif(trim(coalesce(p_target,'')),'') is null\n     or nullif(trim(coalesce(p_mutation_type,'')),'') is null then\n    return jsonb_build_object('ok',false,'reason','TARGET_AND_MUTATION_REQUIRED');\n  end if;\n\n  v_old_hash:=case when p_old_state is null then null else public.sc_security_hash_v1(p_old_state) end;\n  v_new_hash:=case when p_new_state is null then null else public.sc_security_hash_v1(p_new_state) end;\n\n  v_safe_metadata:=coalesce(p_metadata,'{}'::jsonb)\n    - 'token' - 'access_token' - 'refresh_token' - 'authorization'\n    - 'secret' - 'password' - 'service_role_key' - 'api_key';\n\n  insert into sc_internal.security_mutation_audit(\n    target,mutation_type,old_state_hash,new_state_hash,actor_class,reason,correlation_id,metadata\n  ) values (\n    left(p_target,200),left(p_mutation_type,100),v_old_hash,v_new_hash,v_actor,\n    left(coalesce(p_reason,''),500),nullif(left(coalesce(p_correlation_id,''),200),''),\n    v_safe_metadata\n  )\n  returning id into v_id;\n\n  return jsonb_build_object(\n    'ok',true,\n    'audit_id',v_id,\n    'old_state_hash',v_old_hash,\n    'new_state_hash',v_new_hash,\n    'secrets_stored',false\n  );\nexception when unique_violation then\n  return jsonb_build_object('ok',true,'idempotent_replay',true,'secrets_stored',false);\nend;\n$function$\n"
+    },
+    {
+      "proname": "sc_security_hash_v1",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_security_hash_v1(p_value jsonb)\n RETURNS text\n LANGUAGE sql\n IMMUTABLE\n SET search_path TO 'pg_catalog', 'public', 'extensions'\nAS $function$\n  select encode(extensions.digest(convert_to(coalesce(p_value,'null'::jsonb)::text,'UTF8'),'sha256'),'hex')\n$function$\n"
+    },
+    {
+      "proname": "sc_security_operation_gate_v1",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_security_operation_gate_v1(p_operation text)\n RETURNS jsonb\n LANGUAGE sql\n STABLE\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\nwith cfg as (\n  select config #> '{security_control_plane_v1,kill_switches}' ks\n  from public.sc_agent_config\n  where id='solar_connects_v1'\n),\nop as (\n  select upper(trim(coalesce(p_operation,''))) operation,\n         coalesce(ks,'{}'::jsonb) ks\n  from cfg\n)\nselect jsonb_build_object(\n  'operation',operation,\n  'allowed',\n    case operation\n      when 'READ_OBSERVATION' then true\n      when 'EXTERNAL_WRITE' then coalesce((ks #>> '{external_write,allow}')::boolean,false)\n      when 'FACTORY' then coalesce((ks #>> '{factory,allow}')::boolean,false)\n      when 'PUBLISHER' then coalesce((ks #>> '{publisher,allow}')::boolean,false)\n      when 'META_DIRECT' then coalesce((ks #>> '{meta_direct,allow}')::boolean,false)\n      when 'LEARNING_MUTATION' then coalesce((ks #>> '{learning_mutation,allow}')::boolean,false)\n      else false\n    end,\n  'fail_closed',true,\n  'source','sc_agent_config.security_control_plane_v1.kill_switches'\n)\nfrom op\nunion all\nselect jsonb_build_object(\n  'operation',upper(trim(coalesce(p_operation,''))),\n  'allowed',upper(trim(coalesce(p_operation,'')))='READ_OBSERVATION',\n  'fail_closed',true,\n  'source','MISSING_CONFIG_DEFAULT'\n)\nwhere not exists(select 1 from cfg)\nlimit 1\n$function$\n"
+    },
+    {
+      "proname": "sc_v5_command_claim_v1",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_v5_command_claim_v1(p_command_id uuid, p_actor_user_id uuid, p_idempotency_key text, p_command_type text, p_target jsonb, p_payload jsonb, p_confirmation_intent text, p_mode text, p_correlation_id uuid DEFAULT NULL::uuid, p_lease_seconds integer DEFAULT 90)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public', 'sc_internal', 'extensions'\nAS $function$\ndeclare\n  v_now timestamptz := clock_timestamp();\n  v_lease_seconds integer := greatest(15, least(coalesce(p_lease_seconds,90),300));\n  v_key text := trim(coalesce(p_idempotency_key,''));\n  v_type text := trim(coalesce(p_command_type,''));\n  v_mode text := upper(trim(coalesce(p_mode,'')));\n  v_intent text := trim(coalesce(p_confirmation_intent,''));\n  v_target jsonb := coalesce(p_target,'{}'::jsonb);\n  v_payload jsonb := coalesce(p_payload,'{}'::jsonb);\n  v_hash text;\n  v_corr uuid := coalesce(p_correlation_id, extensions.gen_random_uuid());\n  v_token uuid;\n  v_row sc_internal.v5_commands%rowtype;\n  v_inserted boolean := false;\n  v_reclaimed boolean := false;\n  v_audit jsonb;\nbegin\n  if p_command_id is null or p_actor_user_id is null then\n    return jsonb_build_object('ok',false,'state','INVALID','reason','COMMAND_AND_ACTOR_REQUIRED');\n  end if;\n  if char_length(v_key) < 8 or char_length(v_key) > 200 then\n    return jsonb_build_object('ok',false,'state','INVALID','reason','IDEMPOTENCY_KEY_INVALID');\n  end if;\n  if v_type not in ('factory.start','publisher.publish','recovery.run','learning.rebuild') then\n    return jsonb_build_object('ok',false,'state','DENIED','reason','ACTION_NOT_ALLOWED');\n  end if;\n  if v_mode not in ('SIMULATE','EXECUTE') then\n    return jsonb_build_object('ok',false,'state','INVALID','reason','MODE_INVALID');\n  end if;\n  if char_length(v_intent) < 3 or char_length(v_intent) > 100 then\n    return jsonb_build_object('ok',false,'state','INVALID','reason','CONFIRMATION_INTENT_INVALID');\n  end if;\n\n  v_hash := public.sc_v5_command_request_hash_v1(v_type,v_target,v_payload,v_intent,v_mode);\n\n  insert into sc_internal.v5_commands(\n    command_id,actor_user_id,idempotency_key,request_hash,command_type,mode,\n    target,payload,confirmation_intent,status,correlation_id,created_at,updated_at\n  ) values (\n    p_command_id,p_actor_user_id,v_key,v_hash,v_type,v_mode,\n    v_target,v_payload,v_intent,'PENDING',v_corr,v_now,v_now\n  )\n  on conflict (actor_user_id,idempotency_key) do nothing\n  returning * into v_row;\n\n  if found then\n    v_inserted := true;\n  else\n    select * into v_row\n    from sc_internal.v5_commands\n    where actor_user_id=p_actor_user_id and idempotency_key=v_key\n    for update;\n\n    if not found then\n      return jsonb_build_object('ok',false,'state','ERROR','reason','CLAIM_ROW_MISSING_AFTER_CONFLICT');\n    end if;\n\n    if v_row.request_hash <> v_hash then\n      return jsonb_build_object(\n        'ok',false,'state','CONFLICT','reason','IDEMPOTENCY_KEY_REQUEST_MISMATCH',\n        'command_id',v_row.command_id,'request_hash',v_row.request_hash,\n        'correlation_id',v_row.correlation_id\n      );\n    end if;\n\n    if v_row.status in ('SUCCEEDED','FAILED','ROLLED_BACK') then\n      return jsonb_build_object(\n        'ok',true,'state','DUPLICATE_TERMINAL','reason','IDEMPOTENT_REPLAY',\n        'command_id',v_row.command_id,'request_hash',v_row.request_hash,\n        'status',v_row.status,'result',v_row.result,'error',v_row.error,\n        'correlation_id',v_row.correlation_id,'executed',false\n      );\n    end if;\n\n    if v_row.status in ('CLAIMED','EXECUTING') and v_row.claim_expires_at is not null and v_row.claim_expires_at > v_now then\n      return jsonb_build_object(\n        'ok',true,'state','IN_PROGRESS','reason','LEASE_ACTIVE',\n        'command_id',v_row.command_id,'request_hash',v_row.request_hash,\n        'status',v_row.status,'lease_version',v_row.lease_version,\n        'claim_expires_at',v_row.claim_expires_at,'correlation_id',v_row.correlation_id,\n        'executed',false\n      );\n    end if;\n\n    if v_row.status in ('CLAIMED','EXECUTING') then\n      v_reclaimed := true;\n    end if;\n  end if;\n\n  v_token := extensions.gen_random_uuid();\n\n  update sc_internal.v5_commands\n  set status='CLAIMED',\n      claimed_at=v_now,\n      claim_expires_at=v_now + make_interval(secs=>v_lease_seconds),\n      claim_token=v_token,\n      lease_version=lease_version+1,\n      updated_at=v_now\n  where id=v_row.id\n  returning * into v_row;\n\n  v_audit := public.sc_record_security_mutation_v1(\n    'v5_command:'||v_row.command_id::text,\n    case when v_reclaimed then 'COMMAND_RECLAIMED' else 'COMMAND_CLAIMED' end,\n    null,\n    jsonb_build_object('status','CLAIMED','lease_version',v_row.lease_version),\n    'USER_EXPLICIT',\n    case when v_reclaimed then 'expired lease safely reclaimed' else 'durable command claim' end,\n    v_row.correlation_id::text,\n    jsonb_build_object(\n      'command_id',v_row.command_id,'actor_user_id',v_row.actor_user_id,\n      'request_hash',v_row.request_hash,'mode',v_row.mode,'command_type',v_row.command_type,'test',false\n    )\n  );\n\n  return jsonb_build_object(\n    'ok',true,'state','CLAIMED',\n    'reason',case when v_reclaimed then 'LEASE_RECLAIMED' else 'CLAIM_ACQUIRED' end,\n    'command_id',v_row.command_id,'request_hash',v_row.request_hash,\n    'claim_token',v_row.claim_token,'lease_version',v_row.lease_version,\n    'claim_expires_at',v_row.claim_expires_at,'correlation_id',v_row.correlation_id,\n    'inserted',v_inserted,'reclaimed',v_reclaimed,'audit',v_audit,'executed',false\n  );\nexception when unique_violation then\n  return jsonb_build_object('ok',false,'state','CONFLICT','reason','COMMAND_ID_CONFLICT');\nend;\n$function$\n"
+    },
+    {
+      "proname": "sc_v5_command_complete_v1",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_v5_command_complete_v1(p_command_id uuid, p_claim_token uuid, p_success boolean, p_result jsonb DEFAULT NULL::jsonb, p_error jsonb DEFAULT NULL::jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'pg_catalog', 'public', 'sc_internal'\nAS $function$\ndeclare\n  v_now timestamptz := clock_timestamp();\n  v_row sc_internal.v5_commands%rowtype;\n  v_status text := case when coalesce(p_success,false) then 'SUCCEEDED' else 'FAILED' end;\n  v_audit jsonb;\nbegin\n  update sc_internal.v5_commands\n  set status=v_status,completed_at=v_now,\n      result=case when coalesce(p_success,false) then coalesce(p_result,'{}'::jsonb) else null end,\n      error=case when coalesce(p_success,false) then null else coalesce(p_error,'{}'::jsonb) end,\n      updated_at=v_now\n  where command_id=p_command_id and claim_token=p_claim_token and status='EXECUTING'\n  returning * into v_row;\n\n  if not found then\n    return jsonb_build_object('ok',false,'state','DENIED','reason','STALE_OR_INVALID_CLAIM_OWNER');\n  end if;\n\n  v_audit := public.sc_record_security_mutation_v1(\n    'v5_command:'||v_row.command_id::text,\n    case when v_status='SUCCEEDED' then 'COMMAND_SUCCEEDED' else 'COMMAND_FAILED' end,\n    jsonb_build_object('status','EXECUTING','lease_version',v_row.lease_version),\n    jsonb_build_object('status',v_status,'lease_version',v_row.lease_version),\n    'USER_EXPLICIT',\n    case when v_status='SUCCEEDED' then 'durable command completed' else 'durable command failed' end,\n    v_row.correlation_id::text,\n    jsonb_build_object(\n      'command_id',v_row.command_id,'actor_user_id',v_row.actor_user_id,\n      'request_hash',v_row.request_hash,'mode',v_row.mode,'command_type',v_row.command_type,'test',false\n    )\n  );\n\n  return jsonb_build_object(\n    'ok',true,'state',v_status,'command_id',v_row.command_id,\n    'request_hash',v_row.request_hash,'result',v_row.result,'error',v_row.error,\n    'correlation_id',v_row.correlation_id,'completed_at',v_row.completed_at,'audit',v_audit\n  );\nend;\n$function$\n"
+    },
+    {
+      "proname": "sc_v5_command_request_hash_v1",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_v5_command_request_hash_v1(p_command_type text, p_target jsonb, p_payload jsonb, p_confirmation_intent text, p_mode text)\n RETURNS text\n LANGUAGE sql\n IMMUTABLE\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\n  select public.sc_security_hash_v1(\n    jsonb_build_object(\n      'command_type', trim(coalesce(p_command_type,'')),\n      'target', coalesce(p_target,'{}'::jsonb),\n      'payload', coalesce(p_payload,'{}'::jsonb),\n      'confirmation_intent', trim(coalesce(p_confirmation_intent,'')),\n      'mode', upper(trim(coalesce(p_mode,'')))\n    )\n  )\n$function$\n"
+    },
+    {
+      "proname": "sc_wrap_line_count_v1",
+      "def": "CREATE OR REPLACE FUNCTION public.sc_wrap_line_count_v1(p_text text, p_max_chars integer)\n RETURNS integer\n LANGUAGE plpgsql\n IMMUTABLE\n SET search_path TO 'pg_catalog', 'public'\nAS $function$\ndeclare\n  w text;\n  line text:='';\n  n int:=0;\n  candidate text;\nbegin\n  if trim(coalesce(p_text,''))='' then return 0; end if;\n  for w in select regexp_split_to_table(trim(regexp_replace(coalesce(p_text,''),'\\s+',' ','g')),' ')\n  loop\n    candidate:=case when line='' then w else line||' '||w end;\n    if char_length(candidate)>p_max_chars and line<>'' then\n      n:=n+1;\n      line:=w;\n    else\n      line:=candidate;\n    end if;\n  end loop;\n  if line<>'' then n:=n+1; end if;\n  return n;\nend;\n$function$\n"
+    }
+  ],
+  "limitations": [
+    "No table data, users, sessions, secrets or credentials exported.",
+    "Realtime.send runtime and Supabase Auth runtime are not included; full staging is blocked."
+  ]
+}

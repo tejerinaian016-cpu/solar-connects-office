@@ -1,5 +1,7 @@
 # Factory isolation candidate — freeze preserved
 
+Update: [FACTORY-STAGING.md](FACTORY-STAGING.md) documents the narrowed trigger and real-contract SQL replay. Its current scope supersedes the broad insert-guard limitation below; full Supabase E2E remains blocked.
+
 ## Delivery boundary
 
 Based on `25812a51bad3e73b6fba4c2da439281a64cf93ca`, backed up remotely as `backup/factory-pre-isolation`. Work stays on `feat/factory-real-controlled`. No migration, Edge deployment, main update, live permit, gate update, production job, renderer, Guardian or publication was performed.

@@ -86,7 +86,7 @@
       "status": "PASS"
     },
     {
-      "name": "unbound legacy insert denied",
+      "name": "unreserved legacy insert remains allowed",
       "status": "PASS"
     },
     {

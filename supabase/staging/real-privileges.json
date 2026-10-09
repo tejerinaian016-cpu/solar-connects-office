@@ -1,0 +1,205 @@
+{
+  "roles": [
+    {
+      "name": "authenticated",
+      "inherit": true,
+      "bypassrls": false,
+      "superuser": false
+    },
+    {
+      "name": "anon",
+      "inherit": true,
+      "bypassrls": false,
+      "superuser": false
+    },
+    {
+      "name": "service_role",
+      "inherit": true,
+      "bypassrls": true,
+      "superuser": false
+    },
+    {
+      "name": "authenticator",
+      "inherit": false,
+      "bypassrls": false,
+      "superuser": false
+    },
+    {
+      "name": "postgres",
+      "inherit": true,
+      "bypassrls": true,
+      "superuser": false
+    }
+  ],
+  "functions": [
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_creative_compile_carousel_v1",
+      "owner": "postgres",
+      "identity": "sc_creative_compile_carousel_v1(uuid)"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_creative_materialize_job_v1",
+      "owner": "postgres",
+      "identity": "sc_creative_materialize_job_v1(uuid,text)"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_creative_render_preflight_v1",
+      "owner": "postgres",
+      "identity": "sc_creative_render_preflight_v1(uuid)"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_feed_daily_budget_v1",
+      "owner": "postgres",
+      "identity": "sc_feed_daily_budget_v1(uuid)"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_observability_realtime_notify",
+      "owner": "postgres",
+      "identity": "sc_observability_realtime_notify()"
+    },
+    {
+      "acl": [
+        "=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_quality_factory_adapter_v2",
+      "owner": "postgres",
+      "identity": "sc_quality_factory_adapter_v2(jsonb,jsonb)"
+    },
+    {
+      "acl": [
+        "=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_quality_factory_from_run_v2",
+      "owner": "postgres",
+      "identity": "sc_quality_factory_from_run_v2(uuid,jsonb,jsonb)"
+    },
+    {
+      "acl": [
+        "=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_quality_factory_hook_v2",
+      "owner": "postgres",
+      "identity": "sc_quality_factory_hook_v2(uuid,integer)"
+    },
+    {
+      "acl": [
+        "=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_quality_factory_production_v2",
+      "owner": "postgres",
+      "identity": "sc_quality_factory_production_v2(uuid,jsonb,integer,boolean)"
+    },
+    {
+      "acl": [
+        "=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_quality_rollout_decide_v2",
+      "owner": "postgres",
+      "identity": "sc_quality_rollout_decide_v2(jsonb,text,integer)"
+    },
+    {
+      "acl": [
+        "=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_quality_rollout_route_v2",
+      "owner": "postgres",
+      "identity": "sc_quality_rollout_route_v2(text,integer)"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_record_security_mutation_v1",
+      "owner": "postgres",
+      "identity": "sc_record_security_mutation_v1(text,text,jsonb,jsonb,text,text,text,jsonb)"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_security_hash_v1",
+      "owner": "postgres",
+      "identity": "sc_security_hash_v1(jsonb)"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_security_operation_gate_v1",
+      "owner": "postgres",
+      "identity": "sc_security_operation_gate_v1(text)"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_v5_command_claim_v1",
+      "owner": "postgres",
+      "identity": "sc_v5_command_claim_v1(uuid,uuid,text,text,jsonb,jsonb,text,text,uuid,integer)"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_v5_command_complete_v1",
+      "owner": "postgres",
+      "identity": "sc_v5_command_complete_v1(uuid,uuid,boolean,jsonb,jsonb)"
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_v5_command_request_hash_v1",
+      "owner": "postgres",
+      "identity": "sc_v5_command_request_hash_v1(text,jsonb,jsonb,text,text)"
+    },
+    {
+      "acl": [
+        "=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "name": "sc_wrap_line_count_v1",
+      "owner": "postgres",
+      "identity": "sc_wrap_line_count_v1(text,integer)"
+    }
+  ]
+}

@@ -87,7 +87,7 @@ await reject('failure after insert rolls back job and permit',`update fixture se
 await reject('lease expires after insert rolls back',`update fixture set expire_after_insert=true`,/LEASE_INVALID/);
 await reject('second insert in same transaction rejected',`update fixture set second_insert=true`,/TRANSACTION_PERMIT_REQUIRED/);
 await reject('direct legacy insert has no transaction permit','',/TRANSACTION_PERMIT_REQUIRED/,`insert into sc_content_jobs(content_plan,qa) values('{"creative_run_id":"${run}"}','{}')`);
-await reject('unbound legacy insert denied','',/CREATIVE_RUN_REQUIRED/,`insert into sc_content_jobs(content_plan,qa) values('{}','{}')`);
+await reset();await db.query(`insert into sc_content_jobs(content_plan,qa) values('{}','{}')`);assert.deepEqual(await counts(),{jobs:1,consumed:0});report.push({name:'unreserved legacy insert remains allowed',status:'PASS'});
 await reset();
 const results=await Promise.all(Array.from({length:32},async()=>{
  if(!native)return db.query(call);

@@ -1,0 +1,78 @@
+{
+  "status": "PARTIAL_SQL_PASS_FULL_STAGING_BLOCKED",
+  "tests": [
+    {
+      "name": "Baseline: real SQL before isolation",
+      "status": "PASS",
+      "checks": [
+        "V1 SHADOW via service_role",
+        "Quality V2 SHADOW via existing SQL owner",
+        "late creative_run_id annotation",
+        "V1 production denied",
+        "Quality freeze read-only route",
+        "service/authenticated direct insert denied",
+        "unreserved owner DML",
+        "real append-only trigger"
+      ]
+    },
+    {
+      "name": "Regression: same real SQL after scoped isolation",
+      "status": "PASS",
+      "checks": [
+        "V1 SHADOW via service_role",
+        "Quality V2 SHADOW via existing SQL owner",
+        "late creative_run_id annotation",
+        "V1 production denied",
+        "Quality freeze read-only route",
+        "service/authenticated direct insert denied",
+        "unreserved owner DML",
+        "real append-only trigger"
+      ]
+    },
+    {
+      "name": "forged controlled marker rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "reserved run cannot bypass via real V1, real Quality V2 or direct insert",
+      "status": "PASS"
+    },
+    {
+      "name": "existing V5 claim and audit reused, no duplicate job on rejected bypass",
+      "status": "PASS"
+    },
+    {
+      "name": "real SHADOW materializer outer rollback leaves no job",
+      "status": "PASS"
+    },
+    {
+      "name": "real deny-by-default RLS and candidate private grants",
+      "status": "PASS"
+    },
+    {
+      "name": "reserved identity hidden in secondary qa field cannot bypass guard",
+      "status": "PASS"
+    },
+    {
+      "name": "16 independent connections: real Quality adapter cannot bypass reserved run",
+      "status": "PASS"
+    }
+  ],
+  "gates": {
+    "FACTORY": false,
+    "PUBLISHER": false,
+    "META_DIRECT": false,
+    "EXTERNAL_WRITE": false
+  },
+  "real_tables": 10,
+  "real_functions": 18,
+  "source": "read-only catalog export; synthetic test rows",
+  "not_validated": [
+    "real Supabase JWT/Auth",
+    "Edge/PostgREST bridge",
+    "Realtime delivery (original trigger catches absent realtime.send)",
+    "autonomous process end-to-end",
+    "production deployment"
+  ],
+  "production_writes": 0
+}
