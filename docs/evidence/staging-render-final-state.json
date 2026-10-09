@@ -1,0 +1,148 @@
+[
+  {
+    "observed_at": "2026-10-09 04:20:46.774472+00",
+    "gates": {
+      "FACTORY": {
+        "source": "sc_agent_config.security_control_plane_v1.kill_switches",
+        "allowed": false,
+        "operation": "FACTORY",
+        "fail_closed": true
+      },
+      "PUBLISHER": {
+        "source": "sc_agent_config.security_control_plane_v1.kill_switches",
+        "allowed": false,
+        "operation": "PUBLISHER",
+        "fail_closed": true
+      },
+      "META_DIRECT": {
+        "source": "sc_agent_config.security_control_plane_v1.kill_switches",
+        "allowed": false,
+        "operation": "META_DIRECT",
+        "fail_closed": true
+      },
+      "EXTERNAL_WRITE": {
+        "source": "sc_agent_config.security_control_plane_v1.kill_switches",
+        "allowed": false,
+        "operation": "EXTERNAL_WRITE",
+        "fail_closed": true
+      }
+    },
+    "quality": [
+      {
+        "status": "STAGE1_FROZEN_OBSERVATION",
+        "details": {
+          "enabled": true,
+          "formats": {
+            "reel": {
+              "kill_switch": true
+            },
+            "image": {
+              "kill_switch": true
+            },
+            "story": {
+              "kill_switch": true
+            },
+            "carousel": {
+              "kill_switch": true
+            }
+          }
+        },
+        "component": "solar_quality_v2_production_flags"
+      },
+      {
+        "status": "CONFIRMED_FROZEN",
+        "details": {
+          "state": "CONFIRMED_FROZEN",
+          "enabled": true
+        },
+        "component": "solar_quality_v2_first_slot"
+      }
+    ],
+    "jobs": 1,
+    "posts": 0,
+    "commands": 1,
+    "retained_jobs": [
+      {
+        "id": "85beaf87-34d1-4684-b5ed-519c955e6637",
+        "qa": {
+          "tags": {
+            "angle": "test",
+            "topic": "STAGING SYNTHETIC ONLY",
+            "claim_id": [],
+            "hook_type": "test",
+            "layout_id": "test"
+          },
+          "shadow": true,
+          "release_gate": "HOLD",
+          "claims_ledger": [],
+          "do_not_publish": true,
+          "creative_run_id": "297cb9f7-6dcf-478c-bb79-902b4feaf801",
+          "publish_blocked": true,
+          "quality_v2_phase": "PREFLIGHT_PENDING",
+          "renderer_version": "solar-quality-v2.0.0",
+          "quality_v2_opt_in": true,
+          "factory_command_id": "aea519fc-8b80-4880-b764-6af753623a22",
+          "factory_plan_sha256": "fec56de5b64e368ae10152ce7d3565f01182dca7b81c71b8ef9647f21c406c44",
+          "production_candidate": false,
+          "quality_v2_production_draft": true
+        },
+        "status": "QUALITY_V2_SHADOW_RENDERING",
+        "asset_urls": []
+      }
+    ],
+    "storage_objects": [
+      {
+        "name": "fonts/Roboto-Bold.ttf",
+        "metadata": {
+          "eTag": "\"a68db3b33213fa138e6f72a5b76ac632\"",
+          "size": 514260,
+          "mimetype": "font/ttf",
+          "cacheControl": "max-age=3600",
+          "lastModified": "2026-10-09T04:12:23.000Z",
+          "contentLength": 514260,
+          "httpStatusCode": 200
+        },
+        "bucket_id": "solar-connects-assets"
+      },
+      {
+        "name": "fonts/Roboto-Regular.ttf",
+        "metadata": {
+          "eTag": "\"8f793587dcf03f31c551c5b60d175fc2\"",
+          "size": 515100,
+          "mimetype": "font/ttf",
+          "cacheControl": "max-age=3600",
+          "lastModified": "2026-10-09T04:12:24.000Z",
+          "contentLength": 515100,
+          "httpStatusCode": 200
+        },
+        "bucket_id": "solar-connects-assets"
+      },
+      {
+        "name": "fonts/LICENSE",
+        "metadata": {
+          "eTag": "\"86d3f3a95c324c9479bd8986968f4327\"",
+          "size": 11357,
+          "mimetype": "text/plain",
+          "cacheControl": "max-age=3600",
+          "lastModified": "2026-10-09T04:12:25.000Z",
+          "contentLength": 11357,
+          "httpStatusCode": 200
+        },
+        "bucket_id": "solar-connects-assets"
+      },
+      {
+        "name": "quality-v2-shadow/renders/48ad3710e2ea30b7c19965cc9fc0411b7f9bec2feef48aeff9efb7b6bce8f49d/36a71852f13a204138e2ce605ed5a269283cdd72b4be8008f51708b3940f50de.jpg",
+        "metadata": {
+          "eTag": "\"70ffe737b2334d2476ab58b203b9a641\"",
+          "size": 124814,
+          "mimetype": "image/jpeg",
+          "cacheControl": "max-age=3600",
+          "lastModified": "2026-10-09T04:12:30.000Z",
+          "contentLength": 124814,
+          "httpStatusCode": 200
+        },
+        "bucket_id": "instagram-media"
+      }
+    ]
+  }
+]

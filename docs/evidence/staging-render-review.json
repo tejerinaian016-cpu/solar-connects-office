@@ -1,0 +1,57 @@
+{
+  "scope": "UNBOUND_DIAGNOSTIC",
+  "review_method": "assistant inspected actual 1080x1350 and 360px JPEGs",
+  "critique": {
+    "asset_sha256": "36a71852f13a204138e2ce605ed5a269283cdd72b4be8008f51708b3940f50de",
+    "plan_sha256": "48ad3710e2ea30b7c19965cc9fc0411b7f9bec2feef48aeff9efb7b6bce8f49d",
+    "scores": {
+      "hook": 3,
+      "clarity": 5,
+      "design": 4,
+      "readability": 5,
+      "naturalness": 4,
+      "value": 3,
+      "brand": 5,
+      "variety": 3
+    },
+    "evidence": {
+      "hook": "El título plantea una decisión, pero no ofrece un gancho específico del servicio.",
+      "clarity": "Título, cuerpo y CTA coinciden en solicitar alcance y condiciones antes de decidir.",
+      "design": "Alineación y jerarquía coherentes; queda mucho espacio vacío sin información adicional.",
+      "readability": "JPEG completo y preview de 360 píxeles legibles; ningún texto recortado.",
+      "naturalness": "Español rioplatense natural: revisá, pedí, consultá; sin promesas artificiales.",
+      "value": "Consejo genérico: no explica qué condiciones concretas debe revisar la persona.",
+      "brand": "Wordmark SOLAR CONNECTS una vez; Roboto y paleta oficial del motor verificados.",
+      "variety": "No hay corpus editorial aprobado para verificar novedad; evaluación conservadora."
+    },
+    "factuality_pass": true,
+    "scene_match": true,
+    "mobile_360_pass": true,
+    "semantic_novelty_pass": false,
+    "no_clipping": true,
+    "fixes": [
+      "Agregar condiciones concretas sustentadas por un claim aprobado y vinculado al plan."
+    ],
+    "expected_gain": 5
+  },
+  "evaluation": {
+    "scope": "UNBOUND_DIAGNOSTIC",
+    "assessment": {
+      "state": "REVISE_ONCE",
+      "score": 81,
+      "variety_penalty": 0,
+      "hard_fails": [
+        "FLOOR_value",
+        "SEMANTIC_REPEAT"
+      ],
+      "fixes": [
+        "Agregar condiciones concretas sustentadas por un claim aprobado y vinculado al plan."
+      ],
+      "revision_budget_remaining": 1,
+      "production_authorization": false,
+      "requires_existing_guardian": true
+    },
+    "job_mutations": 0,
+    "ready": false
+  }
+}

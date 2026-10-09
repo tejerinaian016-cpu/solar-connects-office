@@ -1,0 +1,8 @@
+{
+  "status": 410,
+  "body": {
+    "error": "DIAGNOSTIC_CLOSED",
+    "ready": false
+  },
+  "closed": true
+}

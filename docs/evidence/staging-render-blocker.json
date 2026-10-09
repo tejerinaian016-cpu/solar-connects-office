@@ -1,0 +1,17 @@
+{
+  "job_id": "85beaf87-34d1-4684-b5ed-519c955e6637",
+  "status": "QUALITY_V2_SHADOW_RENDERING",
+  "preflight": {
+    "ok": false,
+    "errors": [
+      "LAYOUT_FORMAT",
+      "THEME",
+      "HOOK_FAMILY",
+      "ADDED_VALUE_REQUIRED"
+    ],
+    "warnings": [],
+    "production_authorization": false
+  },
+  "claims": 0,
+  "mutations": 0
+}

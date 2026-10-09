@@ -1,0 +1,123 @@
+{
+  "ok": true,
+  "mode": "SHADOW",
+  "version": "solar-quality-v2.0.0",
+  "production_authorization": false,
+  "external_write": false,
+  "storage_write": true,
+  "path": "quality-v2-shadow/renders/48ad3710e2ea30b7c19965cc9fc0411b7f9bec2feef48aeff9efb7b6bce8f49d/36a71852f13a204138e2ce605ed5a269283cdd72b4be8008f51708b3940f50de.jpg",
+  "url": "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/renders/48ad3710e2ea30b7c19965cc9fc0411b7f9bec2feef48aeff9efb7b6bce8f49d/36a71852f13a204138e2ce605ed5a269283cdd72b4be8008f51708b3940f50de.jpg",
+  "sha256": "36a71852f13a204138e2ce605ed5a269283cdd72b4be8008f51708b3940f50de",
+  "plan_sha256": "48ad3710e2ea30b7c19965cc9fc0411b7f9bec2feef48aeff9efb7b6bce8f49d",
+  "width": 1080,
+  "height": 1350,
+  "mime": "image/jpeg",
+  "geometry": [
+    {
+      "kind": "text",
+      "text": "SOLAR CONNECTS",
+      "x": 124,
+      "y": 72,
+      "w": 280,
+      "h": 43,
+      "font_px": 32,
+      "weight": "bold"
+    },
+    {
+      "kind": "text",
+      "text": "TU PRÓXIMO PASO",
+      "x": 72,
+      "y": 176,
+      "w": 324,
+      "h": 48,
+      "font_px": 36,
+      "weight": "bold"
+    },
+    {
+      "kind": "text",
+      "text": "Antes de decidir,",
+      "x": 72,
+      "y": 248,
+      "w": 728,
+      "h": 127,
+      "font_px": 96,
+      "weight": "bold"
+    },
+    {
+      "kind": "text",
+      "text": "revisá el alcance",
+      "x": 72,
+      "y": 383,
+      "w": 727,
+      "h": 127,
+      "font_px": 96,
+      "weight": "bold"
+    },
+    {
+      "kind": "text",
+      "text": "Pedí una propuesta clara con las condiciones",
+      "x": 72,
+      "y": 554,
+      "w": 903,
+      "h": 59,
+      "font_px": 44,
+      "weight": "regular"
+    },
+    {
+      "kind": "text",
+      "text": "del servicio.",
+      "x": 72,
+      "y": 621,
+      "w": 236,
+      "h": 59,
+      "font_px": 44,
+      "weight": "regular"
+    },
+    {
+      "kind": "text",
+      "text": "Consultá los detalles",
+      "x": 72,
+      "y": 1218,
+      "w": 405,
+      "h": 56,
+      "font_px": 42,
+      "weight": "bold"
+    }
+  ],
+  "scenes": [],
+  "preflight": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "word_counts": {
+      "title": 6,
+      "body": 9,
+      "cta": 3
+    },
+    "editorial_signature": "scope_review|request_proposal|clear_conditions",
+    "variety_penalty": 0,
+    "requires_critic": true,
+    "production_authorization": false
+  },
+  "safe_area": {
+    "left": 72,
+    "right": 72,
+    "top": 72,
+    "bottom_inset": 72
+  },
+  "regular_font_sha256": "56a45233d29f11b4dfb86d248e921939d115778f87325e7ae8cc108383d6664d",
+  "elapsed_ms": 907,
+  "scope": "UNBOUND_DIAGNOSTIC",
+  "job_id": null,
+  "bytes": 124814,
+  "decoded_jpeg_dimensions": {
+    "height": 1350,
+    "width": 1080
+  },
+  "readback_sha256": "36a71852f13a204138e2ce605ed5a269283cdd72b4be8008f51708b3940f50de",
+  "retry_same_path": true,
+  "unauthorized_denied": true,
+  "job_override_denied": true,
+  "wrong_hash_denied": true,
+  "not_a_job_artifact": true
+}

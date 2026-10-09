@@ -1,0 +1,24 @@
+[
+  {
+    "nspname": "sc_internal",
+    "relname": "security_mutation_audit",
+    "relrowsecurity": false,
+    "owner": "postgres",
+    "anon_schema": false,
+    "authenticated_schema": false,
+    "anon_table": false,
+    "authenticated_table": false,
+    "service_table": false
+  },
+  {
+    "nspname": "sc_internal",
+    "relname": "v5_commands",
+    "relrowsecurity": false,
+    "owner": "postgres",
+    "anon_schema": false,
+    "authenticated_schema": false,
+    "anon_table": false,
+    "authenticated_table": false,
+    "service_table": false
+  }
+]
