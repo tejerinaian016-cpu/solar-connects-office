@@ -1,0 +1,42 @@
+[
+  {
+    "results": [
+      {
+        "test": "exact individual approval accepted",
+        "passed": true
+      },
+      {
+        "test": "second enabled authorization rejected",
+        "passed": true
+      },
+      {
+        "test": "legacy production denied by new admission",
+        "passed": true
+      },
+      {
+        "test": "SHADOW accepted; late production denied",
+        "passed": true
+      },
+      {
+        "test": "authorization immutable and undeletable",
+        "passed": true
+      },
+      {
+        "test": "approval cannot be reused for another identity",
+        "passed": true
+      },
+      {
+        "test": "completed authorization cannot rearm",
+        "passed": true
+      },
+      {
+        "test": "archived canary publication fence persists",
+        "passed": true
+      },
+      {
+        "test": "privileged routes and registry inaccessible",
+        "passed": true
+      }
+    ]
+  }
+]

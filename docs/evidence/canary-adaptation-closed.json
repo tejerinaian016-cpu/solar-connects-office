@@ -1,0 +1,59 @@
+[
+  {
+    "observed_at": "2026-10-10 17:53:45.033812+00",
+    "candidate_rows": 0,
+    "can_execute": false,
+    "can_progress": false,
+    "probe_open": false,
+    "gates": {
+      "FACTORY": false,
+      "PUBLISHER": false,
+      "META_DIRECT": false,
+      "EXTERNAL_WRITE": false
+    },
+    "jobs": 3,
+    "posts": 0,
+    "retained_jobs": [
+      {
+        "id": "85beaf87-34d1-4684-b5ed-519c955e6637",
+        "status": "QUALITY_V2_SHADOW_RENDERING",
+        "guardian": null
+      },
+      {
+        "id": "14c058a4-71b2-4979-8395-59565598a6e8",
+        "status": "READY",
+        "guardian": "PASS_SHADOW"
+      },
+      {
+        "id": "eb5f786a-61b7-4e7c-b8af-65c7e5039d2e",
+        "status": "READY",
+        "guardian": "PASS_SHADOW"
+      }
+    ],
+    "quality": [
+      {
+        "status": "STAGE1_FROZEN_OBSERVATION",
+        "formats": {
+          "reel": {
+            "kill_switch": true
+          },
+          "image": {
+            "kill_switch": true
+          },
+          "story": {
+            "kill_switch": true
+          },
+          "carousel": {
+            "kill_switch": true
+          }
+        },
+        "component": "solar_quality_v2_production_flags"
+      },
+      {
+        "status": "CONFIRMED_FROZEN",
+        "formats": null,
+        "component": "solar_quality_v2_first_slot"
+      }
+    ]
+  }
+]

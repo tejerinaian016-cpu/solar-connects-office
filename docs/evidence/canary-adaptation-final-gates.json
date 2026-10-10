@@ -1,0 +1,11 @@
+[
+  {
+    "observed_at": "2026-10-10 17:58:38.193104+00",
+    "gates": {
+      "FACTORY": false,
+      "PUBLISHER": false,
+      "META_DIRECT": false,
+      "EXTERNAL_WRITE": false
+    }
+  }
+]

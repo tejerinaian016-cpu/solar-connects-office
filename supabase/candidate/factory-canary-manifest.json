@@ -1,0 +1,12 @@
+{
+  "source_commit": "8f73ae0b9a72501328eaa6f8737d7fff573471fb",
+  "generated_from_approved_e2e": true,
+  "activation": false,
+  "files": {
+    "supabase/staging/e2e-control.sql": "59209a795792d1f55a38557872660781d08e32757af6c7788749660534c93da5",
+    "supabase/staging/bridge.sql": "e3d62af352abd6ce964ec8f9548c439bbab14ebb8e0c37113bafbfd0162aace8",
+    "supabase/staging/quality-renderer/e2e-worker.ts": "c9a8e25c24996f7f1c2bcf67dc841ce16f9a276792344dd2584354d3d6640a3d",
+    "supabase/candidate/factory-canary-install.sql": "1091962a818c8214f19c29dc7491c0bc386e7eae08e9a696ebf038fff197dbe6",
+    "supabase/candidate/factory-canary-edge.ts": "5144cc8b7598479e799e362f4248f0da9f633ae75d2787ea16b5f20059df33ee"
+  }
+}

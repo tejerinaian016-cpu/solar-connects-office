@@ -1,0 +1,26 @@
+[
+  {
+    "results": [
+      {
+        "test": "per-command completion replay routes to original job",
+        "passed": true
+      },
+      {
+        "test": "global FACTORY OFF remains superior",
+        "passed": true
+      },
+      {
+        "test": "Quality freeze and changed policy epoch reject runtime work",
+        "passed": true
+      },
+      {
+        "test": "exact live ownership/version/plan accepted in rollback fixture",
+        "passed": true
+      },
+      {
+        "test": "stale version remains rejected after adaptation",
+        "passed": true
+      }
+    ]
+  }
+]
