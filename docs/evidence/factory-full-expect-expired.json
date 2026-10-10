@@ -1,0 +1,7 @@
+{
+  "status": 409,
+  "body": {
+    "ok": false,
+    "error": "E2E_FENCE_OR_LEASE"
+  }
+}

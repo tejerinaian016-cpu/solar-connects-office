@@ -1,0 +1,165 @@
+{
+  "lints": [
+    {
+      "name": "rls_enabled_no_policy",
+      "title": "RLS Enabled No Policy",
+      "level": "INFO",
+      "facing": "EXTERNAL",
+      "categories": [
+        "SECURITY"
+      ],
+      "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+      "count": 10,
+      "findings": [
+        {
+          "detail": "Table \\`public.sc_agent_config\\` has RLS enabled, but no policies exist",
+          "metadata": {
+            "name": "sc_agent_config",
+            "type": "table",
+            "schema": "public"
+          },
+          "observed_at": "2026-10-10T04:03:45.666Z"
+        },
+        {
+          "detail": "Table \\`public.sc_content_jobs\\` has RLS enabled, but no policies exist",
+          "metadata": {
+            "name": "sc_content_jobs",
+            "type": "table",
+            "schema": "public"
+          },
+          "observed_at": "2026-10-10T04:03:45.666Z"
+        },
+        {
+          "detail": "Table \\`public.sc_content_posts\\` has RLS enabled, but no policies exist",
+          "metadata": {
+            "name": "sc_content_posts",
+            "type": "table",
+            "schema": "public"
+          },
+          "observed_at": "2026-10-10T04:03:45.666Z"
+        },
+        {
+          "detail": "Table \\`public.sc_creative_runs\\` has RLS enabled, but no policies exist",
+          "metadata": {
+            "name": "sc_creative_runs",
+            "type": "table",
+            "schema": "public"
+          },
+          "observed_at": "2026-10-10T04:03:45.666Z"
+        },
+        {
+          "detail": "Table \\`public.sc_creative_stage_outputs\\` has RLS enabled, but no policies exist",
+          "metadata": {
+            "name": "sc_creative_stage_outputs",
+            "type": "table",
+            "schema": "public"
+          },
+          "observed_at": "2026-10-10T04:03:45.666Z"
+        },
+        {
+          "detail": "Table \\`public.sc_fact_bank\\` has RLS enabled, but no policies exist",
+          "metadata": {
+            "name": "sc_fact_bank",
+            "type": "table",
+            "schema": "public"
+          },
+          "observed_at": "2026-10-10T04:03:45.666Z"
+        },
+        {
+          "detail": "Table \\`public.sc_publish_guard\\` has RLS enabled, but no policies exist",
+          "metadata": {
+            "name": "sc_publish_guard",
+            "type": "table",
+            "schema": "public"
+          },
+          "observed_at": "2026-10-10T04:03:45.666Z"
+        },
+        {
+          "detail": "Table \\`public.sc_system_health\\` has RLS enabled, but no policies exist",
+          "metadata": {
+            "name": "sc_system_health",
+            "type": "table",
+            "schema": "public"
+          },
+          "observed_at": "2026-10-10T04:03:45.666Z"
+        },
+        {
+          "detail": "Table \\`sc_internal.e2e_window\\` has RLS enabled, but no policies exist",
+          "metadata": {
+            "name": "e2e_window",
+            "type": "table",
+            "schema": "sc_internal"
+          },
+          "observed_at": "2026-10-10T04:03:45.666Z"
+        },
+        {
+          "detail": "Table \\`sc_internal.factory_permits\\` has RLS enabled, but no policies exist",
+          "metadata": {
+            "name": "factory_permits",
+            "type": "table",
+            "schema": "sc_internal"
+          },
+          "observed_at": "2026-10-10T04:03:45.666Z"
+        }
+      ]
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+      "level": "WARN",
+      "facing": "EXTERNAL",
+      "categories": [
+        "SECURITY"
+      ],
+      "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+      "count": 2,
+      "findings": [
+        {
+          "detail": "Function `public.sc_factory_e2e_v1(p_request jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/sc_factory_e2e_v1`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+          "metadata": {
+            "name": "sc_factory_e2e_v1",
+            "schema": "public",
+            "language": "plpgsql",
+            "arguments": "p_request jsonb",
+            "security_definer": true
+          },
+          "observed_at": "2026-10-10T04:03:45.666Z"
+        },
+        {
+          "detail": "Function `public.sc_factory_staging_v1(p_request jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/sc_factory_staging_v1`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+          "metadata": {
+            "name": "sc_factory_staging_v1",
+            "schema": "public",
+            "language": "plpgsql",
+            "arguments": "p_request jsonb",
+            "security_definer": true
+          },
+          "observed_at": "2026-10-10T04:03:45.666Z"
+        }
+      ]
+    },
+    {
+      "name": "auth_leaked_password_protection",
+      "title": "Leaked Password Protection Disabled",
+      "level": "WARN",
+      "facing": "EXTERNAL",
+      "categories": [
+        "SECURITY"
+      ],
+      "description": "Leaked password protection is currently disabled.",
+      "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection",
+      "count": 1,
+      "findings": [
+        {
+          "detail": "Supabase Auth prevents the use of compromised passwords by checking against HaveIBeenPwned.org. Enable this feature to enhance security.",
+          "metadata": {
+            "type": "auth",
+            "entity": "Auth"
+          }
+        }
+      ]
+    }
+  ]
+}

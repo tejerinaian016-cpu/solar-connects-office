@@ -1,0 +1,175 @@
+{
+  "ok": true,
+  "reused": true,
+  "render": {
+    "ok": true,
+    "url": "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/renders/4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52/ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59.jpg",
+    "mime": "image/jpeg",
+    "mode": "SHADOW",
+    "path": "quality-v2-shadow/renders/4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52/ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59.jpg",
+    "width": 1080,
+    "height": 1350,
+    "scenes": [],
+    "sha256": "ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59",
+    "version": "solar-quality-v2.0.0",
+    "geometry": [
+      {
+        "h": 43,
+        "w": 280,
+        "x": 124,
+        "y": 72,
+        "kind": "text",
+        "text": "SOLAR CONNECTS",
+        "weight": "bold",
+        "font_px": 32
+      },
+      {
+        "h": 48,
+        "w": 359,
+        "x": 72,
+        "y": 176,
+        "kind": "text",
+        "text": "EJEMPLO SINTÉTICO",
+        "weight": "bold",
+        "font_px": 36
+      },
+      {
+        "h": 111,
+        "w": 759,
+        "x": 72,
+        "y": 248,
+        "kind": "text",
+        "text": "¿Listo para cerrar el",
+        "weight": "bold",
+        "font_px": 84
+      },
+      {
+        "h": 111,
+        "w": 339,
+        "x": 72,
+        "y": 367,
+        "kind": "text",
+        "text": "registro?",
+        "weight": "bold",
+        "font_px": 84
+      },
+      {
+        "h": 59,
+        "w": 892,
+        "x": 72,
+        "y": 522,
+        "kind": "text",
+        "text": "Cerrar exige nombre y firma. En este ejemplo",
+        "weight": "regular",
+        "font_px": 44
+      },
+      {
+        "h": 59,
+        "w": 811,
+        "x": 72,
+        "y": 589,
+        "kind": "text",
+        "text": "falta la firma: el registro sigue pendiente.",
+        "weight": "regular",
+        "font_px": 44
+      },
+      {
+        "h": 64,
+        "w": 380,
+        "x": 104,
+        "y": 734,
+        "kind": "text",
+        "text": "Nombre presente",
+        "weight": "bold",
+        "font_px": 48
+      },
+      {
+        "h": 56,
+        "w": 773,
+        "x": 104,
+        "y": 804,
+        "kind": "text",
+        "text": "Condición 1 cumplida: el campo tiene un",
+        "weight": "regular",
+        "font_px": 42
+      },
+      {
+        "h": 56,
+        "w": 102,
+        "x": 104,
+        "y": 868,
+        "kind": "text",
+        "text": "valor.",
+        "weight": "regular",
+        "font_px": 42
+      },
+      {
+        "h": 64,
+        "w": 311,
+        "x": 104,
+        "y": 981,
+        "kind": "text",
+        "text": "Firma ausente",
+        "weight": "bold",
+        "font_px": 48
+      },
+      {
+        "h": 56,
+        "w": 832,
+        "x": 104,
+        "y": 1051,
+        "kind": "text",
+        "text": "Condición 2 pendiente: todavía no se puede",
+        "weight": "regular",
+        "font_px": 42
+      },
+      {
+        "h": 56,
+        "w": 121,
+        "x": 104,
+        "y": 1115,
+        "kind": "text",
+        "text": "cerrar.",
+        "weight": "regular",
+        "font_px": 42
+      },
+      {
+        "h": 56,
+        "w": 455,
+        "x": 72,
+        "y": 1218,
+        "kind": "text",
+        "text": "Verificá ambos campos",
+        "weight": "bold",
+        "font_px": 42
+      }
+    ],
+    "preflight": {
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "word_counts": {
+        "cta": 3,
+        "body": 15,
+        "title": 5
+      },
+      "requires_critic": true,
+      "variety_penalty": 0,
+      "editorial_signature": "two_required_fields|do_not_close_unsigned|logical_and_check",
+      "production_authorization": false
+    },
+    "safe_area": {
+      "top": 72,
+      "left": 72,
+      "right": 72,
+      "bottom_inset": 72
+    },
+    "elapsed_ms": 1579,
+    "plan_sha256": "4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52",
+    "storage_write": true,
+    "external_write": false,
+    "regular_font_sha256": "56a45233d29f11b4dfb86d248e921939d115778f87325e7ae8cc108383d6664d",
+    "production_authorization": false
+  },
+  "production_authorization": false
+}

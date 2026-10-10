@@ -1,0 +1,99 @@
+{
+  "status": 200,
+  "body": {
+    "ok": true,
+    "guardian_state": "PASS_PENDING_DURABLE_COMMIT",
+    "evidence": {
+      "guardian_state": "PASS_SHADOW",
+      "guardian_version": "shadow-guardian-v2.0.0",
+      "preflight": {
+        "ok": true,
+        "errors": [],
+        "warnings": [],
+        "production_authorization": false
+      },
+      "anti_duplicate": {
+        "ok": true,
+        "reason": "EMPTY_CORPUS",
+        "duplicate": false
+      },
+      "deterministic_floors": {
+        "ok": true,
+        "items": [
+          {
+            "ok": true,
+            "errors": [],
+            "geometry_count": 13,
+            "min_font_px": 32,
+            "known_palette_contrast_floor": 4.94
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "path": "quality-v2-shadow/renders/4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52/ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59.jpg",
+          "url": "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/renders/4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52/ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59.jpg",
+          "sha256": "ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59",
+          "bytes": 174351,
+          "mime": "image/jpeg",
+          "width": 1080,
+          "height": 1350,
+          "plan_sha256": "4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52",
+          "snapshot_path": "quality-v2-shadow/snapshots/14c058a4-71b2-4979-8395-59565598a6e8/ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59.jpg",
+          "snapshot_sha256": "ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59",
+          "snapshot_url": "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/snapshots/14c058a4-71b2-4979-8395-59565598a6e8/ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59.jpg"
+        }
+      ],
+      "visual_review": {
+        "critiques": [
+          {
+            "asset_sha256": "ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59",
+            "plan_sha256": "4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52",
+            "scores": {
+              "hook": 4,
+              "clarity": 5,
+              "design": 4,
+              "readability": 5,
+              "naturalness": 4,
+              "value": 4,
+              "brand": 5,
+              "variety": 3
+            },
+            "evidence": {
+              "hook": "Pregunta concreta respondida por la condición faltante en el ejemplo sintético.",
+              "clarity": "Nombre presente y firma ausente distinguen las dos condiciones requeridas.",
+              "design": "Dos tarjetas legibles y jerarquía clara; padding inferior de tarjetas algo ajustado.",
+              "readability": "Inspección real en 1080x1350 y 360px: texto completo, fórmulas no necesarias, sin recortes.",
+              "naturalness": "Verificá ambos campos es directo y consistente con el voseo de marca.",
+              "value": "Regla AND verificable en el fixture: nombre no vacío, firma nula, can_close=false.",
+              "brand": "Wordmark SOLAR CONNECTS una vez y aviso EJEMPLO SINTÉTICO visible, con fuentes y colores originales.",
+              "variety": "Layout reutilizado, puntuado 3; argumento de dos requisitos distinto al porcentaje del fixture anterior. Novedad limitada al laboratorio; corpus canónico publicable vacío."
+            },
+            "factuality_pass": true,
+            "scene_match": true,
+            "mobile_360_pass": true,
+            "semantic_novelty_pass": true,
+            "no_clipping": true,
+            "fixes": [],
+            "expected_gain": 0
+          }
+        ],
+        "assessments": [
+          {
+            "state": "SHADOW_PASS",
+            "score": 86,
+            "variety_penalty": 0,
+            "hard_fails": [],
+            "fixes": [],
+            "revision_budget_remaining": 1,
+            "production_authorization": false,
+            "requires_existing_guardian": true
+          }
+        ]
+      },
+      "production_authorization": false,
+      "external_write": false
+    },
+    "production_authorization": false
+  }
+}

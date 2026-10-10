@@ -1,0 +1,7 @@
+[
+  "missing JWT denied",
+  "invalid JWT denied",
+  "viewer denied",
+  "wrong token and version denied",
+  "premature completion denied"
+]

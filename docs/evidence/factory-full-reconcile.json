@@ -1,0 +1,15 @@
+{
+  "state": "SUCCEEDED",
+  "job_id": "14c058a4-71b2-4979-8395-59565598a6e8",
+  "result": {
+    "job_id": "14c058a4-71b2-4979-8395-59565598a6e8",
+    "status": "READY",
+    "guardian": "PASS_SHADOW",
+    "lease_version": 2,
+    "publication_allowed": false
+  },
+  "command_id": "5eccef28-f30e-438c-8e6c-b2e5a000fca2",
+  "expires_at": "2026-10-10T04:05:16.301213+00:00",
+  "job_status": "READY",
+  "lease_version": 2
+}

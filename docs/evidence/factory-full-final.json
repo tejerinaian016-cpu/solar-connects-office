@@ -1,0 +1,376 @@
+[
+  {
+    "observed_at": "2026-10-10 04:03:08.897696+00",
+    "command_id": "5eccef28-f30e-438c-8e6c-b2e5a000fca2",
+    "ledger_status": "SUCCEEDED",
+    "lease_version": 2,
+    "result": {
+      "job_id": "14c058a4-71b2-4979-8395-59565598a6e8",
+      "status": "READY",
+      "guardian": "PASS_SHADOW",
+      "lease_version": 2,
+      "publication_allowed": false
+    },
+    "completed_at": "2026-10-10 04:01:55.243968+00",
+    "creative_run_id": "b1785a26-8d8f-4cf6-b91d-db50f3270e47",
+    "plan_sha256": "c54fdcbad90ac9ea33bb29366d8860bd39279e529bf345bb1a7886015d25c0ea",
+    "quality_input_sha256": "8584a462ad24a4488dbf35584694794fa4c87f0c31ef377f09ab30c713f30d86",
+    "job_id": "14c058a4-71b2-4979-8395-59565598a6e8",
+    "consumed_at": "2026-10-10 03:57:44.874958+00",
+    "revoked_at": "2026-10-10 04:01:55.246283+00",
+    "window_enabled": false,
+    "completed": true,
+    "job_status": "READY",
+    "qa": {
+      "tags": {
+        "angle": "logical_and_check",
+        "topic": "Ejemplo sintético: no cerrar un registro sin firma requerida",
+        "claim_id": [
+          "SC-STAGING-CHECK-002"
+        ],
+        "hook_type": "question",
+        "layout_id": "paired_factors"
+      },
+      "shadow": true,
+      "guardian_qa": "PASS_SHADOW",
+      "release_gate": "HOLD",
+      "staging_only": true,
+      "claims_ledger": [
+        {
+          "claim": "En el fixture nombre y firma son obligatorios; falta firma y no se puede cerrar el registro.",
+          "scope": "SYNTHETIC_STAGING_ONLY",
+          "claim_id": "SC-STAGING-CHECK-002",
+          "source_url": "fixture://factory-full-source.json",
+          "fact_status": "APPROVED"
+        }
+      ],
+      "do_not_publish": true,
+      "creative_run_id": "b1785a26-8d8f-4cf6-b91d-db50f3270e47",
+      "publish_blocked": true,
+      "quality_v2_phase": "STAGING_E2E_READY",
+      "renderer_version": "solar-quality-v2.0.0",
+      "quality_v2_opt_in": true,
+      "factory_command_id": "5eccef28-f30e-438c-8e6c-b2e5a000fca2",
+      "quality_v2_runtime": {
+        "renders": {
+          "0": {
+            "ok": true,
+            "url": "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/renders/4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52/ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59.jpg",
+            "mime": "image/jpeg",
+            "mode": "SHADOW",
+            "path": "quality-v2-shadow/renders/4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52/ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59.jpg",
+            "width": 1080,
+            "height": 1350,
+            "scenes": [],
+            "sha256": "ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59",
+            "version": "solar-quality-v2.0.0",
+            "geometry": [
+              {
+                "h": 43,
+                "w": 280,
+                "x": 124,
+                "y": 72,
+                "kind": "text",
+                "text": "SOLAR CONNECTS",
+                "weight": "bold",
+                "font_px": 32
+              },
+              {
+                "h": 48,
+                "w": 359,
+                "x": 72,
+                "y": 176,
+                "kind": "text",
+                "text": "EJEMPLO SINTÉTICO",
+                "weight": "bold",
+                "font_px": 36
+              },
+              {
+                "h": 111,
+                "w": 759,
+                "x": 72,
+                "y": 248,
+                "kind": "text",
+                "text": "¿Listo para cerrar el",
+                "weight": "bold",
+                "font_px": 84
+              },
+              {
+                "h": 111,
+                "w": 339,
+                "x": 72,
+                "y": 367,
+                "kind": "text",
+                "text": "registro?",
+                "weight": "bold",
+                "font_px": 84
+              },
+              {
+                "h": 59,
+                "w": 892,
+                "x": 72,
+                "y": 522,
+                "kind": "text",
+                "text": "Cerrar exige nombre y firma. En este ejemplo",
+                "weight": "regular",
+                "font_px": 44
+              },
+              {
+                "h": 59,
+                "w": 811,
+                "x": 72,
+                "y": 589,
+                "kind": "text",
+                "text": "falta la firma: el registro sigue pendiente.",
+                "weight": "regular",
+                "font_px": 44
+              },
+              {
+                "h": 64,
+                "w": 380,
+                "x": 104,
+                "y": 734,
+                "kind": "text",
+                "text": "Nombre presente",
+                "weight": "bold",
+                "font_px": 48
+              },
+              {
+                "h": 56,
+                "w": 773,
+                "x": 104,
+                "y": 804,
+                "kind": "text",
+                "text": "Condición 1 cumplida: el campo tiene un",
+                "weight": "regular",
+                "font_px": 42
+              },
+              {
+                "h": 56,
+                "w": 102,
+                "x": 104,
+                "y": 868,
+                "kind": "text",
+                "text": "valor.",
+                "weight": "regular",
+                "font_px": 42
+              },
+              {
+                "h": 64,
+                "w": 311,
+                "x": 104,
+                "y": 981,
+                "kind": "text",
+                "text": "Firma ausente",
+                "weight": "bold",
+                "font_px": 48
+              },
+              {
+                "h": 56,
+                "w": 832,
+                "x": 104,
+                "y": 1051,
+                "kind": "text",
+                "text": "Condición 2 pendiente: todavía no se puede",
+                "weight": "regular",
+                "font_px": 42
+              },
+              {
+                "h": 56,
+                "w": 121,
+                "x": 104,
+                "y": 1115,
+                "kind": "text",
+                "text": "cerrar.",
+                "weight": "regular",
+                "font_px": 42
+              },
+              {
+                "h": 56,
+                "w": 455,
+                "x": 72,
+                "y": 1218,
+                "kind": "text",
+                "text": "Verificá ambos campos",
+                "weight": "bold",
+                "font_px": 42
+              }
+            ],
+            "preflight": {
+              "ok": true,
+              "errors": [],
+              "warnings": [],
+              "word_counts": {
+                "cta": 3,
+                "body": 15,
+                "title": 5
+              },
+              "requires_critic": true,
+              "variety_penalty": 0,
+              "editorial_signature": "two_required_fields|do_not_close_unsigned|logical_and_check",
+              "production_authorization": false
+            },
+            "safe_area": {
+              "top": 72,
+              "left": 72,
+              "right": 72,
+              "bottom_inset": 72
+            },
+            "elapsed_ms": 1579,
+            "plan_sha256": "4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52",
+            "storage_write": true,
+            "external_write": false,
+            "regular_font_sha256": "56a45233d29f11b4dfb86d248e921939d115778f87325e7ae8cc108383d6664d",
+            "production_authorization": false
+          }
+        },
+        "preflight": {
+          "ok": true,
+          "errors": [],
+          "warnings": [],
+          "production_authorization": false
+        },
+        "guardian_pending_evidence": {
+          "artifacts": [
+            {
+              "url": "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/renders/4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52/ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59.jpg",
+              "mime": "image/jpeg",
+              "path": "quality-v2-shadow/renders/4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52/ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59.jpg",
+              "bytes": 174351,
+              "width": 1080,
+              "height": 1350,
+              "sha256": "ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59",
+              "plan_sha256": "4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52",
+              "snapshot_url": "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/snapshots/14c058a4-71b2-4979-8395-59565598a6e8/ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59.jpg",
+              "snapshot_path": "quality-v2-shadow/snapshots/14c058a4-71b2-4979-8395-59565598a6e8/ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59.jpg",
+              "snapshot_sha256": "ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59"
+            }
+          ],
+          "preflight": {
+            "ok": true,
+            "errors": [],
+            "warnings": [],
+            "production_authorization": false
+          },
+          "visual_review": {
+            "critiques": [
+              {
+                "fixes": [],
+                "scores": {
+                  "hook": 4,
+                  "brand": 5,
+                  "value": 4,
+                  "design": 4,
+                  "clarity": 5,
+                  "variety": 3,
+                  "naturalness": 4,
+                  "readability": 5
+                },
+                "evidence": {
+                  "hook": "Pregunta concreta respondida por la condición faltante en el ejemplo sintético.",
+                  "brand": "Wordmark SOLAR CONNECTS una vez y aviso EJEMPLO SINTÉTICO visible, con fuentes y colores originales.",
+                  "value": "Regla AND verificable en el fixture: nombre no vacío, firma nula, can_close=false.",
+                  "design": "Dos tarjetas legibles y jerarquía clara; padding inferior de tarjetas algo ajustado.",
+                  "clarity": "Nombre presente y firma ausente distinguen las dos condiciones requeridas.",
+                  "variety": "Layout reutilizado, puntuado 3; argumento de dos requisitos distinto al porcentaje del fixture anterior. Novedad limitada al laboratorio; corpus canónico publicable vacío.",
+                  "naturalness": "Verificá ambos campos es directo y consistente con el voseo de marca.",
+                  "readability": "Inspección real en 1080x1350 y 360px: texto completo, fórmulas no necesarias, sin recortes."
+                },
+                "no_clipping": true,
+                "plan_sha256": "4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52",
+                "scene_match": true,
+                "asset_sha256": "ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59",
+                "expected_gain": 0,
+                "factuality_pass": true,
+                "mobile_360_pass": true,
+                "semantic_novelty_pass": true
+              }
+            ],
+            "assessments": [
+              {
+                "fixes": [],
+                "score": 86,
+                "state": "SHADOW_PASS",
+                "hard_fails": [],
+                "variety_penalty": 0,
+                "production_authorization": false,
+                "revision_budget_remaining": 1,
+                "requires_existing_guardian": true
+              }
+            ]
+          },
+          "anti_duplicate": {
+            "ok": true,
+            "reason": "EMPTY_CORPUS",
+            "duplicate": false
+          },
+          "external_write": false,
+          "guardian_state": "PASS_SHADOW",
+          "guardian_version": "shadow-guardian-v2.0.0",
+          "deterministic_floors": {
+            "ok": true,
+            "items": [
+              {
+                "ok": true,
+                "errors": [],
+                "min_font_px": 32,
+                "geometry_count": 13,
+                "known_palette_contrast_floor": 4.94
+              }
+            ]
+          },
+          "production_authorization": false
+        }
+      },
+      "factory_plan_sha256": "c54fdcbad90ac9ea33bb29366d8860bd39279e529bf345bb1a7886015d25c0ea",
+      "quality_v2_guardian": "shadow-guardian-v2.0.0",
+      "production_candidate": false,
+      "quality_v2_production_draft": true
+    },
+    "asset_urls": [
+      "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/renders/4f82a273610521f1ee2c394d4eb7a7e4bbef2f16da2de16e3ca066632509dd52/ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59.jpg"
+    ],
+    "gates": {
+      "FACTORY": false,
+      "PUBLISHER": false,
+      "META_DIRECT": false,
+      "EXTERNAL_WRITE": false
+    },
+    "quality_policy": [
+      {
+        "status": "STAGE1_FROZEN_OBSERVATION",
+        "details": {
+          "enabled": true,
+          "formats": {
+            "reel": {
+              "kill_switch": true
+            },
+            "image": {
+              "kill_switch": true
+            },
+            "story": {
+              "kill_switch": true
+            },
+            "carousel": {
+              "kill_switch": true
+            }
+          }
+        },
+        "component": "solar_quality_v2_production_flags"
+      },
+      {
+        "status": "CONFIRMED_FROZEN",
+        "details": {
+          "state": "CONFIRMED_FROZEN",
+          "enabled": true
+        },
+        "component": "solar_quality_v2_first_slot"
+      }
+    ],
+    "posts": 0,
+    "publication_reservations": 0,
+    "completion_audits": 1,
+    "caller_can_write_progress": false,
+    "caller_can_access_window": false
+  }
+]

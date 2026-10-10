@@ -1,0 +1,13 @@
+{
+  "synthetic": true,
+  "required_fields": [
+    "nombre",
+    "firma"
+  ],
+  "record": {
+    "nombre": "EJEMPLO",
+    "firma": null
+  },
+  "rule": "all required fields must be nonempty",
+  "can_close": false
+}

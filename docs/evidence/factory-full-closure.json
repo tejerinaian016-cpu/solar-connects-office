@@ -1,0 +1,22 @@
+{
+  "closed": [
+    {
+      "name": "factory-staging-e2e",
+      "status": 410,
+      "body": {
+        "error": "E2E_CLOSED"
+      }
+    },
+    {
+      "name": "factory-staging-fixture",
+      "status": 410,
+      "body": {
+        "error": "FIXTURE_CLOSED"
+      }
+    }
+  ],
+  "snapshot_sha256": "ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59",
+  "snapshot_url": "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/snapshots/14c058a4-71b2-4979-8395-59565598a6e8/ace3da0748150b0fc23b4cff29a8b452a41b728d9d60e836de5366976017dd59.jpg",
+  "bytes": 174351,
+  "readback": true
+}

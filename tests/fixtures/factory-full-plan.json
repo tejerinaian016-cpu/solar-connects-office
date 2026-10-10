@@ -1,0 +1,30 @@
+{
+  "format": "image",
+  "layout": "paired_factors",
+  "intent": "checklist",
+  "scene": "none",
+  "theme": "cream",
+  "eyebrow": "EJEMPLO SINTÉTICO",
+  "title": "¿Listo para cerrar el registro?",
+  "body": "Cerrar exige nombre y firma. En este ejemplo falta la firma: el registro sigue pendiente.",
+  "cta": "Verificá ambos campos",
+  "items": [
+    {
+      "title": "Nombre presente",
+      "body": "Condición 1 cumplida: el campo tiene un valor."
+    },
+    {
+      "title": "Firma ausente",
+      "body": "Condición 2 pendiente: todavía no se puede cerrar."
+    }
+  ],
+  "fact_ids": [
+    "SC-STAGING-CHECK-002"
+  ],
+  "argument_key": "two_required_fields",
+  "decision_key": "do_not_close_unsigned",
+  "angle_key": "logical_and_check",
+  "hook_family": "question",
+  "added_value": "Verifica una regla AND sobre dos campos ficticios; diferencia presencia parcial de registro completo",
+  "revision": 0
+}

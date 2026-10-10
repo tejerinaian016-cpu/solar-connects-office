@@ -1,0 +1,65 @@
+{
+  "state": "EXECUTING",
+  "job_id": "14c058a4-71b2-4979-8395-59565598a6e8",
+  "result": {
+    "stop_at": "READY",
+    "factory_materialization": {
+      "ok": true,
+      "slot": 1,
+      "state": "V2_DRAFT_BLOCKED",
+      "format": "image",
+      "job_id": "14c058a4-71b2-4979-8395-59565598a6e8",
+      "policy_epoch": "staging-e2e-002",
+      "external_write": false,
+      "request_sha256": "86ec2eebe5faeb20a49fdc11cd3e62de784bba11e6f827519694c4340bcba952",
+      "creative_run_id": "b1785a26-8d8f-4cf6-b91d-db50f3270e47",
+      "original_compiled": {
+        "ok": true,
+        "qa": {
+          "shadow": true,
+          "semantic_qa": true,
+          "research_pass": true,
+          "do_not_publish": true,
+          "creative_run_id": "b1785a26-8d8f-4cf6-b91d-db50f3270e47",
+          "publish_blocked": true,
+          "creative_control_plane": "v1",
+          "premium_visual_plan_qa": true,
+          "additional_paid_cost_usd": 0
+        },
+        "topic": "Ejemplo sintético: no cerrar un registro sin firma requerida",
+        "format": "image",
+        "content_plan": {
+          "cta": "Verificá ambos campos",
+          "slides": [
+            {
+              "cta": "Verificá ambos campos",
+              "body": "Cerrar exige nombre y firma. En este ejemplo falta la firma: el registro sigue pendiente.",
+              "theme": "cream",
+              "title": "¿Listo para cerrar el registro?",
+              "eyebrow": "EJEMPLO SINTÉTICO",
+              "fact_ids": [
+                "SC-STAGING-CHECK-002"
+              ],
+              "template": "editorial_fact",
+              "scene_key": "none",
+              "slide_index": 1,
+              "scene_status": "CLEAN_SCENE_REQUIRED"
+            }
+          ],
+          "caption": "Fixture de laboratorio: ambos campos son obligatorios y falta firma. No representa clientes ni datos reales.",
+          "segments": null,
+          "hypothesis": null,
+          "quality_target": null,
+          "creative_run_id": "b1785a26-8d8f-4cf6-b91d-db50f3270e47",
+          "duration_seconds": null,
+          "frames_per_segment": null,
+          "selected_candidate_id": "e2e-fields"
+        }
+      }
+    }
+  },
+  "command_id": "5eccef28-f30e-438c-8e6c-b2e5a000fca2",
+  "expires_at": "2026-10-10T04:05:16.301213+00:00",
+  "job_status": "QUALITY_V2_SHADOW_RENDERING",
+  "lease_version": 2
+}

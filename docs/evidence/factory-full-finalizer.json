@@ -1,0 +1,6 @@
+[
+  {
+    "ledger_after_rollback": "EXECUTING",
+    "job_after_rollback": "QUALITY_V2_SHADOW_RENDERING"
+  }
+]
