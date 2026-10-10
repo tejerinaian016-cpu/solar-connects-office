@@ -1,0 +1,24 @@
+[
+  [
+    {
+      "result": {
+        "ok": true,
+        "job_id": "eb5f786a-61b7-4e7c-b8af-65c7e5039d2e",
+        "status": "READY",
+        "guardian": "PASS_SHADOW",
+        "publication_allowed": false
+      }
+    }
+  ],
+  [
+    {
+      "result": {
+        "ok": true,
+        "job_id": "eb5f786a-61b7-4e7c-b8af-65c7e5039d2e",
+        "status": "READY",
+        "idempotent": true,
+        "publication_allowed": false
+      }
+    }
+  ]
+]

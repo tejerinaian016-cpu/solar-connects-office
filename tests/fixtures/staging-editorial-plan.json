@@ -1,0 +1,30 @@
+{
+  "format": "image",
+  "layout": "paired_factors",
+  "intent": "checklist",
+  "scene": "none",
+  "theme": "cream",
+  "eyebrow": "LABORATORIO · DATOS SINTÉTICOS",
+  "title": "¿Cuánto falta para completar el lote?",
+  "body": "De 12 registros ficticios, 9 están completos: 75%. Revisá los 3 pendientes antes de cerrar.",
+  "cta": "Contá, dividí y verificá",
+  "items": [
+    {
+      "title": "9 completos",
+      "body": "9 ÷ 12 × 100 = 75%"
+    },
+    {
+      "title": "3 pendientes",
+      "body": "12 − 9 = 3 por revisar"
+    }
+  ],
+  "fact_ids": [
+    "SC-STAGING-DATA-001"
+  ],
+  "argument_key": "synthetic_record_completeness",
+  "decision_key": "review_three_pending",
+  "angle_key": "reproducible_ratio",
+  "hook_family": "question",
+  "added_value": "Cálculo verificable del porcentaje y del remanente en un dataset sintético de doce registros",
+  "revision": 0
+}

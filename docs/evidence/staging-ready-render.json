@@ -1,0 +1,314 @@
+{
+  "ok": true,
+  "reused": true,
+  "render": {
+    "ok": true,
+    "mode": "SHADOW",
+    "path": "quality-v2-shadow/renders/117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9/1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c.jpg",
+    "url": "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/renders/117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9/1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c.jpg",
+    "sha256": "1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c",
+    "plan_sha256": "117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9",
+    "width": 1080,
+    "height": 1350,
+    "geometry": [
+      {
+        "kind": "text",
+        "text": "SOLAR CONNECTS",
+        "x": 124,
+        "y": 72,
+        "w": 280,
+        "h": 43,
+        "font_px": 32,
+        "weight": "bold"
+      },
+      {
+        "kind": "text",
+        "text": "LABORATORIO · DATOS SINTÉTICOS",
+        "x": 72,
+        "y": 176,
+        "w": 614,
+        "h": 48,
+        "font_px": 36,
+        "weight": "bold"
+      },
+      {
+        "kind": "text",
+        "text": "¿Cuánto falta para",
+        "x": 72,
+        "y": 248,
+        "w": 701,
+        "h": 111,
+        "font_px": 84,
+        "weight": "bold"
+      },
+      {
+        "kind": "text",
+        "text": "completar el lote?",
+        "x": 72,
+        "y": 367,
+        "w": 684,
+        "h": 111,
+        "font_px": 84,
+        "weight": "bold"
+      },
+      {
+        "kind": "text",
+        "text": "De 12 registros ficticios, 9 están completos:",
+        "x": 72,
+        "y": 522,
+        "w": 873,
+        "h": 59,
+        "font_px": 44,
+        "weight": "regular"
+      },
+      {
+        "kind": "text",
+        "text": "75%. Revisá los 3 pendientes antes de cerrar.",
+        "x": 72,
+        "y": 589,
+        "w": 896,
+        "h": 59,
+        "font_px": 44,
+        "weight": "regular"
+      },
+      {
+        "kind": "text",
+        "text": "9 completos",
+        "x": 104,
+        "y": 734,
+        "w": 271,
+        "h": 64,
+        "font_px": 48,
+        "weight": "bold"
+      },
+      {
+        "kind": "text",
+        "text": "9 ÷ 12 × 100 = 75%",
+        "x": 104,
+        "y": 804,
+        "w": 358,
+        "h": 56,
+        "font_px": 42,
+        "weight": "regular"
+      },
+      {
+        "kind": "text",
+        "text": "3 pendientes",
+        "x": 104,
+        "y": 981,
+        "w": 281,
+        "h": 64,
+        "font_px": 48,
+        "weight": "bold"
+      },
+      {
+        "kind": "text",
+        "text": "12 − 9 = 3 por revisar",
+        "x": 104,
+        "y": 1051,
+        "w": 402,
+        "h": 56,
+        "font_px": 42,
+        "weight": "regular"
+      },
+      {
+        "kind": "text",
+        "text": "Contá, dividí y verificá",
+        "x": 72,
+        "y": 1218,
+        "w": 431,
+        "h": 56,
+        "font_px": 42,
+        "weight": "bold"
+      }
+    ],
+    "safe_area": {
+      "left": 72,
+      "right": 72,
+      "top": 72,
+      "bottom_inset": 72
+    },
+    "regular_font_sha256": "56a45233d29f11b4dfb86d248e921939d115778f87325e7ae8cc108383d6664d",
+    "scenes": [],
+    "preflight": {
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "word_counts": {
+        "title": 6,
+        "body": 15,
+        "cta": 4
+      },
+      "editorial_signature": "synthetic_record_completeness|review_three_pending|reproducible_ratio",
+      "variety_penalty": 0,
+      "requires_critic": true,
+      "production_authorization": false
+    },
+    "geometry_method": "Text-only measurement; no full image rerender; original plan-bound JPEG readback"
+  },
+  "floors": {
+    "ok": true,
+    "errors": [],
+    "geometry_count": 11,
+    "min_font_px": 32,
+    "known_palette_contrast_floor": 4.94
+  },
+  "progress_patch": {
+    "render_page": {
+      "index": 0,
+      "render": {
+        "ok": true,
+        "mode": "SHADOW",
+        "path": "quality-v2-shadow/renders/117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9/1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c.jpg",
+        "url": "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/renders/117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9/1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c.jpg",
+        "sha256": "1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c",
+        "plan_sha256": "117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9",
+        "width": 1080,
+        "height": 1350,
+        "geometry": [
+          {
+            "kind": "text",
+            "text": "SOLAR CONNECTS",
+            "x": 124,
+            "y": 72,
+            "w": 280,
+            "h": 43,
+            "font_px": 32,
+            "weight": "bold"
+          },
+          {
+            "kind": "text",
+            "text": "LABORATORIO · DATOS SINTÉTICOS",
+            "x": 72,
+            "y": 176,
+            "w": 614,
+            "h": 48,
+            "font_px": 36,
+            "weight": "bold"
+          },
+          {
+            "kind": "text",
+            "text": "¿Cuánto falta para",
+            "x": 72,
+            "y": 248,
+            "w": 701,
+            "h": 111,
+            "font_px": 84,
+            "weight": "bold"
+          },
+          {
+            "kind": "text",
+            "text": "completar el lote?",
+            "x": 72,
+            "y": 367,
+            "w": 684,
+            "h": 111,
+            "font_px": 84,
+            "weight": "bold"
+          },
+          {
+            "kind": "text",
+            "text": "De 12 registros ficticios, 9 están completos:",
+            "x": 72,
+            "y": 522,
+            "w": 873,
+            "h": 59,
+            "font_px": 44,
+            "weight": "regular"
+          },
+          {
+            "kind": "text",
+            "text": "75%. Revisá los 3 pendientes antes de cerrar.",
+            "x": 72,
+            "y": 589,
+            "w": 896,
+            "h": 59,
+            "font_px": 44,
+            "weight": "regular"
+          },
+          {
+            "kind": "text",
+            "text": "9 completos",
+            "x": 104,
+            "y": 734,
+            "w": 271,
+            "h": 64,
+            "font_px": 48,
+            "weight": "bold"
+          },
+          {
+            "kind": "text",
+            "text": "9 ÷ 12 × 100 = 75%",
+            "x": 104,
+            "y": 804,
+            "w": 358,
+            "h": 56,
+            "font_px": 42,
+            "weight": "regular"
+          },
+          {
+            "kind": "text",
+            "text": "3 pendientes",
+            "x": 104,
+            "y": 981,
+            "w": 281,
+            "h": 64,
+            "font_px": 48,
+            "weight": "bold"
+          },
+          {
+            "kind": "text",
+            "text": "12 − 9 = 3 por revisar",
+            "x": 104,
+            "y": 1051,
+            "w": 402,
+            "h": 56,
+            "font_px": 42,
+            "weight": "regular"
+          },
+          {
+            "kind": "text",
+            "text": "Contá, dividí y verificá",
+            "x": 72,
+            "y": 1218,
+            "w": 431,
+            "h": 56,
+            "font_px": 42,
+            "weight": "bold"
+          }
+        ],
+        "safe_area": {
+          "left": 72,
+          "right": 72,
+          "top": 72,
+          "bottom_inset": 72
+        },
+        "regular_font_sha256": "56a45233d29f11b4dfb86d248e921939d115778f87325e7ae8cc108383d6664d",
+        "scenes": [],
+        "preflight": {
+          "ok": true,
+          "errors": [],
+          "warnings": [],
+          "word_counts": {
+            "title": 6,
+            "body": 15,
+            "cta": 4
+          },
+          "editorial_signature": "synthetic_record_completeness|review_three_pending|reproducible_ratio",
+          "variety_penalty": 0,
+          "requires_critic": true,
+          "production_authorization": false
+        },
+        "geometry_method": "Text-only measurement; no full image rerender; original plan-bound JPEG readback"
+      }
+    },
+    "preflight": {
+      "ok": true,
+      "errors": [],
+      "warnings": [],
+      "production_authorization": false
+    }
+  },
+  "production_authorization": false,
+  "readback_bytes": 171157
+}

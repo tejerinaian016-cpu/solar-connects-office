@@ -1,0 +1,493 @@
+[
+  {
+    "observed_at": "2026-10-09 04:36:58.526765+00",
+    "gates": {
+      "FACTORY": false,
+      "PUBLISHER": false,
+      "META_DIRECT": false,
+      "EXTERNAL_WRITE": false
+    },
+    "jobs": 2,
+    "posts": 0,
+    "publish_reservations": 0,
+    "quality_freeze": [
+      {
+        "status": "STAGE1_FROZEN_OBSERVATION",
+        "details": {
+          "enabled": true,
+          "formats": {
+            "reel": {
+              "kill_switch": true
+            },
+            "image": {
+              "kill_switch": true
+            },
+            "story": {
+              "kill_switch": true
+            },
+            "carousel": {
+              "kill_switch": true
+            }
+          }
+        },
+        "component": "solar_quality_v2_production_flags"
+      },
+      {
+        "status": "CONFIRMED_FROZEN",
+        "details": {
+          "state": "CONFIRMED_FROZEN",
+          "enabled": true
+        },
+        "component": "solar_quality_v2_first_slot"
+      }
+    ],
+    "ready_job": {
+      "id": "eb5f786a-61b7-4e7c-b8af-65c7e5039d2e",
+      "created_at": "2026-10-09T04:27:24.76684+00:00",
+      "updated_at": "2026-10-09T04:36:31.808457+00:00",
+      "status": "READY",
+      "trigger_text": "quality-v2-opt-in-shadow-factory",
+      "topic": "Laboratorio sintético: completitud de un lote de doce registros",
+      "format": "image",
+      "content_plan": {
+        "slides": [
+          {
+            "cta": "Contá, dividí y verificá",
+            "body": "De 12 registros ficticios, 9 están completos: 75%. Revisá los 3 pendientes antes de cerrar.",
+            "items": [
+              {
+                "body": "9 ÷ 12 × 100 = 75%",
+                "title": "9 completos"
+              },
+              {
+                "body": "12 − 9 = 3 por revisar",
+                "title": "3 pendientes"
+              }
+            ],
+            "scene": "none",
+            "theme": "cream",
+            "title": "¿Cuánto falta para completar el lote?",
+            "format": "image",
+            "intent": "checklist",
+            "layout": "paired_factors",
+            "eyebrow": "LABORATORIO · DATOS SINTÉTICOS",
+            "fact_ids": [
+              "SC-STAGING-DATA-001"
+            ],
+            "revision": 0,
+            "angle_key": "reproducible_ratio",
+            "added_value": "Cálculo verificable del porcentaje y del remanente en un dataset sintético de doce registros",
+            "hook_family": "question",
+            "argument_key": "synthetic_record_completeness",
+            "decision_key": "review_three_pending"
+          }
+        ],
+        "caption": "Ejercicio sintético reproducible. Nueve de doce registros completos equivalen al 75%; restan tres por revisar.",
+        "quality_v2": {
+          "pages": [
+            {
+              "cta": "Contá, dividí y verificá",
+              "body": "De 12 registros ficticios, 9 están completos: 75%. Revisá los 3 pendientes antes de cerrar.",
+              "items": [
+                {
+                  "body": "9 ÷ 12 × 100 = 75%",
+                  "title": "9 completos"
+                },
+                {
+                  "body": "12 − 9 = 3 por revisar",
+                  "title": "3 pendientes"
+                }
+              ],
+              "scene": "none",
+              "theme": "cream",
+              "title": "¿Cuánto falta para completar el lote?",
+              "format": "image",
+              "intent": "checklist",
+              "layout": "paired_factors",
+              "eyebrow": "LABORATORIO · DATOS SINTÉTICOS",
+              "fact_ids": [
+                "SC-STAGING-DATA-001"
+              ],
+              "revision": 0,
+              "angle_key": "reproducible_ratio",
+              "added_value": "Cálculo verificable del porcentaje y del remanente en un dataset sintético de doce registros",
+              "hook_family": "question",
+              "argument_key": "synthetic_record_completeness",
+              "decision_key": "review_three_pending"
+            }
+          ]
+        },
+        "idempotency_key": "quality-v2-shadow:factory_run_d0eb24212a08400d929ddc85393570ae",
+        "materialization_mode": "SHADOW"
+      },
+      "qa": {
+        "tags": {
+          "angle": "reproducible_ratio",
+          "topic": "Laboratorio sintético: completitud de un lote de doce registros",
+          "claim_id": [
+            "SC-STAGING-DATA-001"
+          ],
+          "hook_type": "question",
+          "layout_id": "paired_factors"
+        },
+        "shadow": true,
+        "guardian_qa": "PASS_SHADOW",
+        "release_gate": "HOLD",
+        "staging_only": true,
+        "claims_ledger": [
+          {
+            "claim": "En el dataset sintético hay 12 registros: 9 completos (75%) y 3 pendientes.",
+            "scope": "SYNTHETIC_STAGING_ONLY",
+            "claim_id": "SC-STAGING-DATA-001",
+            "source_url": "fixture://solar-connects/staging-editorial-dataset.json",
+            "fact_status": "APPROVED"
+          }
+        ],
+        "do_not_publish": true,
+        "publish_blocked": true,
+        "quality_v2_phase": "STAGING_READY",
+        "renderer_version": "solar-quality-v2.0.0",
+        "quality_v2_opt_in": true,
+        "quality_v2_runtime": {
+          "renders": {
+            "0": {
+              "ok": true,
+              "url": "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/renders/117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9/1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c.jpg",
+              "mode": "SHADOW",
+              "path": "quality-v2-shadow/renders/117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9/1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c.jpg",
+              "width": 1080,
+              "height": 1350,
+              "scenes": [],
+              "sha256": "1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c",
+              "geometry": [
+                {
+                  "h": 43,
+                  "w": 280,
+                  "x": 124,
+                  "y": 72,
+                  "kind": "text",
+                  "text": "SOLAR CONNECTS",
+                  "weight": "bold",
+                  "font_px": 32
+                },
+                {
+                  "h": 48,
+                  "w": 614,
+                  "x": 72,
+                  "y": 176,
+                  "kind": "text",
+                  "text": "LABORATORIO · DATOS SINTÉTICOS",
+                  "weight": "bold",
+                  "font_px": 36
+                },
+                {
+                  "h": 111,
+                  "w": 701,
+                  "x": 72,
+                  "y": 248,
+                  "kind": "text",
+                  "text": "¿Cuánto falta para",
+                  "weight": "bold",
+                  "font_px": 84
+                },
+                {
+                  "h": 111,
+                  "w": 684,
+                  "x": 72,
+                  "y": 367,
+                  "kind": "text",
+                  "text": "completar el lote?",
+                  "weight": "bold",
+                  "font_px": 84
+                },
+                {
+                  "h": 59,
+                  "w": 873,
+                  "x": 72,
+                  "y": 522,
+                  "kind": "text",
+                  "text": "De 12 registros ficticios, 9 están completos:",
+                  "weight": "regular",
+                  "font_px": 44
+                },
+                {
+                  "h": 59,
+                  "w": 896,
+                  "x": 72,
+                  "y": 589,
+                  "kind": "text",
+                  "text": "75%. Revisá los 3 pendientes antes de cerrar.",
+                  "weight": "regular",
+                  "font_px": 44
+                },
+                {
+                  "h": 64,
+                  "w": 271,
+                  "x": 104,
+                  "y": 734,
+                  "kind": "text",
+                  "text": "9 completos",
+                  "weight": "bold",
+                  "font_px": 48
+                },
+                {
+                  "h": 56,
+                  "w": 358,
+                  "x": 104,
+                  "y": 804,
+                  "kind": "text",
+                  "text": "9 ÷ 12 × 100 = 75%",
+                  "weight": "regular",
+                  "font_px": 42
+                },
+                {
+                  "h": 64,
+                  "w": 281,
+                  "x": 104,
+                  "y": 981,
+                  "kind": "text",
+                  "text": "3 pendientes",
+                  "weight": "bold",
+                  "font_px": 48
+                },
+                {
+                  "h": 56,
+                  "w": 402,
+                  "x": 104,
+                  "y": 1051,
+                  "kind": "text",
+                  "text": "12 − 9 = 3 por revisar",
+                  "weight": "regular",
+                  "font_px": 42
+                },
+                {
+                  "h": 56,
+                  "w": 431,
+                  "x": 72,
+                  "y": 1218,
+                  "kind": "text",
+                  "text": "Contá, dividí y verificá",
+                  "weight": "bold",
+                  "font_px": 42
+                }
+              ],
+              "preflight": {
+                "ok": true,
+                "errors": [],
+                "warnings": [],
+                "word_counts": {
+                  "cta": 4,
+                  "body": 15,
+                  "title": 6
+                },
+                "requires_critic": true,
+                "variety_penalty": 0,
+                "editorial_signature": "synthetic_record_completeness|review_three_pending|reproducible_ratio",
+                "production_authorization": false
+              },
+              "safe_area": {
+                "top": 72,
+                "left": 72,
+                "right": 72,
+                "bottom_inset": 72
+              },
+              "plan_sha256": "117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9",
+              "geometry_method": "Text-only measurement; no full image rerender; original plan-bound JPEG readback",
+              "regular_font_sha256": "56a45233d29f11b4dfb86d248e921939d115778f87325e7ae8cc108383d6664d"
+            }
+          },
+          "preflight": {
+            "ok": true,
+            "errors": [],
+            "warnings": [],
+            "production_authorization": false
+          },
+          "staging_readback_at": "2026-10-09T04:36:19.225Z",
+          "guardian_pending_evidence": {
+            "artifacts": [
+              {
+                "url": "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/renders/117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9/1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c.jpg",
+                "mime": "image/jpeg",
+                "path": "quality-v2-shadow/renders/117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9/1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c.jpg",
+                "bytes": 171157,
+                "width": 1080,
+                "height": 1350,
+                "sha256": "1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c",
+                "plan_sha256": "117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9",
+                "snapshot_url": "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/snapshots/eb5f786a-61b7-4e7c-b8af-65c7e5039d2e/1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c.jpg",
+                "snapshot_path": "quality-v2-shadow/snapshots/eb5f786a-61b7-4e7c-b8af-65c7e5039d2e/1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c.jpg",
+                "snapshot_sha256": "1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c"
+              }
+            ],
+            "preflight": {
+              "ok": true,
+              "errors": [],
+              "warnings": [],
+              "production_authorization": false
+            },
+            "visual_review": {
+              "critiques": [
+                {
+                  "fixes": [],
+                  "scores": {
+                    "hook": 4,
+                    "brand": 5,
+                    "value": 4,
+                    "design": 4,
+                    "clarity": 5,
+                    "variety": 4,
+                    "naturalness": 4,
+                    "readability": 5
+                  },
+                  "evidence": {
+                    "hook": "La pregunta del lote se responde con tres pendientes y porcentaje concreto.",
+                    "brand": "Wordmark SOLAR CONNECTS una vez, Roboto y paleta del renderer original; aviso sintético visible.",
+                    "value": "Dataset fuente de doce filas: nueve completas, cálculo 9/12*100=75 y resta 12-9=3 reproducibles.",
+                    "design": "Jerarquía clara y alineación consistente; tarjetas ordenadas sin texto recortado.",
+                    "clarity": "Dos tarjetas distinguen nueve completos de tres pendientes, con fórmulas consistentes.",
+                    "variety": "Comparación con todos los jobs de STAGING y diagnóstico anterior: argumento de completitud y cálculo distintos; sin afirmar novedad fuera del laboratorio.",
+                    "naturalness": "Contá, dividí y verificá mantiene voseo coherente y lenguaje directo.",
+                    "readability": "Inspeccionados JPEG 1080x1350 y vista 360px; fórmulas, texto y CTA legibles."
+                  },
+                  "no_clipping": true,
+                  "plan_sha256": "117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9",
+                  "scene_match": true,
+                  "asset_sha256": "1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c",
+                  "expected_gain": 0,
+                  "factuality_pass": true,
+                  "mobile_360_pass": true,
+                  "semantic_novelty_pass": true
+                }
+              ],
+              "assessments": [
+                {
+                  "fixes": [],
+                  "score": 88,
+                  "state": "SHADOW_PASS",
+                  "hard_fails": [],
+                  "variety_penalty": 0,
+                  "production_authorization": false,
+                  "revision_budget_remaining": 1,
+                  "requires_existing_guardian": true
+                }
+              ]
+            },
+            "anti_duplicate": {
+              "ok": true,
+              "reason": "EMPTY_CORPUS",
+              "duplicate": false
+            },
+            "external_write": false,
+            "guardian_state": "PASS_SHADOW",
+            "guardian_version": "shadow-guardian-v2.0.0",
+            "deterministic_floors": {
+              "ok": true,
+              "items": [
+                {
+                  "ok": true,
+                  "errors": [],
+                  "min_font_px": 32,
+                  "geometry_count": 11,
+                  "known_palette_contrast_floor": 4.94
+                }
+              ]
+            },
+            "production_authorization": false
+          }
+        },
+        "quality_v2_guardian": "shadow-guardian-v2.0.0",
+        "production_candidate": false
+      },
+      "asset_urls": [
+        "https://cmwervbwxyqzowntnxwe.supabase.co/storage/v1/object/public/instagram-media/quality-v2-shadow/renders/117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9/1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c.jpg"
+      ],
+      "instagram_result": {},
+      "error": null
+    },
+    "previous_draft": {
+      "status": "QUALITY_V2_SHADOW_RENDERING",
+      "asset_urls": []
+    },
+    "fixture_binding": {
+      "plan": {
+        "cta": "Contá, dividí y verificá",
+        "body": "De 12 registros ficticios, 9 están completos: 75%. Revisá los 3 pendientes antes de cerrar.",
+        "items": [
+          {
+            "body": "9 ÷ 12 × 100 = 75%",
+            "title": "9 completos"
+          },
+          {
+            "body": "12 − 9 = 3 por revisar",
+            "title": "3 pendientes"
+          }
+        ],
+        "scene": "none",
+        "theme": "cream",
+        "title": "¿Cuánto falta para completar el lote?",
+        "format": "image",
+        "intent": "checklist",
+        "layout": "paired_factors",
+        "eyebrow": "LABORATORIO · DATOS SINTÉTICOS",
+        "fact_ids": [
+          "SC-STAGING-DATA-001"
+        ],
+        "revision": 0,
+        "angle_key": "reproducible_ratio",
+        "added_value": "Cálculo verificable del porcentaje y del remanente en un dataset sintético de doce registros",
+        "hook_family": "question",
+        "argument_key": "synthetic_record_completeness",
+        "decision_key": "review_three_pending"
+      },
+      "job_id": "eb5f786a-61b7-4e7c-b8af-65c7e5039d2e",
+      "run_id": "d0eb2421-2a08-400d-929d-dc85393570ae",
+      "compiled": {
+        "ok": true,
+        "qa": {
+          "shadow": true,
+          "semantic_qa": true,
+          "research_pass": true,
+          "do_not_publish": true,
+          "creative_run_id": "d0eb2421-2a08-400d-929d-dc85393570ae",
+          "publish_blocked": true,
+          "creative_control_plane": "v1",
+          "premium_visual_plan_qa": true,
+          "additional_paid_cost_usd": 0
+        },
+        "topic": "Laboratorio sintético: completitud de un lote de doce registros",
+        "format": "image",
+        "content_plan": {
+          "cta": "Contá, dividí y verificá",
+          "slides": [
+            {
+              "cta": "Contá, dividí y verificá",
+              "body": "De 12 registros ficticios, 9 están completos: 75%. Revisá los 3 pendientes antes de cerrar.",
+              "theme": "cream",
+              "title": "¿Cuánto falta para completar el lote?",
+              "eyebrow": "LABORATORIO · DATOS SINTÉTICOS",
+              "fact_ids": [
+                "SC-STAGING-DATA-001"
+              ],
+              "template": "paired_factors",
+              "scene_key": "none",
+              "slide_index": 1,
+              "scene_status": "CLEAN_SCENE_REQUIRED"
+            }
+          ],
+          "caption": "Ejercicio sintético reproducible. Nueve de doce registros completos equivalen al 75%; restan tres por revisar.",
+          "segments": null,
+          "hypothesis": "Explicar porcentaje y remanente mediante datos verificables",
+          "quality_target": "QUALITY_V2",
+          "creative_run_id": "d0eb2421-2a08-400d-929d-dc85393570ae",
+          "duration_seconds": null,
+          "frames_per_segment": null,
+          "selected_candidate_id": "staging-ratio-001"
+        }
+      },
+      "ready_at": "2026-10-09T04:36:31.808457+00:00",
+      "synthetic": true,
+      "compiled_sha256": "b20fedf5c97e0229e213290fa716b96bec5548a6940536bcf8ccf0885889af5d",
+      "publication_allowed": false
+    }
+  }
+]

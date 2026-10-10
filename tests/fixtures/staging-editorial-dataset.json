@@ -1,0 +1,55 @@
+{
+  "id": "SC-STAGING-DATA-001",
+  "synthetic": true,
+  "scope": "Laboratorio ficticio; no describe clientes ni resultados de Solar Connects",
+  "records": [
+    {
+      "id": 1,
+      "complete": true
+    },
+    {
+      "id": 2,
+      "complete": true
+    },
+    {
+      "id": 3,
+      "complete": true
+    },
+    {
+      "id": 4,
+      "complete": true
+    },
+    {
+      "id": 5,
+      "complete": true
+    },
+    {
+      "id": 6,
+      "complete": true
+    },
+    {
+      "id": 7,
+      "complete": true
+    },
+    {
+      "id": 8,
+      "complete": true
+    },
+    {
+      "id": 9,
+      "complete": true
+    },
+    {
+      "id": 10,
+      "complete": false
+    },
+    {
+      "id": 11,
+      "complete": false
+    },
+    {
+      "id": 12,
+      "complete": false
+    }
+  ]
+}

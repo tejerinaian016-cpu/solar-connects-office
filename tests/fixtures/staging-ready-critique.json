@@ -1,0 +1,31 @@
+{
+  "asset_sha256": "1552d19fe7132678ac1a4e4fbe6e7b70ac1632ba23c10c9ff9726606aa0ca94c",
+  "plan_sha256": "117678fcbc7655f43b0342d2a7ec3add773bb98433d17b516224681f95ee2bf9",
+  "scores": {
+    "hook": 4,
+    "clarity": 5,
+    "design": 4,
+    "readability": 5,
+    "naturalness": 4,
+    "value": 4,
+    "brand": 5,
+    "variety": 4
+  },
+  "evidence": {
+    "hook": "La pregunta del lote se responde con tres pendientes y porcentaje concreto.",
+    "clarity": "Dos tarjetas distinguen nueve completos de tres pendientes, con fórmulas consistentes.",
+    "design": "Jerarquía clara y alineación consistente; tarjetas ordenadas sin texto recortado.",
+    "readability": "Inspeccionados JPEG 1080x1350 y vista 360px; fórmulas, texto y CTA legibles.",
+    "naturalness": "Contá, dividí y verificá mantiene voseo coherente y lenguaje directo.",
+    "value": "Dataset fuente de doce filas: nueve completas, cálculo 9/12*100=75 y resta 12-9=3 reproducibles.",
+    "brand": "Wordmark SOLAR CONNECTS una vez, Roboto y paleta del renderer original; aviso sintético visible.",
+    "variety": "Comparación con todos los jobs de STAGING y diagnóstico anterior: argumento de completitud y cálculo distintos; sin afirmar novedad fuera del laboratorio."
+  },
+  "factuality_pass": true,
+  "scene_match": true,
+  "mobile_360_pass": true,
+  "semantic_novelty_pass": true,
+  "no_clipping": true,
+  "fixes": [],
+  "expected_gain": 0
+}

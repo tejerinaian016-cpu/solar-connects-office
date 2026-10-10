@@ -1,0 +1,76 @@
+[
+  {
+    "command_id": "aea519fc-8b80-4880-b764-6af753623a22",
+    "status": "FAILED",
+    "completed_at": "2026-10-10 03:41:22.20606+00",
+    "error": {
+      "code": "STAGING_INVALID_DRAFT_ABANDONED",
+      "ready": false,
+      "job_id": "85beaf87-34d1-4684-b5ed-519c955e6637",
+      "reason": "Expired lease, revoked permit, original synthetic plan rejected by Quality preflight; no READY or rendered job artifact.",
+      "job_status": "QUALITY_V2_SHADOW_RENDERING",
+      "quality_errors": [
+        "LAYOUT_FORMAT",
+        "THEME",
+        "HOOK_FAMILY",
+        "ADDED_VALUE_REQUIRED"
+      ],
+      "previous_result": {
+        "stop_at": "READY",
+        "factory_materialization": {
+          "ok": true,
+          "slot": 1,
+          "state": "V2_DRAFT_BLOCKED",
+          "format": "image",
+          "job_id": "85beaf87-34d1-4684-b5ed-519c955e6637",
+          "policy_epoch": "synthetic-staging-only",
+          "external_write": false,
+          "request_sha256": "c7af790d33e275a3601d1d9241baecac4688914493c4f568f512b690a8eeb42a",
+          "creative_run_id": "297cb9f7-6dcf-478c-bb79-902b4feaf801",
+          "original_compiled": {
+            "ok": true,
+            "qa": {
+              "shadow": true,
+              "semantic_qa": true,
+              "research_pass": true,
+              "do_not_publish": true,
+              "creative_run_id": "297cb9f7-6dcf-478c-bb79-902b4feaf801",
+              "publish_blocked": true,
+              "creative_control_plane": "v1",
+              "premium_visual_plan_qa": true,
+              "additional_paid_cost_usd": 0
+            },
+            "topic": "STAGING SYNTHETIC ONLY",
+            "format": "image",
+            "content_plan": {
+              "cta": null,
+              "slides": [
+                {
+                  "cta": "Leer",
+                  "body": "Contrato real",
+                  "theme": "solar",
+                  "title": "Prueba local",
+                  "eyebrow": "SOLAR",
+                  "fact_ids": [],
+                  "template": "hero_question",
+                  "scene_key": "not-rendered",
+                  "slide_index": 1,
+                  "scene_status": "CLEAN_SCENE_REQUIRED"
+                }
+              ],
+              "caption": "Synthetic staging test; never publish",
+              "segments": null,
+              "hypothesis": null,
+              "quality_target": null,
+              "creative_run_id": "297cb9f7-6dcf-478c-bb79-902b4feaf801",
+              "duration_seconds": null,
+              "frames_per_segment": null,
+              "selected_candidate_id": "test"
+            }
+          }
+        }
+      },
+      "production_authorization": false
+    }
+  }
+]

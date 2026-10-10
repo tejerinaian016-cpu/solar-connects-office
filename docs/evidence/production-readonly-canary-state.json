@@ -1,0 +1,36 @@
+[
+  {
+    "observed_at": "2026-10-10 03:42:03.444084+00",
+    "gates": {
+      "FACTORY": false,
+      "PUBLISHER": false,
+      "META_DIRECT": false,
+      "EXTERNAL_WRITE": false
+    },
+    "quality": [
+      {
+        "status": "CONFIRMED_FROZEN",
+        "formats": null,
+        "component": "solar_quality_v2_first_slot"
+      },
+      {
+        "status": "STAGE1_FROZEN_OBSERVATION",
+        "formats": {
+          "reel": {
+            "kill_switch": true
+          },
+          "image": {
+            "kill_switch": true
+          },
+          "story": {
+            "kill_switch": true
+          },
+          "carousel": {
+            "kill_switch": true
+          }
+        },
+        "component": "solar_quality_v2_production_flags"
+      }
+    ]
+  }
+]

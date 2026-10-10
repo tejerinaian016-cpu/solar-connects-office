@@ -1,0 +1,6 @@
+{
+  "missing_critic_denied": true,
+  "publisher_operation_denied": true,
+  "other_job_denied": true,
+  "render_retry_same_hash": true
+}

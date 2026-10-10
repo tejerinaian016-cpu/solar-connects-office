@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "preflight": {
+    "ok": true,
+    "errors": [],
+    "warnings": [],
+    "production_authorization": false
+  },
+  "anti_duplicate": {
+    "ok": true,
+    "reason": "EMPTY_CORPUS",
+    "duplicate": false
+  },
+  "production_authorization": false
+}
